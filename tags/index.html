@@ -283,7 +283,7 @@
             const lastUpdateEl = document.getElementById('last-update');
 
             // 如果页面上没有这两个 ID (比如在文章详情页)，就直接跳过，不报错
-            if (!runTimeEl || !lastUpdateEl) return;
+            if (!runTimeEl) return;
 
             // 计算运行时间
             const diff = now - startDate;

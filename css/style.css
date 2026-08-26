@@ -798,21 +798,21 @@ body:not([data-theme="dark"]) #local-search-input {
     position: relative;
 }
 
-.post-content figure.highlight::before {                                                                              
-    content: attr(data-lang);                                                                                         
-    position: block;                                                                                               
+.post-content figure.highlight::before {
+    content: attr(data-lang);
+    display: block;
     width: 100%;
     box-sizing: border-box;
     padding: 6px 15px;
     font-size: 12px;
     line-height: 1.4;
     color: #abb2bf;
-    background: rgba(0,0,0,0.25);   /* 顶部一条略不同的背景，像 IDE 标题栏 */
+    background: rgba(0,0,0,0.25);
     border-bottom: 1px solid #3e4451;
-    text-align: left;        /* 靠左显示语言类型 */
+    text-align: left;
     font-family: Consolas, Monaco, monospace;
-    letter-spacing: 0.5px;                                                                                                      
-  }   
+    letter-spacing: 0.5px;
+}  
 
 /* 针对内部的 pre 和 code 标签 */
 .post-content figure.highlight pre,
@@ -2340,9 +2340,10 @@ font-weight: bold;
     background: linear-gradient(
         to bottom,
         transparent 0%,
-        rgba(13, 9, 9, 0.85) 100%   、
+        rgba(13, 9, 9, 0.85) 100%
     );
 }
+
 
 
 

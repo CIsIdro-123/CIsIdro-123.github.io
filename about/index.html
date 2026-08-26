@@ -229,7 +229,7 @@
         const Player = window.__MUSIC_PLAYER__;
 
         // ==================== GitHub 数据存储 ====================
-        const API_BASE = 'https://my-blog-27h4f0xt6-cisidro-123s-projects.vercel.app';   // 换成你的 Vercel 地址
+        const API_BASE = 'https://my-blog-api-coral.vercel.app';   
         const useCloud = true;
 
         async function ghRead() {
@@ -637,64 +637,27 @@
       var $submit       = $('#sigSubmitBtn');                                                                           
       var $clear        = $('#sigClearBtn');                                                                            
                                                                                                                         
-      var API_BASE = '';   // 未接云端时置空即可（代码里用 if(API_BASE) 做保护）                                        
-                                                                                                                        
-      var colorPresets = ['#ff6b6b','#feca57','#48dbfb','#1dd1a1','#a29bfe','#fd79a8','#ff9ff3'];                       
-      var effects = [                                                                                                   
-          { label: '无',   value: 'none' },                                                                             
-          { label: '霓虹', value: 'neon' },                                                                             
-          { label: '故障', value: 'glitch' },                                                                           
-          { label: '闪烁', value: 'flicker' },                                                                          
-          { label: '渐变', value: 'gradient' }                                                                          
-      ];                                                                                                                
-                                                                                                                        
-      var currentSize   = 22;                                                                                           
-      var currentColor  = '#ff6b6b';                                                                                    
-      var currentEffect = 'none';                                                                                       
-                                                                                                                        
-      function formatTime(iso) {                                                                                        
-          var d = new Date(iso);                                                                                        
-          if (isNaN(d)) return '';                                                                                      
-          var p = function(n){ return (n < 10 ? '0' : '') + n; };                                                       
-          return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate())                                       
-               + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());                                                       
-      }                     
+    var API_BASE = 'https://my-blog-api-coral.vercel.app';  
 
-    async function ghRead() {
-        var res = await fetch(GH_API, {
-            headers: { Authorization: 'Bearer ' + GH_TOKEN }
-        });
-        if (!res.ok) throw new Error('GitHub 读取失败: ' + res.status);
-        var file = await res.json();
-        return {
-            data: JSON.parse(atob(file.content)),
-            sha: file.sha
-        };
+    async function apiGet() {
+        var res = await fetch(API_BASE + '/api/get');
+        if (!res.ok) throw new Error('读取失败: ' + res.status);
+        return res.json();
     }
 
-    async function ghWrite(newData, sha) {
-        var res = await fetch(GH_API, {
-            method: 'PUT',
-            headers: {
-                Authorization: 'Bearer ' + GH_TOKEN,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                message: '更新签名',
-                content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
-                sha: sha
-            })
+    async function apiSet(data) {
+        var res = await fetch(API_BASE + '/api/set', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
-        if (!res.ok) throw new Error('GitHub 写入失败: ' + res.status);
+        if (!res.ok) throw new Error('写入失败: ' + res.status);
     }
 
-    var MAX_SIGS = 100;
-
-    // ============ API 操作 ============
     async function apiGetSignatures() {
         try {
-            var result = await ghRead();
-            return (result.data.signatures || []).sort(function(a, b) {
+            var data = await apiGet();
+            return (data.signatures || []).sort(function(a, b) {
                 return new Date(b.createdAt) - new Date(a.createdAt);
             });
         } catch(e) {
@@ -704,9 +667,9 @@
     }
 
     async function apiAddSignature(name, content, size, color, effect) {
-        var result = await ghRead();
-        result.data.signatures = result.data.signatures || [];
-        result.data.signatures.push({
+        var data = await apiGet();          // 拿完整对象
+        data.signatures = data.signatures || [];
+        data.signatures.push({
             id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
             name: name,
             content: content,
@@ -715,19 +678,18 @@
             effect: effect,
             createdAt: new Date().toISOString()
         });
-        // 限制最多 100 条
-        if (result.data.signatures.length > MAX_SIGS) {
-            result.data.signatures = result.data.signatures.slice(-MAX_SIGS);
+        if (data.signatures.length > MAX_SIGS) {
+            data.signatures = data.signatures.slice(-MAX_SIGS);
         }
-        await ghWrite(result.data, result.sha);
+        await apiSet(data);                 // 写回完整对象
     }
 
     async function apiDeleteSignature(id) {
-        var result = await ghRead();
-        result.data.signatures = (result.data.signatures || []).filter(function(s) {
+        var data = await apiGet();
+        data.signatures = (data.signatures || []).filter(function(s) {
             return s.id !== id;
         });
-        await ghWrite(result.data, result.sha);
+        await apiSet(data);
     }
 
     // ============ 渲染墙 ============
@@ -1108,7 +1070,7 @@
             const lastUpdateEl = document.getElementById('last-update');
 
             // 如果页面上没有这两个 ID (比如在文章详情页)，就直接跳过，不报错
-            if (!runTimeEl || !lastUpdateEl) return;
+            if (!runTimeEl) return;
 
             // 计算运行时间
             const diff = now - startDate;

@@ -461,6 +461,17 @@
     animation: sig-wave 1.2s ease-in-out infinite;
 }
 
+/* 闪烁 */
+.sig-card-text.effect-flicker,
+.sig-preview-text.effect-flicker {
+    animation: sig-flicker 1s linear infinite;
+}
+
+@keyframes sig-flicker {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
 /* ==================== 动画关键帧 ==================== */
 @keyframes sig-rainbow {
     0%   { background-position: 0% 50%; }
