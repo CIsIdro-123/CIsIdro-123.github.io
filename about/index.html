@@ -229,21 +229,39 @@
         const Player = window.__MUSIC_PLAYER__;
 
         // ==================== GitHub 数据存储 ====================
-        const API_BASE = 'https://my-blog-api-coral.vercel.app';   
-        const useCloud = true;
+        const GH_TOKEN  = ' ';
+        const GH_OWNER  = 'cisidro-123';
+        const GH_REPO   = 'cisidro-123.github.io';
+        const GH_PATH   = 'data.json';
+        const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+        const useCloud  = false;
 
         async function ghRead() {
-            const res = await fetch(API_BASE + '/api/get');
-            if (!res.ok) throw new Error('读取失败: ' + res.status);
-            return { data: await res.json(), sha: '' };   // sha 由后端处理，前端不用管
-        }
-        async function ghWrite(newData, sha) {
-            const res = await fetch(API_BASE + '/api/set', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newData)
+            const res = await fetch(GH_API, {
+                headers: { Authorization: `Bearer ${GH_TOKEN}` }
             });
-            if (!res.ok) throw new Error('写入失败: ' + res.status);
+            if (!res.ok) throw new Error('GitHub 读取失败: ' + res.status);
+            const file = await res.json();
+            return {
+                data: JSON.parse(atob(file.content)),
+                sha: file.sha
+            };
+        }
+
+        async function ghWrite(newData, sha) {
+            const res = await fetch(GH_API, {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${GH_TOKEN}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: '更新歌单/签名',
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
+                    sha: sha
+                })
+            });
+            if (!res.ok) throw new Error('GitHub 写入失败: ' + res.status);
         }
 
         async function loadFromCloud() {
@@ -612,294 +630,323 @@
 </div>
 
 <script>
-(function() {
-    'use strict';
+    (function () {
+        'use strict';
 
-    // ============ GitHub 数据存储 ============
-    var GH_TOKEN = ' ';
-    var GH_OWNER = 'cisidro-123';
-    var GH_REPO  = 'cisidro-123.github.io';
-    var GH_PATH  = 'data.json';
-    var GH_API   = 'https://api.github.com/repos/' + GH_OWNER + '/' + GH_REPO + '/contents/' + GH_PATH;
-    var $ = function(sel) { return document.querySelector(sel); };                                                    
-                                                                                                                        
-      var $wall         = $('#sigWall');                                                                                
-      var $empty        = $('#sigEmpty');                                                                               
-      var $count        = $('#sigCount');                                                                               
-      var $name         = $('#sigName');                                                                                
-      var $content      = $('#sigContent');                                                                             
-      var $previewText  = $('#sigPreviewText');                                                                         
-      var $sizeSlider   = $('#sigSizeSlider');                                                                          
-      var $sizeVal      = $('#sigSizeVal');                                                                             
-      var $colorPicker  = $('#sigColorPicker');                                                                         
-      var $colorPresets = $('#sigColorPresets');                                                                        
-      var $effectBtns   = $('#sigEffectBtns');                                                                          
-      var $submit       = $('#sigSubmitBtn');                                                                           
-      var $clear        = $('#sigClearBtn');                                                                            
-                                                                                                                        
-    var API_BASE = 'https://my-blog-api-coral.vercel.app';  
+        // ============ GitHub 数据存储 ============
 
-    async function apiGet() {
-        var res = await fetch(API_BASE + '/api/get');
-        if (!res.ok) throw new Error('读取失败: ' + res.status);
-        return res.json();
-    }
+        var $ = function (sel) { return document.querySelector(sel); };
 
-    async function apiSet(data) {
-        var res = await fetch(API_BASE + '/api/set', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error('写入失败: ' + res.status);
-    }
+        var $wall = $('#sigWall');
+        var $empty = $('#sigEmpty');
+        var $count = $('#sigCount');
+        var $name = $('#sigName');
+        var $content = $('#sigContent');
+        var $previewText = $('#sigPreviewText');
+        var $sizeSlider = $('#sigSizeSlider');
+        var $sizeVal = $('#sigSizeVal');
+        var $colorPicker = $('#sigColorPicker');
+        var $colorPresets = $('#sigColorPresets');
+        var $effectBtns = $('#sigEffectBtns');
+        var $submit = $('#sigSubmitBtn');
+        var $clear = $('#sigClearBtn');
 
-    async function apiGetSignatures() {
-        try {
-            var data = await apiGet();
-            return (data.signatures || []).sort(function(a, b) {
-                return new Date(b.createdAt) - new Date(a.createdAt);
+        var API_BASE = 'https://my-blog-api-coral.vercel.app';   // 未接云端时置空即可（代码里用 if(API_BASE) 做保护）                                        
+
+        var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
+        var effects = [
+            { label: '无', value: 'none' },
+            { label: '霓虹', value: 'neon' },
+            { label: '故障', value: 'glitch' },
+            { label: '闪烁', value: 'flicker' },
+            { label: '渐变', value: 'gradient' }
+        ];
+
+        var currentSize = 22;
+        var currentColor = '#ff6b6b';
+        var currentEffect = 'none';
+
+        function formatTime(iso) {
+            var d = new Date(iso);
+            if (isNaN(d)) return '';
+            var p = function (n) { return (n < 10 ? '0' : '') + n; };
+            return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate())
+                + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+        }
+
+        async function apiGet() {
+            var res = await fetch(API_BASE + '/api/get');
+            if (!res.ok) throw new Error('读取失败: ' + res.status);
+            return res.json();
+        }
+        async function apiSet(data) {
+            var res = await fetch(API_BASE + '/api/set', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
-        } catch(e) {
-            console.warn('获取签名失败', e);
-            return [];
+            if (!res.ok) throw new Error('写入失败: ' + res.status);
         }
-    }
-
-    async function apiAddSignature(name, content, size, color, effect) {
-        var data = await apiGet();          // 拿完整对象
-        data.signatures = data.signatures || [];
-        data.signatures.push({
-            id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-            name: name,
-            content: content,
-            size: size,
-            color: color,
-            effect: effect,
-            createdAt: new Date().toISOString()
-        });
-        if (data.signatures.length > MAX_SIGS) {
-            data.signatures = data.signatures.slice(-MAX_SIGS);
-        }
-        await apiSet(data);                 // 写回完整对象
-    }
-
-    async function apiDeleteSignature(id) {
-        var data = await apiGet();
-        data.signatures = (data.signatures || []).filter(function(s) {
-            return s.id !== id;
-        });
-        await apiSet(data);
-    }
-
-    // ============ 渲染墙 ============
-    async function renderWall() {
-        const sigs = await apiGetSignatures();
-        $wall.innerHTML = '';
-        $count.textContent = sigs.length + ' 条签名';
-
-        if (sigs.length === 0) {
-            $wall.appendChild($empty);
-            $empty.style.display = '';
-            return;
-        }
-        $empty.style.display = 'none';
-
-        sigs.forEach((sig, index) => {
-            const card = document.createElement('div');
-            card.className = 'sig-card';
-            card.style.transform = `rotate(${(Math.random() - 0.5) * 4}deg)`; // 随机微微旋转
-            card.style.setProperty('--sig-color', sig.color);
-            card.style.setProperty('--sig-size', sig.size + 'px');
-
-            // 名字
-            const nameEl = document.createElement('div');
-            nameEl.className = 'sig-card-name';
-            nameEl.textContent = sig.name || '匿名';
-            card.appendChild(nameEl);
-
-            // 内容（带特效）
-            const textEl = document.createElement('div');
-            textEl.className = 'sig-card-text effect-' + (sig.effect || 'none');
-            textEl.style.color = sig.color;
-            textEl.style.fontSize = sig.size + 'px';
-            textEl.textContent = sig.content;
-            if (sig.effect === 'glitch') {
-                textEl.setAttribute('data-text', sig.content);
+        async function apiGetSignatures() {
+            try {
+                var data = await apiGet();
+                return (data.signatures || []).sort(function (a, b) {
+                    return new Date(b.createdAt) - new Date(a.createdAt);
+                });
+            } catch (e) {
+                console.warn('获取签名失败', e);
+                return [];
             }
-            card.appendChild(textEl);
-
-            // 时间
-            const timeEl = document.createElement('div');
-            timeEl.className = 'sig-card-time';
-            timeEl.textContent = formatTime(sig.createdAt);
-            card.appendChild(timeEl);
-
-            // 删除按钮
-            const delBtn = document.createElement('button');
-            delBtn.className = 'sig-card-delete';
-            delBtn.innerHTML = '✕';
-            delBtn.title = '删除';
-            delBtn.addEventListener('click', async (e) => {
-                e.stopPropagation();
-                if (confirm('确定删除这条签名吗？')) {
-                    if (API_BASE && sig.id) {
-                        await apiDeleteSignature(sig.id);
-                    }
-                    await renderWall();
-                }
-            });
-            card.appendChild(delBtn);
-
-            $wall.appendChild(card);
-        });
-    }
-
-    // ============ 更新预览 ============
-    function updatePreview() {
-        $previewText.style.fontSize = currentSize + 'px';
-        $previewText.style.color = currentColor;
-        $previewText.className = 'sig-preview-text effect-' + currentEffect;
-        if (currentEffect === 'glitch') {
-            $previewText.setAttribute('data-text', $previewText.textContent);
-        } else {
-            $previewText.removeAttribute('data-text');
         }
-    }
+        async function apiAddSignature(name, content, size, color, effect) {
+            var data = await apiGet();          // 拿完整对象    
+            data.signatures = data.signatures || [];
+            data.signatures.push({
+                id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                name: name,
+                content: content,
+                size: size,
+                color: color,
+                effect: effect,
+                createdAt: new Date().toISOString()
+            });
+            if (data.signatures.length > MAX_SIGS) {
+                data.signatures = data.signatures.slice(-MAX_SIGS);
+            }
+            await apiSet(data);                 // 写回完整对象
+        }
+        async function apiDeleteSignature(id) {
+            var data = await apiGet();
+            data.signatures = (data.signatures || []).filter(function (s) {
+                return s.id !== id;
+            });
+            await apiSet(data);
+        }
 
-    // ============ 初始化工具栏 ============
-    function initToolbar() {
-        // 颜色预设
-        colorPresets.forEach(color => {
-            const dot = document.createElement('span');
-            dot.className = 'sig-color-dot' + (color === currentColor ? ' active' : '');
-            dot.style.backgroundColor = color;
-            dot.addEventListener('click', () => {
-                currentColor = color;
-                $colorPicker.value = color;
+        // ============ 渲染墙 ============
+        async function renderWall() {
+            const sigs = await apiGetSignatures();
+            $wall.innerHTML = '';
+            $count.textContent = sigs.length + ' 条签名';
+
+            if (sigs.length === 0) {
+                $wall.appendChild($empty);
+                $empty.style.display = '';
+                return;
+            }
+            $empty.style.display = 'none';
+
+            sigs.forEach((sig, index) => {
+                const card = document.createElement('div');
+                card.className = 'sig-card';
+                card.style.transform = `rotate(${(Math.random() - 0.5) * 4}deg)`; // 随机微微旋转
+                card.style.setProperty('--sig-color', sig.color);
+                card.style.setProperty('--sig-size', sig.size + 'px');
+
+                // 名字
+                const nameEl = document.createElement('div');
+                nameEl.className = 'sig-card-name';
+                nameEl.textContent = sig.name || '匿名';
+                card.appendChild(nameEl);
+
+                // 内容（带特效）
+                const textEl = document.createElement('div');
+                textEl.className = 'sig-card-text effect-' + (sig.effect || 'none');
+                textEl.style.color = sig.color;
+                textEl.style.fontSize = sig.size + 'px';
+                textEl.textContent = sig.content;
+                if (sig.effect === 'glitch') {
+                    textEl.setAttribute('data-text', sig.content);
+                }
+                card.appendChild(textEl);
+
+                // 时间
+                const timeEl = document.createElement('div');
+                timeEl.className = 'sig-card-time';
+                timeEl.textContent = formatTime(sig.createdAt);
+                card.appendChild(timeEl);
+
+                // 删除按钮
+                const delBtn = document.createElement('button');
+                delBtn.className = 'sig-card-delete';
+                delBtn.innerHTML = '✕';
+                delBtn.title = '删除';
+                delBtn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    if (confirm('确定删除这条签名吗？')) {
+                        if (API_BASE && sig.id) {
+                            await apiDeleteSignature(sig.id);
+                        }
+                        await renderWall();
+                    }
+                });
+                card.appendChild(delBtn);
+
+                $wall.appendChild(card);
+            });
+        }
+
+        // ============ 更新预览 ============
+        function updatePreview() {
+            $previewText.style.fontSize = currentSize + 'px';
+            $previewText.style.color = currentColor;
+            $previewText.className = 'sig-preview-text effect-' + currentEffect;
+            if (currentEffect === 'glitch') {
+                $previewText.setAttribute('data-text', $previewText.textContent);
+            } else {
+                $previewText.removeAttribute('data-text');
+            }
+        }
+
+        // ============ 初始化工具栏 ============
+        function initToolbar() {
+            // 颜色预设
+            colorPresets.forEach(color => {
+                const dot = document.createElement('span');
+                dot.className = 'sig-color-dot' + (color === currentColor ? ' active' : '');
+                dot.style.backgroundColor = color;
+                dot.addEventListener('click', () => {
+                    currentColor = color;
+                    $colorPicker.value = color;
+                    updateColorActive();
+                    updatePreview();
+                });
+                $colorPresets.appendChild(dot);
+            });
+
+            function updateColorActive() {
+                $colorPresets.querySelectorAll('.sig-color-dot').forEach(d => d.classList.remove('active'));
+                const active = Array.from($colorPresets.querySelectorAll('.sig-color-dot')).find(d => d.style.backgroundColor === currentColor);
+                if (active) active.classList.add('active');
+            }
+
+            $colorPicker.addEventListener('input', () => {
+                currentColor = $colorPicker.value;
                 updateColorActive();
                 updatePreview();
             });
-            $colorPresets.appendChild(dot);
-        });
 
-        function updateColorActive() {
-            $colorPresets.querySelectorAll('.sig-color-dot').forEach(d => d.classList.remove('active'));
-            const active = Array.from($colorPresets.querySelectorAll('.sig-color-dot')).find(d => d.style.backgroundColor === currentColor);
-            if (active) active.classList.add('active');
-        }
+            // 特效按钮
+            effects.forEach(eff => {
+                const btn = document.createElement('button');
+                btn.className = 'sig-effect-btn' + (eff.value === currentEffect ? ' active' : '');
+                btn.textContent = eff.label;
+                btn.dataset.effect = eff.value;
+                btn.addEventListener('click', () => {
+                    currentEffect = eff.value;
+                    $effectBtns.querySelectorAll('.sig-effect-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updatePreview();
+                });
+                $effectBtns.appendChild(btn);
+            });
 
-        $colorPicker.addEventListener('input', () => {
-            currentColor = $colorPicker.value;
-            updateColorActive();
-            updatePreview();
-        });
-
-        // 特效按钮
-        effects.forEach(eff => {
-            const btn = document.createElement('button');
-            btn.className = 'sig-effect-btn' + (eff.value === currentEffect ? ' active' : '');
-            btn.textContent = eff.label;
-            btn.dataset.effect = eff.value;
-            btn.addEventListener('click', () => {
-                currentEffect = eff.value;
-                $effectBtns.querySelectorAll('.sig-effect-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+            // 字体大小滑块
+            $sizeSlider.addEventListener('input', () => {
+                currentSize = parseInt($sizeSlider.value);
+                $sizeVal.textContent = currentSize;
                 updatePreview();
             });
-            $effectBtns.appendChild(btn);
-        });
 
-        // 字体大小滑块
-        $sizeSlider.addEventListener('input', () => {
-            currentSize = parseInt($sizeSlider.value);
-            $sizeVal.textContent = currentSize;
+            // 初始预览
             updatePreview();
+        }
+
+        // ============ 提交签名 ============
+        $submit.addEventListener('click', async () => {
+            const name = $name.value.trim();
+            const content = $content.value.trim();
+
+            if (!name) { shakeElement($name); $name.focus(); return; }
+            if (!content) { shakeElement($content); $content.focus(); return; }
+
+            try {
+                await apiAddSignature(name, content, currentSize, currentColor, currentEffect);
+            } catch (e) {
+                alert('提交失败: ' + e.message + '\n请检查网络连接');
+                $submit.textContent = '✨ 留下签名';
+                $submit.disabled = false;
+                return;
+            }
+            await renderWall();
+
+            $name.value = '';
+            $content.value = '';
+            $previewText.textContent = 'Hello World';
+            updatePreview();
+            $name.focus();
+
+            // 按钮反馈
+            $submit.textContent = '✅ 已留下签名';
+            $submit.disabled = true;
+            setTimeout(() => {
+                $submit.textContent = '✨ 留下签名';
+                $submit.disabled = false;
+            }, 1500);
         });
 
-        // 初始预览
-        updatePreview();
-    }
-
-    // ============ 提交签名 ============
-    $submit.addEventListener('click', async () => {
-        const name = $name.value.trim();
-        const content = $content.value.trim();
-
-        if (!name) { shakeElement($name); $name.focus(); return; }
-        if (!content) { shakeElement($content); $content.focus(); return; }
-
-        try {
-        await apiAddSignature(name, content, currentSize, currentColor, currentEffect);
-    } catch(e) {
-        alert('提交失败: ' + e.message + '\n请检查网络连接');
-        $submit.textContent = '✨ 留下签名';
-        $submit.disabled = false;
-        return;
-    }
-        await renderWall();
-
-        $name.value = '';
-        $content.value = '';
-        $previewText.textContent = 'Hello World';
-        updatePreview();
-        $name.focus();
-
-        // 按钮反馈
-        $submit.textContent = '✅ 已留下签名';
-        $submit.disabled = true;
-        setTimeout(() => {
-            $submit.textContent = '✨ 留下签名';
-            $submit.disabled = false;
-        }, 1500);
-    });
-
-    // 简单的抖动反馈
-    function shakeElement(el) {
-        el.style.animation = 'none';
-        el.offsetHeight;
-        el.style.animation = 'shake 0.3s ease';
-    }
-
-    // 清空所有签名
-    $clear.addEventListener('click', async () => {
-        if (!confirm('确定清空所有签名吗？此操作不可恢复。')) return;
-        const sigs = await apiGetSignatures();
-        if (sigs.length === 0) return;
-        if (API_BASE) {
-            $clear.textContent = '清空中...';
-            $clear.disabled = true;
-            try {
-                await Promise.all(sigs.map(s => apiDeleteSignature(s.id)));
-            } catch(e) { console.warn(e); }
-            $clear.textContent = '清空所有签名';
-            $clear.disabled = false;
+        // 简单的抖动反馈
+        function shakeElement(el) {
+            el.style.animation = 'none';
+            el.offsetHeight;
+            el.style.animation = 'shake 0.3s ease';
         }
-        await renderWall();
-    });
 
-    // 允许 Enter 提交
-    $content.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            $submit.click();
-        }
-    });
+        // 清空所有签名
+        $clear.addEventListener('click', async () => {
+            if (!confirm('确定清空所有签名吗？此操作不可恢复。')) return;
+            const sigs = await apiGetSignatures();
+            if (sigs.length === 0) return;
+            if (API_BASE) {
+                $clear.textContent = '清空中...';
+                $clear.disabled = true;
+                try {
+                    await Promise.all(sigs.map(s => apiDeleteSignature(s.id)));
+                } catch (e) { console.warn(e); }
+                $clear.textContent = '清空所有签名';
+                $clear.disabled = false;
+            }
+            await renderWall();
+        });
 
-    // ============ 启动 ============
-    initToolbar();
-    renderWall();
-})();
+        // 允许 Enter 提交
+        $content.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                $submit.click();
+            }
+        });
+
+        // ============ 启动 ============
+        initToolbar();
+        renderWall();
+    })();
 </script>
 
 <style>
-@keyframes shake {
-    0%,100% { transform: translateX(0); }
-    20% { transform: translateX(-6px); }
-    40% { transform: translateX(6px); }
-    60% { transform: translateX(-4px); }
-    80% { transform: translateX(4px); }
-}
+    @keyframes shake {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        20% {
+            transform: translateX(-6px);
+        }
+
+        40% {
+            transform: translateX(6px);
+        }
+
+        60% {
+            transform: translateX(-4px);
+        }
+
+        80% {
+            transform: translateX(4px);
+        }
+    }
 </style>
 
 <script>
