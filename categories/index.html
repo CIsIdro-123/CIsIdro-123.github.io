@@ -248,9 +248,11 @@
                 }
             }
 
-            window.addEventListener('load', () => {
-                setTimeout(typeWriter, 500);
-            });
+            if (outputElement && loadingScreen) {
+                window.addEventListener('load', () => {
+                    setTimeout(typeWriter, 500);
+                });
+                }
         })();
 
         
@@ -262,8 +264,7 @@
 
             // 1. 获取 DOM 元素 (加上判断，防止报错)
             const runTimeEl = document.getElementById('run-time');
-            const lastUpdateEl = document.getElementById('last-update');
-
+           
             // 如果页面上没有这两个 ID (比如在文章详情页)，就直接跳过，不报错
             if (!runTimeEl) return;
 
@@ -272,8 +273,6 @@
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             runTimeEl.innerText = days + ' 天';
 
-            // 计算最后更新时间 (这里逻辑稍微调整了一下，通常指今天)
-            lastUpdateEl.innerText = '今天';
         }
 
         // 初始化一次
@@ -472,7 +471,7 @@
             const savedTime  = parseFloat(localStorage.getItem(STORAGE_KEY_TIME));
             const savedVolume= parseFloat(localStorage.getItem(STORAGE_KEY_VOLUME));
 
-            if (savedVolume && !isNaN(savedVolume)) {
+            if (!isNaN(savedVolume)) {
                 audio.volume = savedVolume;
                 if (volumeSlider) volumeSlider.value = savedVolume;
             }
@@ -481,7 +480,7 @@
                 currentIndex = savedIndex;
                 const song = playlist[currentIndex];
                 audio.src = song.url;
-                if (savedTime && !isNaN(savedTime)) {
+                if (!isNaN(savedTime)) {
                     audio.currentTime = savedTime;
                 }
                 updatePlayerUI(song);

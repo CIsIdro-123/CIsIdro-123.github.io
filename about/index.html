@@ -229,12 +229,10 @@
         const Player = window.__MUSIC_PLAYER__;
 
         // ==================== GitHub 数据存储 ====================
-        const GH_TOKEN  = ' ';
-        const GH_OWNER  = 'cisidro-123';
-        const GH_REPO   = 'cisidro-123.github.io';
         const GH_PATH   = 'data.json';
         const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
-        const useCloud  = false;
+        const useCloud = true;
+        const API_BASE = window.__API_BASE__;
 
         async function ghRead() {
             const res = await fetch(GH_API, {
@@ -699,7 +697,8 @@
             }
         }
         async function apiAddSignature(name, content, size, color, effect) {
-            var data = await apiGet();          // 拿完整对象    
+            var data = await apiGet();          // 拿完整对象 
+            var MAX_SIGS = 100;                 // 最多保留 100 条签名   
             data.signatures = data.signatures || [];
             data.signatures.push({
                 id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -895,17 +894,9 @@
         // 清空所有签名
         $clear.addEventListener('click', async () => {
             if (!confirm('确定清空所有签名吗？此操作不可恢复。')) return;
-            const sigs = await apiGetSignatures();
-            if (sigs.length === 0) return;
-            if (API_BASE) {
-                $clear.textContent = '清空中...';
-                $clear.disabled = true;
-                try {
-                    await Promise.all(sigs.map(s => apiDeleteSignature(s.id)));
-                } catch (e) { console.warn(e); }
-                $clear.textContent = '清空所有签名';
-                $clear.disabled = false;
-            }
+            const data = await apiGet();
+            data.signatures = [];
+            await apiSet(data);
             await renderWall();
         });
 
@@ -1100,9 +1091,11 @@
                 }
             }
 
-            window.addEventListener('load', () => {
-                setTimeout(typeWriter, 500);
-            });
+            if (outputElement && loadingScreen) {
+                window.addEventListener('load', () => {
+                    setTimeout(typeWriter, 500);
+                });
+                }
         })();
 
         
@@ -1114,8 +1107,7 @@
 
             // 1. 获取 DOM 元素 (加上判断，防止报错)
             const runTimeEl = document.getElementById('run-time');
-            const lastUpdateEl = document.getElementById('last-update');
-
+           
             // 如果页面上没有这两个 ID (比如在文章详情页)，就直接跳过，不报错
             if (!runTimeEl) return;
 
@@ -1124,8 +1116,6 @@
             const days = Math.floor(diff / (1000 * 60 * 60 * 24));
             runTimeEl.innerText = days + ' 天';
 
-            // 计算最后更新时间 (这里逻辑稍微调整了一下，通常指今天)
-            lastUpdateEl.innerText = '今天';
         }
 
         // 初始化一次
@@ -1324,7 +1314,7 @@
             const savedTime  = parseFloat(localStorage.getItem(STORAGE_KEY_TIME));
             const savedVolume= parseFloat(localStorage.getItem(STORAGE_KEY_VOLUME));
 
-            if (savedVolume && !isNaN(savedVolume)) {
+            if (!isNaN(savedVolume)) {
                 audio.volume = savedVolume;
                 if (volumeSlider) volumeSlider.value = savedVolume;
             }
@@ -1333,7 +1323,7 @@
                 currentIndex = savedIndex;
                 const song = playlist[currentIndex];
                 audio.src = song.url;
-                if (savedTime && !isNaN(savedTime)) {
+                if (!isNaN(savedTime)) {
                     audio.currentTime = savedTime;
                 }
                 updatePlayerUI(song);
