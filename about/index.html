@@ -151,9 +151,9 @@
 
 <div class="music-playlist-app" id="musicApp">
 
-    <!-- ⚙️ Cloudflare Worker API 配置 -->
+    <!-- ⚙️ Vercel API 配置 -->
     <script>
-        window.__API_BASE__ = "https://sparkling-silence-7f7b.m0gine.workers.dev";
+        window.__API_BASE__ = "https://my-blog-api-coral.vercel.app";
     </script>
 
     <!-- ===== 搜索区 ===== -->
@@ -228,42 +228,27 @@
     waitForPlayer(function() {
         const Player = window.__MUSIC_PLAYER__;
 
-        // ==================== GitHub 数据存储 ====================
-        const GH_PATH   = 'data.json';
-        const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
+        // ==================== Vercel API 数据存储 ====================
         const useCloud = true;
         const API_BASE = window.__API_BASE__;
 
-        async function ghRead() {
-            const res = await fetch(GH_API, {
-                headers: { Authorization: `Bearer ${GH_TOKEN}` }
-            });
-            if (!res.ok) throw new Error('GitHub 读取失败: ' + res.status);
-            const file = await res.json();
-            return {
-                data: JSON.parse(atob(file.content)),
-                sha: file.sha
-            };
+        async function apiGet() {
+            const res = await fetch(API_BASE + '/api/get');
+            if (!res.ok) throw new Error('读取失败: ' + res.status);
+            return await res.json();
         }
 
-        async function ghWrite(newData, sha) {
-            const res = await fetch(GH_API, {
-                method: 'PUT',
-                headers: {
-                    Authorization: `Bearer ${GH_TOKEN}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: '更新歌单/签名',
-                    content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
-                    sha: sha
-                })
+        async function apiSet(data) {
+            const res = await fetch(API_BASE + '/api/set', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
             });
-            if (!res.ok) throw new Error('GitHub 写入失败: ' + res.status);
+            if (!res.ok) throw new Error('写入失败: ' + res.status);
         }
 
         async function loadFromCloud() {
-            const { data } = await ghRead();
+            const data = await apiGet();
             const songs = (data.playlist || []).map(function(s) {
                 return {
                     id: s.id, title: s.title, artist: s.artist,
@@ -275,7 +260,7 @@
         }
 
         async function addToCloud(song) {
-            const { data, sha } = await ghRead();
+            const data = await apiGet();
             data.playlist = data.playlist || [];
             data.playlist.push({
                 id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -286,13 +271,13 @@
                 source: song.source || '',
                 createdAt: new Date().toISOString()
             });
-            await ghWrite(data, sha);
+            await apiSet(data);
         }
 
         async function removeFromCloud(id) {
-            const { data, sha } = await ghRead();
+            const data = await apiGet();
             data.playlist = (data.playlist || []).filter(function(s) { return s.id !== id; });
-            await ghWrite(data, sha);
+            await apiSet(data);
         }
 
         // 轮询同步
@@ -301,7 +286,7 @@
             if (pollingTimer) clearInterval(pollingTimer);
             pollingTimer = setInterval(async function() {
                 try {
-                    const { data } = await ghRead();
+                    const data = await apiGet();
                     const songs = (data.playlist || []).map(function(s) {
                         return {
                             id: s.id, title: s.title, artist: s.artist,
@@ -556,7 +541,7 @@
                 renderPlaylistUI();
                 startPolling();
             });
-            console.log('☁️ Airtable + Worker 已连接 – 歌单每5秒同步');
+            console.log('☁️ Vercel API 已连接 – 歌单每5秒同步');
         } else {
             renderPlaylistUI();
             console.log('💾 本地模式 – 歌单存储在浏览器中');
