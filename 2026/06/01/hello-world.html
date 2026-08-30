@@ -8,7 +8,7 @@
     <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
     <link rel="preconnect" href="//busuanzi.ibruce.info" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -125,7 +125,7 @@
             <h1 class="post-title">Hello World</h1>
 
             <div class="post-meta">
-                <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-06-11</time></span>
+                <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-08-30</time></span>
                 <span><i class="fa-regular fa-user"></i> 作者: Un0ffiaI_0</span>
                 <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">75</span></span>
                 <span><i class="fa-regular fa-clock"></i> 阅读: <span class="read-time">1 min</span></span>
@@ -306,8 +306,8 @@
             }
 
             if (outputElement && loadingScreen) {
-                window.addEventListener('load', () => {
-                    setTimeout(typeWriter, 500);
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(typeWriter, 200);
                 });
                 }
         })();

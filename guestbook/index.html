@@ -8,7 +8,7 @@
     <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
     <link rel="preconnect" href="//busuanzi.ibruce.info" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -108,7 +108,7 @@
     <main id="main" class="">
     
         <div class="page-loader-overlay" id="page-loader">
-    <img class="loader-gif" src="/img/loading-guestbook.gif" alt="Loading..." />
+    <div class="loader-spinner"></div>
     <p class="loader-text">LOADING...</p>
 </div>
 
@@ -275,8 +275,8 @@
             }
 
             if (outputElement && loadingScreen) {
-                window.addEventListener('load', () => {
-                    setTimeout(typeWriter, 500);
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(typeWriter, 200);
                 });
                 }
         })();

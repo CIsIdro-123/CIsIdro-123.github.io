@@ -8,7 +8,7 @@
     <link rel="dns-prefetch" href="//busuanzi.ibruce.info">
     <link rel="preconnect" href="//busuanzi.ibruce.info" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.loli.net/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
@@ -83,7 +83,7 @@
     <div class="terminal-wrapper">
         <div id="loading-screen">
             <div class="loader-gif-container">
-                <img src="/img/miku.gif" alt="Loading Animation">
+                <img src="/img/miku.webp" alt="Loading Animation">
             </div>
 
             <div id="terminal-output" class="terminal-text">
@@ -133,7 +133,7 @@
 </section>
 
 <section class="hero" data-reveal>
-    <img src="/img/avatar.gif" alt="Un0ffiaI_0" class="avatar">
+    <img src="/img/avatar.webp" alt="Un0ffiaI_0" class="avatar" loading="lazy">
     <h1 class="name">Un0ffiaI_0</h1>
     <p class="bio">“ 时间永远分岔，通向无数的未来 ”</p>
 </section>
@@ -154,7 +154,7 @@
                     <a href="/2026/06/01/hello-world.html" class="post-card-link">
                         <div class="post-card-thumb">
                             
-                                <img src="/img/covers/my-post.gif" alt="Hello World" loading="lazy">
+                                <img src="/img/covers/my-post.webp" alt="Hello World" loading="lazy">
                             
                         </div>
                         <div class="post-card-body">
@@ -372,8 +372,8 @@
             }
 
             if (outputElement && loadingScreen) {
-                window.addEventListener('load', () => {
-                    setTimeout(typeWriter, 500);
+                document.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(typeWriter, 200);
                 });
                 }
         })();
