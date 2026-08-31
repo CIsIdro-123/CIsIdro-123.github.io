@@ -546,6 +546,7 @@
             renderPlaylistUI();
             console.log('💾 本地模式 – 歌单存储在浏览器中');
         }
+    });
 })();
 </script>
 
@@ -634,7 +635,7 @@
         var $submit = $('#sigSubmitBtn');
         var $clear = $('#sigClearBtn');
 
-        var API_BASE = 'http://43.108.103.117:3000';   // 未接云端时置空即可（代码里用 if(API_BASE) 做保护）                                        
+        var API_BASE = 'https://my-blog-api-coral.vercel.app';
 
         var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
         var effects = [
