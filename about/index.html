@@ -153,7 +153,7 @@
 
     <!-- ⚙️ Vercel API 配置 -->
     <script>
-        window.__API_BASE__ = "https://my-blog-api-coral.vercel.app";
+        window.__API_BASE__ = "http://43.108.103.117:3000/api/get";
     </script>
 
     <!-- ===== 搜索区 ===== -->
@@ -634,7 +634,7 @@
         var $submit = $('#sigSubmitBtn');
         var $clear = $('#sigClearBtn');
 
-        var API_BASE = 'https://my-blog-api-coral.vercel.app';   // 未接云端时置空即可（代码里用 if(API_BASE) 做保护）                                        
+        var API_BASE = 'http://43.108.103.117:3000/api/get';   // 未接云端时置空即可（代码里用 if(API_BASE) 做保护）                                        
 
         var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
         var effects = [
