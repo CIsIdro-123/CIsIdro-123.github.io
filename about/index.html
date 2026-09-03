@@ -118,7 +118,12 @@
     <p class="loader-text">LOADING...</p>
 </div>
 <script>
-(function(){var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner'),t=setTimeout(function(){img.onload=null},6000);img.onload=function(){clearTimeout(t);sp.style.display='none';img.style.display=''};img.onerror=function(){clearTimeout(t)};if(img.complete&&img.naturalWidth)img.onload()})();
+(function(){
+    var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
+    if(!img||!sp)return;
+    function tryShow(){if(img.complete&&img.naturalWidth){sp.style.display='none';img.style.display='';return true}return false}
+    if(!tryShow())setTimeout(tryShow,100);
+})();
 </script>
 
 <div class="friends-section">
