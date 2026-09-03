@@ -2002,8 +2002,10 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
 
 /* 加载动图 */
 .page-loader-overlay .loader-gif {
-    max-width: 120px;
-    max-height: 120px;
+    max-width: clamp(120px, 30vw, 200px);
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
     object-fit: contain;
     display: none;
 }
