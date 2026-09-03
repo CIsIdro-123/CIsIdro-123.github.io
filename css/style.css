@@ -2000,6 +2000,13 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
     animation: loader-spin 0.8s linear infinite;
 }
 
+/* 加载动图 */
+.page-loader-overlay .loader-gif {
+    max-width: 200px;
+    max-height: 200px;
+    object-fit: contain;
+}
+
 [data-theme="dark"] .page-loader-overlay .loader-spinner {
     border-color: rgba(0, 238, 255, 0.15);
     border-top-color: #0ef;
