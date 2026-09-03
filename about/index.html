@@ -647,6 +647,24 @@
         var currentSize = 22;
         var currentColor = '#ff6b6b';
         var currentEffect = 'none';
+        var cachedLocation = null;
+
+        async function getLocation() {
+            if (cachedLocation) return cachedLocation;
+            var apis = [
+                { url: 'https://api.ip.sb/geoip', parse: function(d) { return d.region || d.country; } },
+                { url: 'https://ipapi.co/json/', parse: function(d) { return d.region || d.country_name; } }
+            ];
+            for (var i = 0; i < apis.length; i++) {
+                try {
+                    var res = await fetch(apis[i].url, { signal: AbortSignal.timeout(3000) });
+                    var data = await res.json();
+                    var loc = apis[i].parse(data);
+                    if (loc) { cachedLocation = loc; return loc; }
+                } catch(e) {}
+            }
+            return '';
+        }
 
         function formatTime(iso) {
             var d = new Date(iso);
@@ -680,8 +698,9 @@
             }
         }
         async function apiAddSignature(name, content, size, color, effect) {
-            var data = await apiGet();          // 拿完整对象 
-            var MAX_SIGS = 100;                 // 最多保留 100 条签名   
+            var data = await apiGet();          // 拿完整对象
+            var MAX_SIGS = 100;                 // 最多保留 100 条签名
+            var location = await getLocation();
             data.signatures = data.signatures || [];
             data.signatures.push({
                 id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
@@ -690,6 +709,7 @@
                 size: size,
                 color: color,
                 effect: effect,
+                location: location,
                 createdAt: new Date().toISOString()
             });
             if (data.signatures.length > MAX_SIGS) {
@@ -742,10 +762,10 @@
                 }
                 card.appendChild(textEl);
 
-                // 时间
+                // 时间 + 位置
                 const timeEl = document.createElement('div');
                 timeEl.className = 'sig-card-time';
-                timeEl.textContent = formatTime(sig.createdAt);
+                timeEl.textContent = formatTime(sig.createdAt) + (sig.location ? '  📍' + sig.location : '');
                 card.appendChild(timeEl);
 
                 // 删除按钮
