@@ -448,13 +448,11 @@
     color: #0ff;
     clip-path: polygon(0 20%, 100% 20%, 100% 45%, 0 45%);
     animation: sig-glitch-clip 0.5s ease-in-out infinite alternate;
-    z-index: -1;
 }
 .sig-card-text.effect-glitch::after {
     color: #f0f;
     clip-path: polygon(0 65%, 100% 65%, 100% 90%, 0 90%);
     animation: sig-glitch-clip2 0.45s ease-in-out infinite alternate;
-    z-index: -1;
 }
 
 /* 波浪 */
