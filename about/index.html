@@ -213,6 +213,8 @@
 </div>
 
 <script>
+var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&auth=:auth&r=:r';
+
 (function() {
     // 等待全局播放器就绪
     function waitForPlayer(cb) {
@@ -420,7 +422,7 @@
             // 3. Meting API（完整歌曲）
             try {
                 const resp = await fetch(
-                    `https://meting.mikus.ink/?server=netease&type=search&id=${encodeURIComponent(query)}`,
+                    `https://meting.mikus.ink/api?server=netease&type=search&id=${encodeURIComponent(query)}`,
                     { signal: AbortSignal.timeout(8000) }
                 );
                 const data = await resp.json();
