@@ -39,7 +39,7 @@
         }
 
         .loader-gif-container img {
-            max-width: 200px;
+            max-width: clamp(120px, 30vw, 200px);
             height: auto;
             border-radius: 8px;
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
@@ -48,15 +48,17 @@
         .terminal-text {
             font-family: 'Courier New', Courier, monospace;
             color: #ffffff;
-            font-weight: bold;        
-            font-size: 16px;
+            font-weight: bold;
+            font-size: clamp(12px, 2.8vw, 16px);
             letter-spacing: 0.5px;
-            text-shadow: 0 0 2px rgba(255, 255, 255, 0.5); 
-            line-height: 1.5;
-            white-space: pre-wrap;      
-            word-break: break-all;      
-            text-align: left;           
-            min-width: 300px;           
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+            line-height: 1.8;
+            white-space: pre;
+            overflow: hidden;
+            text-align: left;
+            width: 90%;
+            max-width: 480px;
+            padding: 0 12px;
         }
 
         .cursor {
@@ -256,26 +258,31 @@
 
         (function() {
             const lines = [
-                "> Initializing system... :D [OK]         ",
-                "> Loading assets... [████░░░] 60%        ",
-                "> Welcome to Un0fficial_0's Blog         "
+                "> Initializing system... :D [OK]",
+                "> Loading assets... [████░░░] 60%",
+                "> Welcome to Un0fficial_0's Blog"
             ];
 
             const outputElement = document.querySelector('#terminal-output .content');
             const loadingScreen = document.getElementById('loading-screen');
             let lineIndex = 0;
             let charIndex = 0;
+            let currentSpan = null;
 
             function typeWriter() {
                 if (lineIndex < lines.length) {
                     const currentLine = lines[lineIndex];
 
+                    if (charIndex === 0) {
+                        currentSpan = document.createElement('div');
+                        outputElement.appendChild(currentSpan);
+                    }
+
                     if (charIndex < currentLine.length) {
-                        outputElement.textContent += currentLine.charAt(charIndex);
+                        currentSpan.textContent += currentLine.charAt(charIndex);
                         charIndex++;
                         setTimeout(typeWriter, 45);
                     } else {
-                        outputElement.innerHTML += "<br>";
                         lineIndex++;
                         charIndex = 0;
                         setTimeout(typeWriter, 300);
