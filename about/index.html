@@ -121,8 +121,10 @@
 (function(){
     var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
     if(!img||!sp)return;
-    function tryShow(){if(img.complete&&img.naturalWidth){sp.style.display='none';img.style.display='';return true}return false}
-    if(!tryShow())setTimeout(tryShow,100);
+    var done=false,test=new Image();
+    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display=''}};
+    setTimeout(function(){done=true},500);
+    test.src=img.src;
 })();
 </script>
 
