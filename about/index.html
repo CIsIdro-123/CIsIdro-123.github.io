@@ -168,7 +168,7 @@
             <button id="musicSearchBtn" class="music-btn-primary">搜索</button>
         </div>
         <div class="music-search-hint">
-            <span>💡 支持：歌名搜索 ｜ 网易云歌曲ID ｜ 粘贴直链</span>
+            <span>💡 支持：歌名搜索 ｜ 网易云歌曲ID ｜ 粘贴直链 ｜ ⚠️ iTunes 源仅30秒试听</span>
         </div>
         <div id="musicSearchResults" class="music-search-results"></div>
     </div>
@@ -399,32 +399,14 @@
 
             // 1. 网易云歌曲ID
             if (/^\d+$/.test(query)) {
-                try {
-                    const resp = await fetch(
-                        API_BASE + '/api/music?action=detail&id=' + query,
-                        { signal: AbortSignal.timeout(5000) }
-                    );
-                    const data = await resp.json();
-                    if (data.code === 200 && data.song) {
-                        results.push({
-                            title: data.song.title,
-                            artist: data.song.artist,
-                            url: data.song.url,
-                            cover: data.song.cover,
-                            source: 'netease-id',
-                            isPreview: false
-                        });
-                    }
-                } catch(e) {
-                    results.push({
-                        title: '网易云歌曲 #' + query,
-                        artist: '网易云音乐',
-                        url: 'https://music.163.com/song/media/outer/url?id=' + query + '.mp3',
-                        cover: '',
-                        source: 'netease-id',
-                        isPreview: false
-                    });
-                }
+                results.push({
+                    title: '网易云歌曲 #' + query,
+                    artist: '网易云音乐',
+                    url: 'https://music.163.com/song/media/outer/url?id=' + query + '.mp3',
+                    cover: '',
+                    source: 'netease-id',
+                    isPreview: false
+                });
             }
 
             // 2. 直链URL
@@ -435,44 +417,44 @@
                 });
             }
 
-            // 3. 网易云搜索（完整歌曲，通过自建API代理）
+            // 3. Meting API（完整歌曲）
             try {
                 const resp = await fetch(
-                    API_BASE + '/api/music?action=search&keyword=' + encodeURIComponent(query),
+                    `https://meting.mikus.ink/?server=netease&type=search&id=${encodeURIComponent(query)}`,
                     { signal: AbortSignal.timeout(8000) }
                 );
                 const data = await resp.json();
-                if (data.code === 200 && data.songs) {
-                    data.songs.forEach(function(r) {
-                        results.push({
-                            title: r.title,
-                            artist: r.artist,
-                            url: r.url,
-                            cover: r.cover || '',
-                            source: 'netease',
-                            isPreview: false
-                        });
+                if (Array.isArray(data)) {
+                    data.forEach(r => {
+                        if (r.url) {
+                            results.push({
+                                title: r.name || r.title || '',
+                                artist: Array.isArray(r.artist) ? r.artist.join('/') : (r.artist || ''),
+                                url: r.url,
+                                cover: r.pic || r.cover || '',
+                                source: 'netease',
+                                isPreview: false
+                            });
+                        }
                     });
                 }
             } catch(e) { /* 静默 */ }
 
             // 4. iTunes 备用（仅30秒试听）
-            if (results.length < 3) {
-                try {
-                    const resp = await fetch(
-                        `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=cn&media=music&limit=4`,
-                        { signal: AbortSignal.timeout(5000) }
-                    );
-                    const data = await resp.json();
-                    data.results.forEach(r => results.push({
-                        title: r.trackName, artist: r.artistName,
-                        url: r.previewUrl,
-                        cover: r.artworkUrl100 ? r.artworkUrl100.replace('100x100', '300x300') : '',
-                        source: 'itunes',
-                        isPreview: true
-                    }));
-                } catch(e) {}
-            }
+            try {
+                const resp = await fetch(
+                    `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&country=cn&media=music&limit=6`,
+                    { signal: AbortSignal.timeout(5000) }
+                );
+                const data = await resp.json();
+                data.results.forEach(r => results.push({
+                    title: r.trackName, artist: r.artistName,
+                    url: r.previewUrl,
+                    cover: r.artworkUrl100 ? r.artworkUrl100.replace('100x100', '300x300') : '',
+                    source: 'itunes',
+                    isPreview: true
+                }));
+            } catch(e) {}
 
             // 渲染
             if (results.length === 0) {
