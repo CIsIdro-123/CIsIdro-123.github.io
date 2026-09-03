@@ -2002,9 +2002,10 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
 
 /* 加载动图 */
 .page-loader-overlay .loader-gif {
-    max-width: 200px;
-    max-height: 200px;
+    max-width: 120px;
+    max-height: 120px;
     object-fit: contain;
+    display: none;
 }
 
 [data-theme="dark"] .page-loader-overlay .loader-spinner {

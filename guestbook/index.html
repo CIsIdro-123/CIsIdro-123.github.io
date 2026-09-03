@@ -113,9 +113,13 @@
     <main id="main" class="">
     
         <div class="page-loader-overlay" id="page-loader">
-    <img class="loader-gif" src="/img/loading-guestbook.webp" alt="Loading">
+    <div class="loader-spinner" id="page-loader-spinner"></div>
+    <img class="loader-gif" id="page-loader-gif" src="/img/loading-guestbook.webp" alt="Loading">
     <p class="loader-text">LOADING...</p>
 </div>
+<script>
+(function(){var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner'),t=setTimeout(function(){img.onload=null},6000);img.onload=function(){clearTimeout(t);sp.style.display='none';img.style.display=''};img.onerror=function(){clearTimeout(t)};if(img.complete&&img.naturalWidth)img.onload()})();
+</script>
 
 <div class="home-section-glass">
     <div class="home-section-header">
