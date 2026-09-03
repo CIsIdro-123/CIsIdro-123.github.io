@@ -13,6 +13,9 @@
 
     <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
+    <!-- 全局 API 地址（域名过期后只改这一行） -->
+    <script>window.__API_BASE__ = "https://api.unofficai.online";</script>
+
     <style>
         #loading-screen {
             position: fixed;
@@ -150,11 +153,6 @@
 </div>
 
 <div class="music-playlist-app" id="musicApp">
-
-    <!-- ⚙️ Vercel API 配置 -->
-    <script>
-        window.__API_BASE__ = "https://my-blog-api-coral.vercel.app";
-    </script>
 
     <!-- ===== 搜索区 ===== -->
     <div class="home-section-glass music-search-box">
@@ -633,7 +631,7 @@
         var $submit = $('#sigSubmitBtn');
         var $clear = $('#sigClearBtn');
 
-        var API_BASE = 'https://my-blog-api-coral.vercel.app';
+        var API_BASE = window.__API_BASE__;
 
         var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
         var effects = [
