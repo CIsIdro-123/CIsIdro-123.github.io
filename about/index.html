@@ -153,7 +153,7 @@
 
     <!-- ⚙️ Vercel API 配置 -->
     <script>
-        window.__API_BASE__ = "http://43.108.103.117:3000";
+        window.__API_BASE__ = "https://my-blog-api-coral.vercel.app";
     </script>
 
     <!-- ===== 搜索区 ===== -->
@@ -220,7 +220,7 @@
         let count = 0;
         const timer = setInterval(() => {
             if (window.__MUSIC_PLAYER__) { clearInterval(timer); cb(); }
-            if (++count > 50) { clearInterval(timer); console.warn('全局播放器未就绪'); }
+            if (++count > 50) { clearInterval(timer); }
         }, 100);
     }
 
@@ -453,7 +453,7 @@
                         }
                     });
                 }
-            } catch(e) { console.warn('国内API搜索失败', e); }
+            } catch(e) { /* 静默 */ }
 
             // 渲染
             if (results.length === 0) {
@@ -497,7 +497,7 @@
                 try {
                     await addToCloud(song);
                     await loadFromCloud();
-                } catch(e) { console.warn('云端同步失败', e); }
+                } catch(e) { /* 静默 */ }
             }
             Player.renderQueue();
             renderPlaylistUI();
@@ -541,10 +541,8 @@
                 renderPlaylistUI();
                 startPolling();
             });
-            console.log('☁️ Vercel API 已连接 – 歌单每5秒同步');
         } else {
             renderPlaylistUI();
-            console.log('💾 本地模式 – 歌单存储在浏览器中');
         }
     });
 })();
@@ -678,7 +676,6 @@
                     return new Date(b.createdAt) - new Date(a.createdAt);
                 });
             } catch (e) {
-                console.warn('获取签名失败', e);
                 return [];
             }
         }
@@ -1326,7 +1323,7 @@
             currentIndex = index;
             const song = playlist[index];
             audio.src = song.url;
-            audio.play().catch(e => console.warn('自动播放被阻止，请点击播放按钮', e));
+            audio.play().catch(() => {});
             updatePlayerUI(song);
             playerBar.style.display = 'flex';
             isPlaying = true;
@@ -1590,8 +1587,6 @@
         // ==================== 启动 ====================
         restoreState();
         renderQueue();
-
-        console.log('🎧 全局音乐播放器已就绪 (playlist: ' + playlist.length + ' 首)');
     })();
     </script>
     

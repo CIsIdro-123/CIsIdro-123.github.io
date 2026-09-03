@@ -178,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 resultsDiv.style.display = 'block';
             })
             .catch(function(err) {
-                console.log('搜索功能需要安装 hexo-generator-searchdb 插件');
                 resultList.innerHTML = '<li>请先安装搜索插件</li>';
                 resultsDiv.style.display = 'block';
             });

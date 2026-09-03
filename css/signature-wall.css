@@ -192,7 +192,9 @@
 }
 
 /* 预览中的各种特效（与签名卡片共享） */
-.sig-preview-text.effect-none { }
+.sig-preview-text.effect-none {
+    color: inherit;
+}
 .sig-preview-text.effect-neon {
     color: #ff6b6b;
     text-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b, 

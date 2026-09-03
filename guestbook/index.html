@@ -523,7 +523,7 @@
             currentIndex = index;
             const song = playlist[index];
             audio.src = song.url;
-            audio.play().catch(e => console.warn('自动播放被阻止，请点击播放按钮', e));
+            audio.play().catch(() => {});
             updatePlayerUI(song);
             playerBar.style.display = 'flex';
             isPlaying = true;
@@ -787,8 +787,6 @@
         // ==================== 启动 ====================
         restoreState();
         renderQueue();
-
-        console.log('🎧 全局音乐播放器已就绪 (playlist: ' + playlist.length + ' 首)');
     })();
     </script>
     
