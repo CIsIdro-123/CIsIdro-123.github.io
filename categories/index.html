@@ -122,7 +122,7 @@
     var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
     if(!img||!sp)return;
     var done=false,test=new Image();
-    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display=''}};
+    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display='block'}};
     setTimeout(function(){done=true},500);
     test.src=img.src;
 })();
