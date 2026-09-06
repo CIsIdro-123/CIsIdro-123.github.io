@@ -110,79 +110,260 @@
         </div>
     </nav>
 
-    <main id="main" class="">
+    <main id="main" class="main-container">
     
-        <div class="page-loader-overlay" id="page-loader">
-    <div class="loader-spinner" id="page-loader-spinner"></div>
-    <img class="loader-gif" id="page-loader-gif" src="/img/loading-tags.webp" alt="Loading">
-    <p class="loader-text">LOADING...</p>
-</div>
-<script>
-(function(){
-    var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
-    if(!img||!sp)return;
-    var done=false,test=new Image();
-    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display='block'}};
-    setTimeout(function(){done=true},500);
-    test.src=img.src;
-})();
-</script>
+        <div class="content-area">
+            <div class="post-container">
 
-
-
-    <!-- 标签云 -->
     <div class="home-section-glass">
-        <div class="home-section-header">
-            <h2 class="home-section-title">🧐 标签云</h2>
-            <p class="home-section-desc">共 <strong>6</strong> 个标签</p>
-        </div>
+        <header class="post-header">
+            
+                <div class="post-tags">
+                    
+                        <a href="/tags/%E9%80%86%E5%90%91/" class="tag"># 逆向</a>
+                    
+                        <a href="/tags/PE-%E6%96%87%E4%BB%B6/" class="tag"># PE 文件</a>
+                    
+                        <a href="/tags/Windows-API/" class="tag"># Windows API</a>
+                    
+                        <a href="/tags/ELF/" class="tag"># ELF</a>
+                    
+                </div>
+            
 
-        <div class="tag-cloud-container">
-            
-                
-                    <a href="/tags/ELF/" class="tag-item">
-                        ELF
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-                    <a href="/tags/Hexo/" class="tag-item">
-                        Hexo
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-                    <a href="/tags/PE-%E6%96%87%E4%BB%B6/" class="tag-item">
-                        PE 文件
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-                    <a href="/tags/Windows-API/" class="tag-item">
-                        Windows API
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-                    <a href="/tags/%E6%B5%8B%E8%AF%95%E6%A0%87%E7%AD%BE/" class="tag-item">
-                        测试标签
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-                    <a href="/tags/%E9%80%86%E5%90%91/" class="tag-item">
-                        逆向
-                        <span class="tag-count">(1)</span>
-                    </a>
-                
-            
-        </div>
+            <h1 class="post-title">学习周报 01｜PE 文件结构与 Windows 逆向入门</h1>
+
+            <div class="post-meta">
+                <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-09-06</time></span>
+                <span><i class="fa-regular fa-user"></i> 作者: Un0ffiaI_0</span>
+                <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">1.4k</span></span>
+                <span><i class="fa-regular fa-clock"></i> 阅读: <span class="read-time">5 min</span></span>
+            </div>
+        </header>
+
+        <article class="post-content">
+            <p>本文是我整理逆向工程学习周报的第一篇，系统梳理了 Windows PE 文件结构、常见文件格式魔数、Win32 GUI 程序基本原理、常用 Windows API 以及 .NET 程序逆向基础。内容适合作为逆向入门的知识点参考，并附有实际分析中的注意要点。</p>
+<h2 id="一、PE-文件结构详解"><a href="#一、PE-文件结构详解" class="headerlink" title="一、PE 文件结构详解"></a>一、PE 文件结构详解</h2><p>Windows 平台下的可执行文件（如 <code>exe</code>、<code>dll</code>、<code>sys</code>、<code>ocx</code>、<code>com</code> 等）均采用 PE（Portable Executable）文件结构。PE 结构主要由四大部分组成：</p>
+<ul>
+<li><strong>DOS 头</strong>：包含 MZ 标识和 <code>e_lfanew</code> 字段，用于定位 PE 头。</li>
+<li><strong>PE 头</strong>：包含 PE 标识、文件头（<code>IMAGE_FILE_HEADER</code>）、可选头（<code>IMAGE_OPTIONAL_HEADER</code>）等。</li>
+<li><strong>节表（Section Table）</strong>：描述各节区的位置、大小和属性。</li>
+<li><strong>节区数据</strong>：如 <code>.text</code>（代码）、<code>.data</code>（数据）、<code>.rdata</code>（只读数据）等实际内容。</li>
+</ul>
+<h3 id="1-DOS-头（DOS-Header）"><a href="#1-DOS-头（DOS-Header）" class="headerlink" title="1. DOS 头（DOS Header）"></a>1. DOS 头（DOS Header）</h3><p>DOS 头是 PE 文件的开头部分，兼容古老的 MS-DOS 系统。关键字段：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>偏移</th>
+<th>大小</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>e_magic</code></td>
+<td>0x00</td>
+<td>2 字节</td>
+<td>魔数 <code>MZ</code>，十六进制 <code>4D 5A</code>（小端存储）</td>
+</tr>
+<tr>
+<td><code>e_lfanew</code></td>
+<td>0x3C</td>
+<td>4 字节</td>
+<td>指向 PE 头的文件偏移量</td>
+</tr>
+</tbody></table>
+<p><strong>注意</strong>：<code>e_lfanew</code> 的值是相对于文件开头的偏移，不是 RVA。在分析时需结合节表转换为文件偏移或虚拟地址。</p>
+<h3 id="2-DOS-存根（DOS-Stub）"><a href="#2-DOS-存根（DOS-Stub）" class="headerlink" title="2. DOS 存根（DOS Stub）"></a>2. DOS 存根（DOS Stub）</h3><p>DOS 存根是一段 16 位汇编代码，当程序在 DOS 环境下运行时，输出 <code>&quot;This program cannot be run in DOS mode&quot;</code> 并退出。该区域在正常情况下没有实际用途，但可以被利用来植入恶意代码或自定义数据。</p>
+<h3 id="3-PE-头（PE-Header）"><a href="#3-PE-头（PE-Header）" class="headerlink" title="3. PE 头（PE Header）"></a>3. PE 头（PE Header）</h3><p>在 <code>e_lfanew</code> 指向的位置，首先是 PE 标识：</p>
+<ul>
+<li><strong>PE 标识</strong>：<code>50 45 00 00</code>，即 ASCII 字符串 <code>PE\0\0</code>，用于确认这是一个 PE 文件。</li>
+</ul>
+<p>紧接着是 <strong><code>IMAGE_FILE_HEADER</code></strong>（文件头），包含 7 个参数，使用 <code>WORD</code>（2 字节）和 <code>DWORD</code>（4 字节）类型：</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>大小</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Machine</code></td>
+<td>WORD</td>
+<td>目标 CPU 类型，如 <code>0x14C</code>（x86）、<code>0x8664</code>（x64）</td>
+</tr>
+<tr>
+<td><code>NumberOfSections</code></td>
+<td>WORD</td>
+<td>节区数量</td>
+</tr>
+<tr>
+<td><code>TimeDateStamp</code></td>
+<td>DWORD</td>
+<td>编译时间戳</td>
+</tr>
+<tr>
+<td><code>PointerToSymbolTable</code></td>
+<td>DWORD</td>
+<td>符号表偏移（通常为 0）</td>
+</tr>
+<tr>
+<td><code>NumberOfSymbols</code></td>
+<td>DWORD</td>
+<td>符号数量（通常为 0）</td>
+</tr>
+<tr>
+<td><code>SizeOfOptionalHeader</code></td>
+<td>WORD</td>
+<td>可选头大小</td>
+</tr>
+<tr>
+<td><code>Characteristics</code></td>
+<td>WORD</td>
+<td>文件属性标志，如可执行、DLL 等</td>
+</tr>
+</tbody></table>
+<p>随后是 <strong><code>IMAGE_OPTIONAL_HEADER</code></strong>（可选头），尽管名字叫可选，但对于 PE 文件来说实际上是必需的。关键字段包括：</p>
+<ul>
+<li><code>Magic</code>：<code>0x10B</code>（32 位 PE）、<code>0x20B</code>（64 位 PE+）</li>
+<li><code>AddressOfEntryPoint</code>：程序入口点 RVA</li>
+<li><code>ImageBase</code>：首选加载基址</li>
+<li><code>SectionAlignment</code> &#x2F; <code>FileAlignment</code>：节区对齐值</li>
+<li><code>Subsystem</code>：子系统类型（如 GUI、CUI）</li>
+<li><code>DataDirectory</code>：数据目录表，包含导入表、导出表、重定位表等重要结构的 RVA 和大小</li>
+</ul>
+<h3 id="4-节表（Section-Table）"><a href="#4-节表（Section-Table）" class="headerlink" title="4. 节表（Section Table）"></a>4. 节表（Section Table）</h3><p>节表是一个 <code>IMAGE_SECTION_HEADER</code> 结构数组，每个结构描述一个节区。关键字段：</p>
+<ul>
+<li><code>Name</code>：节区名称（最多 8 字节）</li>
+<li><code>VirtualSize</code>：节区在内存中的大小</li>
+<li><code>VirtualAddress</code>：节区在内存中的 RVA</li>
+<li><code>SizeOfRawData</code>：节区在文件中的大小</li>
+<li><code>PointerToRawData</code>：节区在文件中的偏移</li>
+<li><code>Characteristics</code>：节区属性（如可读、可写、可执行）</li>
+</ul>
+<p>在逆向时，经常需要将 RVA 转换为文件偏移（或反之），公式为：<br>  文件偏移 &#x3D; RVA - VirtualAddress + PointerToRawData</p>
+<h3 id="5-数据目录表（Data-Directory）"><a href="#5-数据目录表（Data-Directory）" class="headerlink" title="5. 数据目录表（Data Directory）"></a>5. 数据目录表（Data Directory）</h3><p>数据目录表位于可选头末尾，是一个 <code>IMAGE_DATA_DIRECTORY</code> 结构数组，包含 16 个条目，常见的有：</p>
+<table>
+<thead>
+<tr>
+<th>索引</th>
+<th>名称</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Export Table</td>
+<td>导出函数信息</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Import Table</td>
+<td>导入函数信息</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Resource Table</td>
+<td>资源信息</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Base Relocation Table</td>
+<td>重定位信息</td>
+</tr>
+<tr>
+<td>9</td>
+<td>TLS Table</td>
+<td>线程局部存储信息</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Import Address Table</td>
+<td>导入地址表（IAT）</td>
+</tr>
+</tbody></table>
+<h2 id="二、ELF-文件与常见魔数"><a href="#二、ELF-文件与常见魔数" class="headerlink" title="二、ELF 文件与常见魔数"></a>二、ELF 文件与常见魔数</h2><h3 id="1-ELF-文件"><a href="#1-ELF-文件" class="headerlink" title="1. ELF 文件"></a>1. ELF 文件</h3><p>Linux 平台的可执行文件格式为 ELF（Executable and Linkable Format）。其魔数为 <code>7f 45 4c 46</code>，对应的 ASCII 字符串为 <code>^?ELF</code>。ELF 文件结构包括 ELF 头、程序头表、节头表等，与 PE 结构类似但有所不同。</p>
+<h3 id="2-文件魔数（Magic-Number）"><a href="#2-文件魔数（Magic-Number）" class="headerlink" title="2. 文件魔数（Magic Number）"></a>2. 文件魔数（Magic Number）</h3><p>许多文件类型的起始几个字节是固定的，用于快速识别文件类型。常见魔数如下：</p>
+<table>
+<thead>
+<tr>
+<th>文件类型</th>
+<th>魔数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ELF</td>
+<td><code>7f 45 4c 46</code></td>
+</tr>
+<tr>
+<td>tar</td>
+<td>第 257 字节起为 <code>ustar</code></td>
+</tr>
+<tr>
+<td>PE</td>
+<td><code>0x00004550</code>（即 <code>PE\0\0</code>）</td>
+</tr>
+<tr>
+<td>Java .class</td>
+<td><code>0xCAFEBABE</code></td>
+</tr>
+<tr>
+<td>PNG</td>
+<td><code>89 50 4E 47 0D 0A 1A 0A</code></td>
+</tr>
+<tr>
+<td>JPEG</td>
+<td><code>FF D8 FF</code></td>
+</tr>
+<tr>
+<td>ZIP</td>
+<td><code>50 4B 03 04</code></td>
+</tr>
+<tr>
+<td>RAR</td>
+<td><code>52 61 72 21</code></td>
+</tr>
+<tr>
+<td>GZIP</td>
+<td><code>1F 8B</code></td>
+</tr>
+</tbody></table>
+<p>在逆向中，通过魔数可以快速识别文件真实类型，即使文件扩展名被篡改。</p>
+<h2 id="三、Windows-GUI-程序基础"><a href="#三、Windows-GUI-程序基础" class="headerlink" title="三、Windows GUI 程序基础"></a>三、Windows GUI 程序基础</h2><h3 id="1-WinMain-入口"><a href="#1-WinMain-入口" class="headerlink" title="1. WinMain 入口"></a>1. WinMain 入口</h3><p>Windows GUI 程序的入口函数为 <code>WinMain</code>（控制台程序为 <code>main</code>）。原型如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> WINAPI <span class="title function_">WinMain</span><span class="params">(</span></span><br><span class="line"><span class="params">    HINSTANCE hInstance,     <span class="comment">// 当前程序实例句柄</span></span></span><br><span class="line"><span class="params">    HINSTANCE hPrevInstance, <span class="comment">// 前一个实例句柄（通常为 NULL）</span></span></span><br><span class="line"><span class="params">    LPSTR     lpCmdLine,     <span class="comment">// 命令行参数</span></span></span><br><span class="line"><span class="params">    <span class="type">int</span>       nCmdShow       <span class="comment">// 窗口初始显示状态</span></span></span><br><span class="line"><span class="params">)</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建窗口的典型流程"><a href="#2-创建窗口的典型流程" class="headerlink" title="2. 创建窗口的典型流程"></a>2. 创建窗口的典型流程</h3><p>定义窗口类：填充 WNDCLASS 或 WNDCLASSEX 结构体，指定窗口过程函数、背景色、图标、光标、类名等。<br>注册窗口类：调用 RegisterClass 将窗口类注册到系统。<br>创建窗口：调用 CreateWindow 或 CreateWindowEx，根据窗口类创建实际窗口。<br>显示窗口：调用 ShowWindow 显示窗口，并调用 UpdateWindow 触发重绘。<br>消息循环：通过 GetMessage &#x2F; TranslateMessage &#x2F; DispatchMessage 不断从消息队列获取消息并分派给窗口过程函数。</p>
+<h3 id="3-WNDCLASS-结构体关键字段"><a href="#3-WNDCLASS-结构体关键字段" class="headerlink" title="3. WNDCLASS 结构体关键字段"></a>3. WNDCLASS 结构体关键字段</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">WNDCLASS</span> &#123;</span></span><br><span class="line">    UINT      style;           <span class="comment">// 窗口类样式</span></span><br><span class="line">    WNDPROC   lpfnWndProc;     <span class="comment">// 窗口过程函数指针</span></span><br><span class="line">    <span class="type">int</span>       cbClsExtra;      <span class="comment">// 类额外内存</span></span><br><span class="line">    <span class="type">int</span>       cbWndExtra;      <span class="comment">// 窗口额外内存</span></span><br><span class="line">    HINSTANCE hInstance;       <span class="comment">// 实例句柄</span></span><br><span class="line">    HICON     hIcon;           <span class="comment">// 图标</span></span><br><span class="line">    HCURSOR   hCursor;         <span class="comment">// 光标</span></span><br><span class="line">    HBRUSH    hbrBackground;   <span class="comment">// 背景画刷</span></span><br><span class="line">    LPCSTR    lpszMenuName;    <span class="comment">// 菜单名称</span></span><br><span class="line">    LPCSTR    lpszClassName;   <span class="comment">// 窗口类名</span></span><br><span class="line">&#125; WNDCLASS;</span><br></pre></td></tr></table></figure>
+
+<p>其中 lpfnWndProc 是核心，它负责处理所有发送到该窗口的消息（如鼠标点击、键盘输入、绘制等）。</p>
+
+        </article>
     </div>
 
-
+    <nav class="post-pagination">
         
-    </main>
+            <div class="pagination-item prev disabled">
+                <span class="pagination-label">← 上一篇</span>
+                <span class="pagination-title">没有更早的文章了</span>
+            </div>
+        
+ 
+        
+            <a href="/2026/06/01/hello-world.html" class="pagination-item next">
+                <span class="pagination-label">下一篇 →</span>
+                <span class="pagination-title">Hello World</span>
+            </a>
+        
+    </nav>
+</div>
 
-    
-    <div class="site-info-bottom">
-        <div class="site-info-card">
+        </div>
+
+         <aside class="sidebar-area">
+            <div class="site-info-card sticky-widget">
                 <div class="card-header">
-                    <i class="fa-solid fa-circle-info"></i> <!-- 图标 -->
+                    <i class="fa-solid fa-circle-info"></i> 
                     <span>网站信息</span>
                 </div>
                 <div class="info-row">
@@ -205,8 +386,21 @@
                     <span class="label">最后更新时间：</span>
                     <span class="value">今天</span>
                 </div>
-        </div>
-    </div>
+            </div>
+
+            <div class="toc-card sticky-widget">
+                <div class="card-header">
+                    <i class="fa-solid fa-list-ul"></i>
+                    <span>文章目录</span>
+                </div>
+                <div id="toc-content" class="toc-content">
+                    <!-- JS 会自动填充这里 -->
+                </div>
+            </div>
+        </aside>
+        
+    </main>
+
     
 
     <footer class="footer">
