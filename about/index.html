@@ -687,17 +687,29 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         async function getLocation() {
             if (cachedLocation) return cachedLocation;
             var apis = [
-                { url: 'https://api.ip.sb/geoip', parse: function(d) { return d.region || d.country; } },
-                { url: 'https://ipapi.co/json/', parse: function(d) { return d.region || d.country_name; } }
+                { url: 'https://ipinfo.io/json', parse: function(d) { return d.region || d.country; } },
+                { url: 'https://ipapi.co/json/', parse: function(d) { return d.region || d.country_name; } },
+                { url: 'https://api.ip.sb/geoip', parse: function(d) { return d.region || d.country; } }
             ];
             for (var i = 0; i < apis.length; i++) {
                 try {
-                    var res = await fetch(apis[i].url, { signal: AbortSignal.timeout(3000) });
+                    var controller = new AbortController();
+                    var timer = setTimeout(function() { controller.abort(); }, 4000);
+                    var res = await fetch(apis[i].url, { signal: controller.signal });
+                    clearTimeout(timer);
                     var data = await res.json();
                     var loc = apis[i].parse(data);
                     if (loc) { cachedLocation = loc; return loc; }
                 } catch(e) {}
             }
+            try {
+                var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+                if (tz) {
+                    var city = tz.split('/').pop().replace(/_/g, ' ');
+                    cachedLocation = city;
+                    return city;
+                }
+            } catch(e) {}
             return '';
         }
 
