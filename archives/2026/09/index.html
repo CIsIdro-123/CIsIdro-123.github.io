@@ -85,18 +85,6 @@
 <body data-theme="dark">
 
     
-    <div class="terminal-wrapper">
-        <div id="loading-screen">
-            <div class="loader-gif-container">
-                <img src="/img/miku.webp" alt="Loading Animation">
-            </div>
-
-            <div id="terminal-output" class="terminal-text">
-                <div class="content"></div>
-            </div>
-        </div>
-    </div>
-    
 
     <nav class="navbar">
         <div class="nav-links">
@@ -124,221 +112,67 @@
 
     <main id="main" class="">
     
-        <section class="cover-page" id="coverPage">
-    <div class="cover-content">
-        <h1 class="cover-title">Un0ffiaI_0&#39;s blog</h1>
-        <p class="cover-subtitle">“ 时间永远分岔，通向无数的未来 ”</p>
-        <div class="cover-divider"></div>
-        <p class="cover-desc" id="coverDesc">在写作业ing...</p>
-    </div>
-    <div class="scroll-indicator" id="scrollIndicator" title="向下探索">
-        <span class="scroll-arrow"></span>
-        <span class="scroll-text">Scroll</span>
-    </div>
-</section>
-
-<section class="hero" data-reveal>
-    <img src="/img/avatar.webp" alt="Un0ffiaI_0" class="avatar" loading="lazy">
-    <h1 class="name">Un0ffiaI_0</h1>
-    <p class="bio">“ 时间永远分岔，通向无数的未来 ”</p>
-</section>
+        <div class="page-loader-overlay" id="page-loader">
+    <div class="loader-spinner" id="page-loader-spinner"></div>
+    <img class="loader-gif" id="page-loader-gif" src="/img/loading-archives.webp" alt="Loading">
+    <p class="loader-text">LOADING...</p>
+</div>
+<script>
+(function(){
+    var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
+    if(!img||!sp)return;
+    var done=false,test=new Image();
+    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display='block'}};
+    setTimeout(function(){done=true},500);
+    test.src=img.src;
+})();
+</script>
 
 <div class="home-section-glass">
     <div class="home-section-header">
-        <h2 class="home-section-title">📝 最新文章</h2>
-        <a href="/archives" class="home-section-more">
-            全部文章 →
-        </a>
+        <h2 class="home-section-title">📚 归档</h2>
     </div>
 
-    
-        <!-- 最新文章卡片容器 -->
-        <div class="post-cards-container">
-            
-                <article class="post-card" data-reveal>
-                    <a href="/2026/09/03/%E5%BB%BA%E7%AB%99.html" class="post-card-link">
-                        <div class="post-card-thumb">
-                            
-                                <div class="post-card-thumb-fallback">
-                                    <span class="fallback-icon">📄</span>
-                                </div>
-                            
-                        </div>
-                        <div class="post-card-body">
-                            <h3 class="post-card-title">搭站小记｜个人网站架构与网络协议</h3>
-                            <time class="post-card-date" datetime="2026-09-02T16:00:00.000Z">
-                                2026-09-03
-                            </time>
-                            
-                        </div>
-                    </a>
-                    
-                        <div class="post-card-tags">
-                            
-                                <span class="post-card-tag">建站</span>
-                            
-                                <span class="post-card-tag">前端</span>
-                            
-                                <span class="post-card-tag">后端</span>
-                            
-                                <span class="post-card-tag">服务器</span>
-                            
-                        </div>
-                    
-                </article>
-            
-                <article class="post-card" data-reveal>
-                    <a href="/2026/08/31/re002.html" class="post-card-link">
-                        <div class="post-card-thumb">
-                            
-                                <img src="/img/covers/reverse-pe.png" alt="学习周报 02｜PE 文件结构与 Windows 逆向入门" loading="lazy">
-                            
-                        </div>
-                        <div class="post-card-body">
-                            <h3 class="post-card-title">学习周报 02｜PE 文件结构与 Windows 逆向入门</h3>
-                            <time class="post-card-date" datetime="2026-08-30T16:00:00.000Z">
-                                2026-08-31
-                            </time>
-                            
-                        </div>
-                    </a>
-                    
-                        <div class="post-card-tags">
-                            
-                                <span class="post-card-tag">Android</span>
-                            
-                                <span class="post-card-tag">JNI</span>
-                            
-                                <span class="post-card-tag">.so 文件</span>
-                            
-                        </div>
-                    
-                </article>
-            
-                <article class="post-card" data-reveal>
-                    <a href="/2026/08/30/re001.html" class="post-card-link">
-                        <div class="post-card-thumb">
-                            
-                                <img src="/img/covers/reverse-pe.png" alt="学习周报 01｜PE 文件结构与 Windows 逆向入门" loading="lazy">
-                            
-                        </div>
-                        <div class="post-card-body">
-                            <h3 class="post-card-title">学习周报 01｜PE 文件结构与 Windows 逆向入门</h3>
-                            <time class="post-card-date" datetime="2026-08-29T16:00:00.000Z">
-                                2026-08-30
-                            </time>
-                            
-                        </div>
-                    </a>
-                    
-                        <div class="post-card-tags">
-                            
-                                <span class="post-card-tag">逆向</span>
-                            
-                                <span class="post-card-tag">PE 文件</span>
-                            
-                                <span class="post-card-tag">Windows API</span>
-                            
-                                <span class="post-card-tag">ELF</span>
-                            
-                        </div>
-                    
-                </article>
-            
-                <article class="post-card" data-reveal>
-                    <a href="/2026/06/01/hello-world.html" class="post-card-link">
-                        <div class="post-card-thumb">
-                            
-                                <img src="/img/covers/my-post.webp" alt="Hello World" loading="lazy">
-                            
-                        </div>
-                        <div class="post-card-body">
-                            <h3 class="post-card-title">Hello World</h3>
-                            <time class="post-card-date" datetime="2026-05-31T16:00:00.000Z">
-                                2026-06-01
-                            </time>
-                            
-                        </div>
-                    </a>
-                    
-                        <div class="post-card-tags">
-                            
-                                <span class="post-card-tag">测试标签</span>
-                            
-                                <span class="post-card-tag">Hexo</span>
-                            
-                        </div>
-                    
-                </article>
-            
-        </div>
-    
-</div>
+    <div class="archive-container">
+        <div class="timeline-line"></div>
 
-<script>
-     (function() {
-        (function() {
-        var descEl = document.getElementById('coverDesc');
-        if (descEl) {
-            var quotes = [
-                '在写作业ing...',
-                '为什么不能躺着呢',
-                'Hello, World... (o-ωｑ)).oO 困',
-                '你认为事物的真正本质是什么呢',
-                '墓前一切正常',
-                '唯一真正无限的是我的无知',
-                '或许自由更胜一筹',
-                '世界上最好的语言？你猜',
-                '希望拥有可以选择不幸福的权利',
-                '地球online，一星差评 ಠಿ_ಠ',
-                '生命自有出路，有时候真的想挂机接管',
-                '也许我们如今所了解的一切都只是我们目前尚未了解的某种东西的近似',
-                '从0到0.00000000001',
-                '好想去玩...',
-                '检测到机体失活，需要重新启动程序'
-            ];
+        
+
+        
             
-            var randomIndex = Math.floor(Math.random() * quotes.length);
-            descEl.textContent = quotes[randomIndex];
-        }
-    })();
+
+            <div class="archive-month-group">
+                
+                    <h2 class="archive-year-title timeline-node">2026</h2>
+                
+
+                <div class="month-wrapper">
+                    <h3 class="archive-month-title timeline-node">
+                        九月 <span>(1)</span>
+                    </h3>
+
+                    <ul class="archive-post-list">
+                        
+                            <li class="archive-post-item timeline-node">
+                                <time datetime="2026-09-02T16:00:00.000Z">
+                                    09-03
+                                </time>
+                                <a href="/2026/09/03/%E5%BB%BA%E7%AB%99.html" class="post-title">
+                                    搭站小记｜个人网站架构与网络协议
+                                </a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
         
-        const indicator = document.getElementById('scrollIndicator');
-        const hero = document.querySelector('.hero');
-        if (indicator && hero) {
-            indicator.addEventListener('click', function() {
-                hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-        }
-        
-        function initReveal() {
-            const targets = document.querySelectorAll('[data-reveal]');
-            if (!targets.length) return;
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.classList.contains('hero')) {
-                            entry.target.classList.add('is-revealed');
-                        } else {
-                            const allTargets = document.querySelectorAll('[data-reveal]:not(.hero)');
-                            const idx = Array.from(allTargets).indexOf(entry.target);
-                            setTimeout(function() {
-                                entry.target.classList.add('is-revealed');
-                            }, (idx % 6) * 80); 
-                        }
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
-            targets.forEach(function(el) { observer.observe(el); });
-        }
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initReveal);
-        } else {
-            initReveal();
-        }
-    })();
-</script>
+    </div>
+
+    <!-- 分页导航 -->
+    <nav class="pagination">
+        <span class="page-number current">1</span>
+    </nav>
+</div>
         
     </main>
 
@@ -562,6 +396,8 @@
     </script>
 
     <script src="/js/main.js"></script>
+        
+        <script src="/js/page-loader.js"></script>
     
 
 
