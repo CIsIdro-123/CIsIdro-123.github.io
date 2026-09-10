@@ -1168,12 +1168,26 @@ figure.highlight .function { color: #66d9ef; } /* 函数名变蓝 */
     background: rgba(0, 255, 0, 0.08);
     color: rgba(0, 200, 0, 0.85);
     border: 1px solid rgba(0, 255, 0, 0.15);
+    transition: all 0.3s ease;
 }
 
 [data-theme="dark"] .post-card-tag {
     background: rgba(0, 255, 0, 0.06);
     color: #58a6ff;
     border-color: rgba(88, 166, 255, 0.2);
+}
+
+/* 首页卡片标签悬浮效果 */
+.post-card-tag:hover {
+    background: rgba(0, 200, 0, 0.25);
+    color: #00c853;
+    transform: translateY(-1px);
+    cursor: pointer;
+}
+
+[data-theme="dark"] .post-card-tag:hover {
+    background: rgba(88, 166, 255, 0.25);
+    color: #79c0ff;
 }
 
 
