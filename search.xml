@@ -23,6 +23,27 @@
       </tags>
   </entry>
   <entry>
+    <title>学习周报 02｜Native 方法与 .so 文件</title>
+    <url>/2026/08/31/re002.html</url>
+    <content><![CDATA[<h2 id="Native-方法与-so-文件"><a href="#Native-方法与-so-文件" class="headerlink" title="Native 方法与.so 文件"></a>Native 方法与.so 文件</h2><h3 id="Native方法"><a href="#Native方法" class="headerlink" title="Native方法"></a>Native方法</h3><p>Native 方法是指其声明和实现不是用 Java 语言编写的，而是使用其他编程语言（如 C、C++）编写的方法。<br>使用 native 方法的常见场景包括：</p>
+<ul>
+<li>实现需要调用系统调用或外部库的功能</li>
+<li>访问只有其他语言才能访问的硬件或系统资源</li>
+<li>在 Java 应用中复用已有的 C&#x2F;C++ 老代码</li>
+<li>从 Java 中调用动态加载的本地库</li>
+</ul>
+<h3 id="so-文件"><a href="#so-文件" class="headerlink" title=".so 文件"></a>.so 文件</h3><p>.so文件是 Shared Object（共享对象）文件的缩写，是 Linux&#x2F;Unix 系统下的动态链接库。它在 Windows 下对应的文件是 .dll（Dynamic-Link Library），在 macOS 下是 .dylib</p>
+<h3 id="JNI-Java-Native-Interface"><a href="#JNI-Java-Native-Interface" class="headerlink" title="JNI (Java Native Interface)"></a>JNI (Java Native Interface)</h3><p>即 Java 本地接口，是 Java 虚拟机（JVM）提供的一套编程框架和协议标准。它定义了一套规则，允许 Java 代码与用其他编程语言（主要是 C、C++）编写的本地应用程序或库进行互操作</p>
+<hr>
+<p>在 JNI 中，.so 文件是通过 C&#x2F;C++ 编写的本地方法的封装文件，它包含了本地方法的实现。 通过 Android NDK ，开发者可以将 C&#x2F;C++ 代码编译成 .so 文件，并将这些文件与 Java 应用一起打包。 在应用运行时，.so 文件会被加载并通过 JNI 接口进行调用。</p>
+]]></content>
+      <tags>
+        <tag>Android</tag>
+        <tag>JNI</tag>
+        <tag>.so 文件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>学习周报 01｜PE 文件结构与 Windows 逆向入门</title>
     <url>/2026/08/30/re001.html</url>
     <content><![CDATA[<p>本文是我整理逆向工程学习周报的第一篇，系统梳理了 Windows PE 文件结构、常见文件格式魔数、Win32 GUI 程序基本原理、常用 Windows API 以及 .NET 程序逆向基础。内容适合作为逆向入门的知识点参考，并附有实际分析中的注意要点。</p>
@@ -227,27 +248,6 @@
         <tag>PE 文件</tag>
         <tag>Windows API</tag>
         <tag>ELF</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习周报 02｜Native 方法与 .so 文件</title>
-    <url>/2026/08/31/re002.html</url>
-    <content><![CDATA[<h2 id="Native-方法与-so-文件"><a href="#Native-方法与-so-文件" class="headerlink" title="Native 方法与.so 文件"></a>Native 方法与.so 文件</h2><h3 id="Native方法"><a href="#Native方法" class="headerlink" title="Native方法"></a>Native方法</h3><p>Native 方法是指其声明和实现不是用 Java 语言编写的，而是使用其他编程语言（如 C、C++）编写的方法。<br>使用 native 方法的常见场景包括：</p>
-<ul>
-<li>实现需要调用系统调用或外部库的功能</li>
-<li>访问只有其他语言才能访问的硬件或系统资源</li>
-<li>在 Java 应用中复用已有的 C&#x2F;C++ 老代码</li>
-<li>从 Java 中调用动态加载的本地库</li>
-</ul>
-<h3 id="so-文件"><a href="#so-文件" class="headerlink" title=".so 文件"></a>.so 文件</h3><p>.so文件是 Shared Object（共享对象）文件的缩写，是 Linux&#x2F;Unix 系统下的动态链接库。它在 Windows 下对应的文件是 .dll（Dynamic-Link Library），在 macOS 下是 .dylib</p>
-<h3 id="JNI-Java-Native-Interface"><a href="#JNI-Java-Native-Interface" class="headerlink" title="JNI (Java Native Interface)"></a>JNI (Java Native Interface)</h3><p>即 Java 本地接口，是 Java 虚拟机（JVM）提供的一套编程框架和协议标准。它定义了一套规则，允许 Java 代码与用其他编程语言（主要是 C、C++）编写的本地应用程序或库进行互操作</p>
-<hr>
-<p>在 JNI 中，.so 文件是通过 C&#x2F;C++ 编写的本地方法的封装文件，它包含了本地方法的实现。 通过 Android NDK ，开发者可以将 C&#x2F;C++ 代码编译成 .so 文件，并将这些文件与 Java 应用一起打包。 在应用运行时，.so 文件会被加载并通过 JNI 接口进行调用。</p>
-]]></content>
-      <tags>
-        <tag>Android</tag>
-        <tag>JNI</tag>
-        <tag>.so 文件</tag>
       </tags>
   </entry>
   <entry>
