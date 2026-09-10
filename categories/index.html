@@ -52,7 +52,7 @@
             font-size: clamp(12px, 3.5vw, 16px);
             letter-spacing: 0.5px;
             text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
-            line-height: 1.8;
+            line-height: 2;
             white-space: pre-wrap;
             overflow-wrap: break-word;
             text-align: left;
@@ -64,13 +64,17 @@
         /* 移动端优化 */
         @media (max-width: 480px) {
             .terminal-text {
-                font-size: 13px;
-                line-height: 1.6;
-                width: 95%;
-                padding: 0 8px;
+                font-size: 11px;
+                line-height: 1.8;
+                width: 85%;
+                padding: 0 16px;
+                letter-spacing: 0;
+            }
+            .loader-gif-container {
+                margin-bottom: 20px;
             }
             .loader-gif-container img {
-                max-width: 140px;
+                max-width: 120px;
             }
         }
 
@@ -248,7 +252,13 @@
     })();
 
         (function() {
-            const lines = [
+            // 移动端用更短的文字
+            const isMobile = window.innerWidth <= 480;
+            const lines = isMobile ? [
+                "> Init... [OK]",
+                "> Loading... 60%",
+                "> Welcome!"
+            ] : [
                 "> Initializing system... [OK]",
                 "> Loading assets... [####...] 60%",
                 "> Welcome to Un0fficial_0's Blog"
@@ -272,7 +282,7 @@
                     if (charIndex < currentLine.length) {
                         currentSpan.textContent += currentLine.charAt(charIndex);
                         charIndex++;
-                        setTimeout(typeWriter, 45);
+                        setTimeout(typeWriter, isMobile ? 35 : 45);
                     } else {
                         lineIndex++;
                         charIndex = 0;
