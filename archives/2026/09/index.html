@@ -128,136 +128,18 @@
     <main id="main" class="">
     
         <div class="page-loader-overlay" id="page-loader">
-    <!-- 加载动图 -->
-    <div class="loader-gif-container">
-        <img class="loader-gif" id="page-loader-gif" src="/img/loading-archives.webp" alt="Loading">
-    </div>
-
-    <!-- 进度条 -->
-    <div class="loader-progress-wrap">
-        <div class="loader-progress-bar">
-            <div class="loader-progress-fill" id="loaderProgressFill"></div>
-        </div>
-        <span class="loader-progress-text" id="loaderProgressText">0%</span>
-    </div>
-
-    <!-- 随机提示语 -->
-    <p class="loader-tip" id="loaderTip">Loading...</p>
+    <div class="loader-spinner" id="page-loader-spinner"></div>
+    <img class="loader-gif" id="page-loader-gif" src="/img/loading-archives.webp" alt="Loading">
+    <p class="loader-text">LOADING...</p>
 </div>
-
-<style>
-.loader-gif-container {
-    margin-bottom: 24px;
-}
-.loader-gif-container img {
-    max-width: clamp(120px, 30vw, 180px);
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
-    animation: loaderFloat 2s ease-in-out infinite;
-}
-@keyframes loaderFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-}
-.loader-progress-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-}
-.loader-progress-bar {
-    width: 180px;
-    height: 6px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 3px;
-    overflow: hidden;
-}
-.loader-progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00bcd4, #88ff88);
-    border-radius: 3px;
-    transition: width 0.15s ease;
-}
-.loader-progress-text {
-    font-size: 0.8rem;
-    color: rgba(255,255,255,0.7);
-    font-variant-numeric: tabular-nums;
-    min-width: 36px;
-}
-.loader-tip {
-    font-size: 0.9rem;
-    color: rgba(0,0,0,0.6);
-    margin: 0;
-    text-align: center;
-    max-width: 280px;
-    line-height: 1.5;
-    animation: loaderFade 3s ease-in-out infinite;
-}
-@keyframes loaderFade {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
-}
-[data-theme="dark"] .loader-tip {
-    color: rgba(255,255,255,0.6);
-}
-[data-theme="dark"] .loader-progress-fill {
-    background: linear-gradient(90deg, #0ef, #58a6ff);
-}
-[data-theme="dark"] .loader-progress-text {
-    color: rgba(255,255,255,0.7);
-}
-body:not([data-theme="dark"]) .loader-progress-text {
-    color: rgba(0,0,0,0.6);
-}
-body:not([data-theme="dark"]) .loader-progress-bar {
-    background: rgba(0,0,0,0.1);
-}
-body:not([data-theme="dark"]) .loader-gif-container img {
-    box-shadow: 0 0 20px rgba(0, 150, 150, 0.15);
-}
-</style>
-
 <script>
-(function() {
-    var tips = [
-        "正在加载中，稍等出仓～",
-        "加速逃离中，请稍等...",
-        "召唤像素精灵施展魔法...",
-        "数据正在快马马马马加鞭赶来",
-        "Loading... 别眨眼 ",
-        "急急急正在整理内容，马上好",
-        "等待是为了更好的相遇",
-        "这是一条随机的等待词句",
-        "！！加载进度条正在努力干活",
-        "即将呈现作者的注水长文（误）",
-    ];
-    var loader = document.getElementById('page-loader');
-    var progressFill = document.getElementById('loaderProgressFill');
-    var progressText = document.getElementById('loaderProgressText');
-    var tipEl = document.getElementById('loaderTip');
-    if (!loader) return;
-    tipEl.textContent = tips[Math.floor(Math.random() * tips.length)];
-    var progress = 0;
-    var interval = setInterval(function() {
-        if (progress < 70) progress += Math.random() * 15;
-        else if (progress < 90) progress += Math.random() * 3;
-        progress = Math.min(progress, 95);
-        progressFill.style.width = progress + '%';
-        progressText.textContent = Math.floor(progress) + '%';
-    }, 100);
-    window.addEventListener('load', function() {
-        clearInterval(interval);
-        progressFill.style.width = '100%';
-        progressText.textContent = '100%';
-        setTimeout(function() {
-            loader.classList.add('slide-up');
-            setTimeout(function() {
-                if (loader.parentNode) loader.parentNode.removeChild(loader);
-            }, 600);
-        }, 200);
-    });
+(function(){
+    var img=document.getElementById('page-loader-gif'),sp=document.getElementById('page-loader-spinner');
+    if(!img||!sp)return;
+    var done=false,test=new Image();
+    test.onload=function(){if(!done){done=true;sp.style.display='none';img.style.display='block'}};
+    setTimeout(function(){done=true},500);
+    test.src=img.src;
 })();
 </script>
 
