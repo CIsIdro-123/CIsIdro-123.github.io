@@ -283,7 +283,7 @@
 <td>导入地址表（IAT）</td>
 </tr>
 </tbody></table>
-<p><img src="/image-3.png" alt="alt text"><br>导入函数表记录了这个程序运行时要加载哪些DLL，以及要调用DLL里的哪些函数。比如你的程序用了 MessageBox，链接器会把 user32.dll 和 MessageBox 写进导入表。程序启动时，Windows加载器会加载这些DLL，并把函数地址填到导入地址表（IAT）中，程序才能正确调用。<br><img src="/image-4.png" alt="alt text"><br>导出函数表是外部访问该函数的“入口”</p>
+<p><img src="/2026/08/30/re001/image-3.png" alt="alt text"><br>导入函数表记录了这个程序运行时要加载哪些DLL，以及要调用DLL里的哪些函数。比如你的程序用了 MessageBox，链接器会把 user32.dll 和 MessageBox 写进导入表。程序启动时，Windows加载器会加载这些DLL，并把函数地址填到导入地址表（IAT）中，程序才能正确调用。<br><img src="/2026/08/30/re001/image-4.png" alt="alt text"><br>导出函数表是外部访问该函数的“入口”</p>
 <h2 id="二、ELF-文件与常见魔数"><a href="#二、ELF-文件与常见魔数" class="headerlink" title="二、ELF 文件与常见魔数"></a>二、ELF 文件与常见魔数</h2><h3 id="1-ELF-文件"><a href="#1-ELF-文件" class="headerlink" title="1. ELF 文件"></a>1. ELF 文件</h3><p>Linux 平台的可执行文件格式为 ELF（Executable and Linkable Format）。其魔数为 <code>7f 45 4c 46</code>，对应的 ASCII 字符串为 <code>^?ELF</code>。ELF 文件结构包括 ELF 头、程序头表、节头表等，与 PE 结构类似但有所不同。</p>
 <h3 id="2-文件魔数（Magic-Number）"><a href="#2-文件魔数（Magic-Number）" class="headerlink" title="2. 文件魔数（Magic Number）"></a>2. 文件魔数（Magic Number）</h3><p>许多文件类型的起始几个字节是固定的，用于快速识别文件类型。常见魔数如下：</p>
 <table>
