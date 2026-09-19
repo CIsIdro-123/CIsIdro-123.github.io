@@ -135,40 +135,149 @@
     flex-basis: 100%;
 }
 
-/* 渐变颜色选择组 */
+/* 渐变颜色选择组 - PPT风格编辑器 */
 .sig-gradient-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background: linear-gradient(135deg, rgba(84,160,255,0.1), rgba(95,39,205,0.1));
-    border: 1px solid rgba(84,160,255,0.25);
+    flex-basis: 100%;
+    margin-top: 8px;
+}
+.sig-gradient-editor {
+    background: var(--card-bg, rgba(255,255,255,0.08));
+    border: 1px solid var(--card-border, rgba(255,255,255,0.12));
     border-radius: 12px;
-    margin-left: 4px;
+    padding: 14px 16px;
+    width: 100%;
 }
-.sig-gradient-presets {
+.sig-gradient-preview-bar {
+    position: relative;
+    height: 28px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #ff6b6b, #feca57);
+    margin-bottom: 12px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.sig-gradient-stop {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+.sig-gradient-stop:hover {
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+}
+.sig-gradient-stop-start {
+    left: 8px;
+    background: #ff6b6b;
+}
+.sig-gradient-stop-end {
+    right: 8px;
+    background: #feca57;
+}
+.sig-gradient-controls {
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
+    gap: 12px;
 }
-.sig-gradient-group .sig-tool-label {
-    color: #54a0ff;
-    font-weight: 600;
-    font-size: 0.85em;
+.sig-gradient-color-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.sig-gradient-color-input {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0;
+    background: transparent;
+    overflow: hidden;
+}
+.sig-gradient-color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+.sig-gradient-color-input::-webkit-color-swatch {
+    border-radius: 10px;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.sig-gradient-color-label {
+    font-size: 0.72em;
+    color: var(--card-text-sub, #888);
+}
+.sig-gradient-angle-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+    max-width: 180px;
+}
+.sig-gradient-angle-slider {
+    width: 100%;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(90deg,
+        rgba(255,107,107,0.3),
+        rgba(254,202,87,0.3),
+        rgba(72,219,251,0.3),
+        rgba(29,209,161,0.3),
+        rgba(255,107,107,0.3)
+    );
+    border-radius: 3px;
+    outline: none;
+}
+.sig-gradient-angle-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
     background: linear-gradient(135deg, #54a0ff, #5f27cd);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+    transition: transform 0.15s;
 }
-[data-theme="dark"] .sig-gradient-group {
-    background: linear-gradient(135deg, rgba(84,160,255,0.15), rgba(95,39,205,0.15));
-    border-color: rgba(84,160,255,0.3);
+.sig-gradient-angle-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
 }
-[data-theme="dark"] .sig-gradient-group .sig-tool-label {
-    background: linear-gradient(135deg, #79c0ff, #a29bfe);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+.sig-gradient-angle-val {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: var(--card-text, #333);
+    min-width: 40px;
+    text-align: center;
+}
+
+/* 暗色模式适配 */
+[data-theme="dark"] .sig-gradient-editor {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .sig-gradient-preview-bar {
+    border-color: rgba(255,255,255,0.1);
+}
+[data-theme="dark"] .sig-gradient-color-input::-webkit-color-swatch {
+    border-color: rgba(255,255,255,0.2);
+}
+[data-theme="dark"] .sig-gradient-angle-slider {
+    background: linear-gradient(90deg,
+        rgba(255,107,107,0.2),
+        rgba(254,202,87,0.2),
+        rgba(72,219,251,0.2),
+        rgba(29,209,161,0.2),
+        rgba(255,107,107,0.2)
+    );
 }
 
 .sig-effect-btns {

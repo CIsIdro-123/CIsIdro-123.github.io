@@ -637,11 +637,26 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
 
             <!-- 渐变第二颜色 -->
             <div class="sig-tool-group sig-gradient-group" id="sigGradientGroup" style="display: none;">
-                <span class="sig-tool-label">渐变色</span>
-                <div class="sig-gradient-presets" id="sigGradientPresets">
-                    <!-- JS 动态生成渐变色圆点 -->
+                <div class="sig-gradient-editor">
+                    <div class="sig-gradient-preview-bar" id="sigGradientBar">
+                        <div class="sig-gradient-stop sig-gradient-stop-start" id="sigGradientStopStart" data-stop="start"></div>
+                        <div class="sig-gradient-stop sig-gradient-stop-end" id="sigGradientStopEnd" data-stop="end"></div>
+                    </div>
+                    <div class="sig-gradient-controls">
+                        <div class="sig-gradient-color-wrap">
+                            <input type="color" class="sig-gradient-color-input" id="sigGradientColorStart" value="#ff6b6b" title="起始颜色" />
+                            <span class="sig-gradient-color-label">起始</span>
+                        </div>
+                        <div class="sig-gradient-angle-wrap">
+                            <input type="range" class="sig-gradient-angle-slider" id="sigGradientAngle" min="0" max="360" value="135" />
+                            <span class="sig-gradient-angle-val" id="sigGradientAngleVal">135°</span>
+                        </div>
+                        <div class="sig-gradient-color-wrap">
+                            <input type="color" class="sig-gradient-color-input" id="sigGradientColorEnd" value="#feca57" title="结束颜色" />
+                            <span class="sig-gradient-color-label">结束</span>
+                        </div>
+                    </div>
                 </div>
-                <input type="color" class="sig-color-picker" id="sigGradientPicker" value="#feca57" title="渐变终点色" />
             </div>
 
             <!-- 文字特效 -->
@@ -693,9 +708,12 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         var $sizeVal = $('#sigSizeVal');
         var $colorPicker = $('#sigColorPicker');
         var $colorPresets = $('#sigColorPresets');
-        var $gradientPicker = $('#sigGradientPicker');
-        var $gradientPresets = $('#sigGradientPresets');
         var $gradientGroup = $('#sigGradientGroup');
+        var $gradientBar = $('#sigGradientBar');
+        var $gradientColorStart = $('#sigGradientColorStart');
+        var $gradientColorEnd = $('#sigGradientColorEnd');
+        var $gradientAngle = $('#sigGradientAngle');
+        var $gradientAngleVal = $('#sigGradientAngleVal');
         var $effectBtns = $('#sigEffectBtns');
         var $submit = $('#sigSubmitBtn');
         var $clear = $('#sigClearBtn');
@@ -703,7 +721,6 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         var API_BASE = window.__API_BASE__;
 
         var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
-        var gradientPresets = ['#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3', '#ffffff'];
         var effects = [
             { label: '无', value: 'none' },
             { label: '霓虹', value: 'neon' },
@@ -715,6 +732,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         var currentSize = 22;
         var currentColor = '#ff6b6b';
         var currentGradientColor = '#feca57';
+        var currentGradientAngle = 135;
         var currentEffect = 'none';
         var cachedLocation = null;
 
@@ -778,7 +796,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 return [];
             }
         }
-        async function apiAddSignature(name, content, size, color, effect, gradientColor) {
+        async function apiAddSignature(name, content, size, color, effect, gradientColor, gradientAngle) {
             var data = await apiGet();          // 拿完整对象
             var MAX_SIGS = 100;                 // 最多保留 100 条签名
             var location = await getLocation();
@@ -791,6 +809,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 color: color,
                 effect: effect,
                 gradientColor: gradientColor || null,
+                gradientAngle: gradientAngle || 135,
                 location: location,
                 createdAt: new Date().toISOString()
             });
@@ -843,7 +862,8 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 // 渐变效果需要特殊处理
                 if (sig.effect === 'gradient') {
                     const gradColor = sig.gradientColor || '#feca57';
-                    textEl.style.background = 'linear-gradient(135deg, ' + sig.color + ', ' + gradColor + ')';
+                    const gradAngle = sig.gradientAngle || 135;
+                    textEl.style.background = 'linear-gradient(' + gradAngle + 'deg, ' + sig.color + ', ' + gradColor + ')';
                     textEl.style.webkitBackgroundClip = 'text';
                     textEl.style.backgroundClip = 'text';
                     textEl.style.webkitTextFillColor = 'transparent';
@@ -891,11 +911,12 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
             // 渐变效果需要特殊处理
             if (currentEffect === 'gradient') {
                 $previewText.style.color = 'transparent';
-                $previewText.style.background = 'linear-gradient(135deg, ' + currentColor + ', ' + currentGradientColor + ')';
+                $previewText.style.background = 'linear-gradient(' + currentGradientAngle + 'deg, ' + currentColor + ', ' + currentGradientColor + ')';
                 $previewText.style.webkitBackgroundClip = 'text';
                 $previewText.style.backgroundClip = 'text';
                 $previewText.style.webkitTextFillColor = 'transparent';
                 $gradientGroup.style.display = 'flex';
+                updateGradientBar();
             } else {
                 $previewText.style.color = currentColor;
                 $previewText.style.background = '';
@@ -912,6 +933,13 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
             }
         }
 
+        // ============ 更新渐变预览条 ============
+        function updateGradientBar() {
+            $gradientBar.style.background = 'linear-gradient(' + currentGradientAngle + 'deg, ' + currentColor + ', ' + currentGradientColor + ')';
+            $('#sigGradientStopStart').style.backgroundColor = currentColor;
+            $('#sigGradientStopEnd').style.backgroundColor = currentGradientColor;
+        }
+
         // ============ 初始化工具栏 ============
         function initToolbar() {
             // 颜色预设
@@ -922,24 +950,11 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 dot.addEventListener('click', () => {
                     currentColor = color;
                     $colorPicker.value = color;
+                    $gradientColorStart.value = color;
                     updateColorActive();
                     updatePreview();
                 });
                 $colorPresets.appendChild(dot);
-            });
-
-            // 渐变颜色预设
-            gradientPresets.forEach(color => {
-                const dot = document.createElement('span');
-                dot.className = 'sig-color-dot' + (color === currentGradientColor ? ' active' : '');
-                dot.style.backgroundColor = color;
-                dot.addEventListener('click', () => {
-                    currentGradientColor = color;
-                    $gradientPicker.value = color;
-                    updateGradientActive();
-                    updatePreview();
-                });
-                $gradientPresets.appendChild(dot);
             });
 
             function updateColorActive() {
@@ -948,23 +963,37 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 if (active) active.classList.add('active');
             }
 
-            function updateGradientActive() {
-                $gradientPresets.querySelectorAll('.sig-color-dot').forEach(d => d.classList.remove('active'));
-                const active = Array.from($gradientPresets.querySelectorAll('.sig-color-dot')).find(d => d.style.backgroundColor === currentGradientColor);
-                if (active) active.classList.add('active');
-            }
-
             $colorPicker.addEventListener('input', () => {
                 currentColor = $colorPicker.value;
+                $gradientColorStart.value = currentColor;
                 updateColorActive();
                 updatePreview();
             });
 
-            $gradientPicker.addEventListener('input', () => {
-                currentGradientColor = $gradientPicker.value;
-                updateGradientActive();
+            // 渐变编辑器事件
+            $gradientColorStart.addEventListener('input', () => {
+                currentColor = $gradientColorStart.value;
+                $colorPicker.value = currentColor;
+                updateColorActive();
                 updatePreview();
             });
+
+            $gradientColorEnd.addEventListener('input', () => {
+                currentGradientColor = $gradientColorEnd.value;
+                updatePreview();
+            });
+
+            $gradientAngle.addEventListener('input', () => {
+                currentGradientAngle = parseInt($gradientAngle.value);
+                $gradientAngleVal.textContent = currentGradientAngle + '°';
+                updatePreview();
+            });
+
+            // 初始化渐变编辑器的值
+            $gradientColorStart.value = currentColor;
+            $gradientColorEnd.value = currentGradientColor;
+            $gradientAngle.value = currentGradientAngle;
+            $gradientAngleVal.textContent = currentGradientAngle + '°';
 
             // 特效按钮
             effects.forEach(eff => {
@@ -1001,7 +1030,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
             if (!content) { shakeElement($content); $content.focus(); return; }
 
             try {
-                await apiAddSignature(name, content, currentSize, currentColor, currentEffect, currentGradientColor);
+                await apiAddSignature(name, content, currentSize, currentColor, currentEffect, currentGradientColor, currentGradientAngle);
             } catch (e) {
                 alert('提交失败: ' + e.message + '\n请检查网络连接');
                 $submit.textContent = '✨ 留下签名';
