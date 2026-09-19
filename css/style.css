@@ -1808,8 +1808,9 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
 
 /* 左侧：文章内容区域 */
 .content-area {
-    flex: 1;                    
-    min-width: 0;               
+    flex: 1;
+    min-width: 0;
+    align-self: flex-start;     /* 顶部对齐 */
 }
 
 /* 右侧：侧边栏区域 */
@@ -1819,10 +1820,10 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
     display: flex;
     flex-direction: column;
     gap: 20px;                  /* 两个卡片之间的间距 */
-
-    height: calc(100vh - 80px);   /* 减去导航栏高度 + 间距 */    
-    position: sticky;    
-    top: 80px;                      
+    align-self: flex-start;     /* 顶部对齐，与内容区保持一致 */
+    position: sticky;
+    top: 80px;                  /* 距导航栏高度 */
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
 }
 

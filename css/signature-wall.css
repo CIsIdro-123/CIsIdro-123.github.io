@@ -134,6 +134,19 @@
 .sig-effect-group {
     flex-basis: 100%;
 }
+
+/* 渐变颜色选择组 */
+.sig-gradient-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.sig-gradient-presets {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .sig-effect-btns {
     display: flex;
     flex-wrap: wrap;
@@ -201,7 +214,7 @@
                  0 0 20px #ff6b6b, 0 0 40px #ff6b6b;
 }
 .sig-preview-text.effect-gradient {
-    background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+    background: linear-gradient(135deg, var(--sig-color, #ff6b6b), var(--sig-color2, #feca57));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

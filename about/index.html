@@ -632,7 +632,16 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 <div class="sig-color-presets" id="sigColorPresets">
                     <!-- JS 动态生成颜色圆点 -->
                 </div>
-                <input type="color" class="sig-color-picker" id="sigColorPicker" value="#ff6b6b" title="自定义颜色" />
+                <input type="color" class="sig-color-picker" id="sigColorPicker" value="#ff6b6b" title="主颜色" />
+            </div>
+
+            <!-- 渐变第二颜色 -->
+            <div class="sig-tool-group sig-gradient-group" id="sigGradientGroup" style="display: none;">
+                <span class="sig-tool-label">→</span>
+                <div class="sig-gradient-presets" id="sigGradientPresets">
+                    <!-- JS 动态生成渐变色圆点 -->
+                </div>
+                <input type="color" class="sig-color-picker" id="sigGradientPicker" value="#feca57" title="渐变终点色" />
             </div>
 
             <!-- 文字特效 -->
@@ -684,6 +693,9 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         var $sizeVal = $('#sigSizeVal');
         var $colorPicker = $('#sigColorPicker');
         var $colorPresets = $('#sigColorPresets');
+        var $gradientPicker = $('#sigGradientPicker');
+        var $gradientPresets = $('#sigGradientPresets');
+        var $gradientGroup = $('#sigGradientGroup');
         var $effectBtns = $('#sigEffectBtns');
         var $submit = $('#sigSubmitBtn');
         var $clear = $('#sigClearBtn');
@@ -691,6 +703,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         var API_BASE = window.__API_BASE__;
 
         var colorPresets = ['#ff6b6b', '#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3'];
+        var gradientPresets = ['#feca57', '#48dbfb', '#1dd1a1', '#a29bfe', '#fd79a8', '#ff9ff3', '#ffffff'];
         var effects = [
             { label: '无', value: 'none' },
             { label: '霓虹', value: 'neon' },
@@ -701,6 +714,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
 
         var currentSize = 22;
         var currentColor = '#ff6b6b';
+        var currentGradientColor = '#feca57';
         var currentEffect = 'none';
         var cachedLocation = null;
 
@@ -764,7 +778,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 return [];
             }
         }
-        async function apiAddSignature(name, content, size, color, effect) {
+        async function apiAddSignature(name, content, size, color, effect, gradientColor) {
             var data = await apiGet();          // 拿完整对象
             var MAX_SIGS = 100;                 // 最多保留 100 条签名
             var location = await getLocation();
@@ -776,6 +790,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 size: size,
                 color: color,
                 effect: effect,
+                gradientColor: gradientColor || null,
                 location: location,
                 createdAt: new Date().toISOString()
             });
@@ -810,6 +825,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 card.className = 'sig-card';
                 card.style.transform = `rotate(${(Math.random() - 0.5) * 4}deg)`; // 随机微微旋转
                 card.style.setProperty('--sig-color', sig.color);
+                card.style.setProperty('--sig-color2', sig.gradientColor || '#ffffff');
                 card.style.setProperty('--sig-size', sig.size + 'px');
 
                 // 名字
@@ -859,11 +875,19 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         function updatePreview() {
             $previewText.style.fontSize = currentSize + 'px';
             $previewText.style.color = currentColor;
+            $previewText.style.setProperty('--sig-color', currentColor);
+            $previewText.style.setProperty('--sig-color2', currentGradientColor);
             $previewText.className = 'sig-preview-text effect-' + currentEffect;
             if (currentEffect === 'glitch') {
                 $previewText.setAttribute('data-text', $previewText.textContent);
             } else {
                 $previewText.removeAttribute('data-text');
+            }
+            // 显示/隐藏渐变颜色选择器
+            if (currentEffect === 'gradient') {
+                $gradientGroup.style.display = 'flex';
+            } else {
+                $gradientGroup.style.display = 'none';
             }
         }
 
@@ -883,15 +907,41 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 $colorPresets.appendChild(dot);
             });
 
+            // 渐变颜色预设
+            gradientPresets.forEach(color => {
+                const dot = document.createElement('span');
+                dot.className = 'sig-color-dot' + (color === currentGradientColor ? ' active' : '');
+                dot.style.backgroundColor = color;
+                dot.addEventListener('click', () => {
+                    currentGradientColor = color;
+                    $gradientPicker.value = color;
+                    updateGradientActive();
+                    updatePreview();
+                });
+                $gradientPresets.appendChild(dot);
+            });
+
             function updateColorActive() {
                 $colorPresets.querySelectorAll('.sig-color-dot').forEach(d => d.classList.remove('active'));
                 const active = Array.from($colorPresets.querySelectorAll('.sig-color-dot')).find(d => d.style.backgroundColor === currentColor);
                 if (active) active.classList.add('active');
             }
 
+            function updateGradientActive() {
+                $gradientPresets.querySelectorAll('.sig-color-dot').forEach(d => d.classList.remove('active'));
+                const active = Array.from($gradientPresets.querySelectorAll('.sig-color-dot')).find(d => d.style.backgroundColor === currentGradientColor);
+                if (active) active.classList.add('active');
+            }
+
             $colorPicker.addEventListener('input', () => {
                 currentColor = $colorPicker.value;
                 updateColorActive();
+                updatePreview();
+            });
+
+            $gradientPicker.addEventListener('input', () => {
+                currentGradientColor = $gradientPicker.value;
+                updateGradientActive();
                 updatePreview();
             });
 
@@ -930,7 +980,7 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
             if (!content) { shakeElement($content); $content.focus(); return; }
 
             try {
-                await apiAddSignature(name, content, currentSize, currentColor, currentEffect);
+                await apiAddSignature(name, content, currentSize, currentColor, currentEffect, currentGradientColor);
             } catch (e) {
                 alert('提交失败: ' + e.message + '\n请检查网络连接');
                 $submit.textContent = '✨ 留下签名';
