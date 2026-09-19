@@ -635,7 +635,15 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 <input type="color" class="sig-color-picker" id="sigColorPicker" value="#ff6b6b" title="主颜色" />
             </div>
 
-            <!-- 渐变第二颜色 -->
+            <!-- 文字特效 -->
+            <div class="sig-tool-group sig-effect-group">
+                <span class="sig-tool-label">✨</span>
+                <div class="sig-effect-btns" id="sigEffectBtns">
+                    <!-- JS 动态生成特效按钮 -->
+                </div>
+            </div>
+
+            <!-- 渐变编辑器 - 选择渐变后展开 -->
             <div class="sig-tool-group sig-gradient-group" id="sigGradientGroup" style="display: none;">
                 <div class="sig-gradient-editor">
                     <div class="sig-gradient-preview-bar" id="sigGradientBar">
@@ -656,14 +664,6 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                             <span class="sig-gradient-color-label">结束</span>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 文字特效 -->
-            <div class="sig-tool-group sig-effect-group">
-                <span class="sig-tool-label">✨</span>
-                <div class="sig-effect-btns" id="sigEffectBtns">
-                    <!-- JS 动态生成特效按钮 -->
                 </div>
             </div>
         </div>
