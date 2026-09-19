@@ -2112,6 +2112,18 @@ font-weight: bold;
     z-index: 1;
     animation: coverFadeUp 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) both;
     animation-delay: 0.3s;
+    padding: 30px 40px;
+    border-radius: 20px;
+    background: rgba(255, 248, 230, 0.75);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* 暗色模式下封面内容区 */
+[data-theme="dark"] .cover-content {
+    background: rgba(30, 30, 40, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes coverFadeUp {
@@ -2131,6 +2143,7 @@ font-weight: bold;
     margin-bottom: 16px;
     letter-spacing: 3px;
     line-height: 1.2;
+    color: #2d3436;
 }
 
 .cover-subtitle {
@@ -2138,21 +2151,35 @@ font-weight: bold;
     opacity: 0.9;
     margin-bottom: 28px;
     font-weight: 400;
+    color: #636e72;
 }
 
 .cover-divider {
     width: 50px;
     height: 2px;
-    background: rgba(0, 255, 0, 0.45);  /* 绿色发光分割线 */
+    background: rgba(0, 200, 100, 0.6);
     margin: 0 auto 28px;
     border-radius: 1px;
 }
 
 .cover-desc {
     font-size: 0.95rem;
-    opacity: 0.5;
+    opacity: 0.7;
     letter-spacing: 2px;
+    color: #555;
+}
+
+/* 暗色模式下封面文字 */
+[data-theme="dark"] .cover-title {
     color: #ffffff;
+}
+
+[data-theme="dark"] .cover-subtitle {
+    color: #b2bec3;
+}
+
+[data-theme="dark"] .cover-desc {
+    color: #aaa;
 }
 
 /* 暗色模式微调 */
