@@ -837,9 +837,21 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
                 // 内容（带特效）
                 const textEl = document.createElement('div');
                 textEl.className = 'sig-card-text effect-' + (sig.effect || 'none');
-                textEl.style.color = sig.color;
                 textEl.style.fontSize = sig.size + 'px';
                 textEl.textContent = sig.content;
+
+                // 渐变效果需要特殊处理
+                if (sig.effect === 'gradient') {
+                    const gradColor = sig.gradientColor || '#feca57';
+                    textEl.style.background = 'linear-gradient(135deg, ' + sig.color + ', ' + gradColor + ')';
+                    textEl.style.webkitBackgroundClip = 'text';
+                    textEl.style.backgroundClip = 'text';
+                    textEl.style.webkitTextFillColor = 'transparent';
+                    textEl.style.color = 'transparent';
+                } else {
+                    textEl.style.color = sig.color;
+                }
+
                 if (sig.effect === 'glitch') {
                     textEl.setAttribute('data-text', sig.content);
                 }
@@ -874,20 +886,29 @@ var meting_api = 'https://meting.mikus.ink/api?server=:server&type=:type&id=:id&
         // ============ 更新预览 ============
         function updatePreview() {
             $previewText.style.fontSize = currentSize + 'px';
-            $previewText.style.color = currentColor;
-            $previewText.style.setProperty('--sig-color', currentColor);
-            $previewText.style.setProperty('--sig-color2', currentGradientColor);
             $previewText.className = 'sig-preview-text effect-' + currentEffect;
+
+            // 渐变效果需要特殊处理
+            if (currentEffect === 'gradient') {
+                $previewText.style.color = 'transparent';
+                $previewText.style.background = 'linear-gradient(135deg, ' + currentColor + ', ' + currentGradientColor + ')';
+                $previewText.style.webkitBackgroundClip = 'text';
+                $previewText.style.backgroundClip = 'text';
+                $previewText.style.webkitTextFillColor = 'transparent';
+                $gradientGroup.style.display = 'flex';
+            } else {
+                $previewText.style.color = currentColor;
+                $previewText.style.background = '';
+                $previewText.style.webkitBackgroundClip = '';
+                $previewText.style.backgroundClip = '';
+                $previewText.style.webkitTextFillColor = '';
+                $gradientGroup.style.display = 'none';
+            }
+
             if (currentEffect === 'glitch') {
                 $previewText.setAttribute('data-text', $previewText.textContent);
             } else {
                 $previewText.removeAttribute('data-text');
-            }
-            // 显示/隐藏渐变颜色选择器
-            if (currentEffect === 'gradient') {
-                $gradientGroup.style.display = 'flex';
-            } else {
-                $gradientGroup.style.display = 'none';
             }
         }
 

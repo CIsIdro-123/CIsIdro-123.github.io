@@ -146,6 +146,10 @@
     align-items: center;
     gap: 6px;
 }
+.sig-gradient-group .sig-tool-label {
+    color: var(--card-text-main, #333);
+    font-weight: bold;
+}
 
 .sig-effect-btns {
     display: flex;
@@ -544,6 +548,9 @@
 }
 [data-theme="dark"] .sig-color-dot {
     box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+[data-theme="dark"] .sig-gradient-group .sig-tool-label {
+    color: var(--card-text-main, #ddd);
 }
 [data-theme="dark"] .sig-clear-btn {
     border-color: #444;
