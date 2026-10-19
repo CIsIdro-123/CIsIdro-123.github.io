@@ -139,240 +139,81 @@
             
                 <div class="post-tags">
                     
-                        <a href="/tags/%E9%80%86%E5%90%91/" class="tag"># 逆向</a>
-                    
-                        <a href="/tags/PE-%E6%96%87%E4%BB%B6/" class="tag"># PE 文件</a>
-                    
-                        <a href="/tags/Windows-API/" class="tag"># Windows API</a>
-                    
-                        <a href="/tags/ELF/" class="tag"># ELF</a>
+                        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="tag"># 随笔</a>
                     
                 </div>
             
 
-            <h1 class="post-title">学习周报 01｜PE 文件结构与 Windows 逆向入门</h1>
+            <h1 class="post-title">关于大学生活｜001</h1>
 
             <div class="post-meta">
-                <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-09-08</time></span>
+                <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-10-19</time></span>
                 <span><i class="fa-regular fa-user"></i> 作者: Un0ffiaI_0</span>
-                <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">1.5k</span></span>
-                <span><i class="fa-regular fa-clock"></i> 阅读: <span class="read-time">5 min</span></span>
+                <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">3.2k</span></span>
+                <span><i class="fa-regular fa-clock"></i> 阅读: <span class="read-time">10 min</span></span>
             </div>
         </header>
 
         <article class="post-content">
-            <p>本文是我整理逆向工程学习周报的第一篇，系统梳理了 Windows PE 文件结构、常见文件格式魔数、Win32 GUI 程序基本原理、常用 Windows API 以及 .NET 程序逆向基础。内容适合作为逆向入门的知识点参考，并附有实际分析中的注意要点。</p>
-<h2 id="一、PE-文件结构详解"><a href="#一、PE-文件结构详解" class="headerlink" title="一、PE 文件结构详解"></a>一、PE 文件结构详解</h2><p>Windows 平台下的可执行文件（如 <code>exe</code>、<code>dll</code>、<code>sys</code>、<code>ocx</code>、<code>com</code> 等）均采用 PE（Portable Executable）文件结构。PE 结构主要由四大部分组成：</p>
-<ul>
-<li><strong>DOS 头</strong>：包含 MZ 标识和 <code>e_lfanew</code> 字段，用于定位 PE 头。</li>
-<li><strong>PE 头</strong>：包含 PE 标识、文件头（<code>IMAGE_FILE_HEADER</code>）、可选头（<code>IMAGE_OPTIONAL_HEADER</code>）等。</li>
-<li><strong>节表（Section Table）</strong>：描述各节区的位置、大小和属性。</li>
-<li><strong>节区数据</strong>：如 <code>.text</code>（代码）、<code>.data</code>（数据）、<code>.rdata</code>（只读数据）等实际内容。</li>
-</ul>
-<h3 id="1-DOS-头（DOS-Header）"><a href="#1-DOS-头（DOS-Header）" class="headerlink" title="1. DOS 头（DOS Header）"></a>1. DOS 头（DOS Header）</h3><p>DOS 头是 PE 文件的开头部分，兼容古老的 MS-DOS 系统。关键字段：</p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>偏移</th>
-<th>大小</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>e_magic</code></td>
-<td>0x00</td>
-<td>2 字节</td>
-<td>魔数 <code>MZ</code>，十六进制 <code>4D 5A</code>（小端存储）</td>
-</tr>
-<tr>
-<td><code>e_lfanew</code></td>
-<td>0x3C</td>
-<td>4 字节</td>
-<td>指向 PE 头的文件偏移量</td>
-</tr>
-</tbody></table>
-<p><strong>注意</strong>：<code>e_lfanew</code> 的值是相对于文件开头的偏移，不是 RVA。在分析时需结合节表转换为文件偏移或虚拟地址。</p>
-<h3 id="2-DOS-存根（DOS-Stub）"><a href="#2-DOS-存根（DOS-Stub）" class="headerlink" title="2. DOS 存根（DOS Stub）"></a>2. DOS 存根（DOS Stub）</h3><p>DOS 存根是一段 16 位汇编代码，当程序在 DOS 环境下运行时，输出 <code>&quot;This program cannot be run in DOS mode&quot;</code> 并退出。该区域在正常情况下没有实际用途，但可以被利用来植入恶意代码或自定义数据。</p>
-<h3 id="3-PE-头（PE-Header）"><a href="#3-PE-头（PE-Header）" class="headerlink" title="3. PE 头（PE Header）"></a>3. PE 头（PE Header）</h3><p>在 <code>e_lfanew</code> 指向的位置，首先是 PE 标识：</p>
-<ul>
-<li><strong>PE 标识</strong>：<code>50 45 00 00</code>，即 ASCII 字符串 <code>PE\0\0</code>，用于确认这是一个 PE 文件。</li>
-</ul>
-<p>紧接着是 <strong><code>IMAGE_FILE_HEADER</code></strong>（文件头），包含 7 个参数，使用 <code>WORD</code>（2 字节）和 <code>DWORD</code>（4 字节）类型：</p>
-<table>
-<thead>
-<tr>
-<th>字段</th>
-<th>大小</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>Machine</code></td>
-<td>WORD</td>
-<td>目标 CPU 类型，如 <code>0x14C</code>（x86）、<code>0x8664</code>（x64）</td>
-</tr>
-<tr>
-<td><code>NumberOfSections</code></td>
-<td>WORD</td>
-<td>节区数量</td>
-</tr>
-<tr>
-<td><code>TimeDateStamp</code></td>
-<td>DWORD</td>
-<td>编译时间戳</td>
-</tr>
-<tr>
-<td><code>PointerToSymbolTable</code></td>
-<td>DWORD</td>
-<td>符号表偏移（通常为 0）</td>
-</tr>
-<tr>
-<td><code>NumberOfSymbols</code></td>
-<td>DWORD</td>
-<td>符号数量（通常为 0）</td>
-</tr>
-<tr>
-<td><code>SizeOfOptionalHeader</code></td>
-<td>WORD</td>
-<td>可选头大小</td>
-</tr>
-<tr>
-<td><code>Characteristics</code></td>
-<td>WORD</td>
-<td>文件属性标志，如可执行、DLL 等</td>
-</tr>
-</tbody></table>
-<p>随后是 <strong><code>IMAGE_OPTIONAL_HEADER</code></strong>（可选头），尽管名字叫可选，但对于 PE 文件来说实际上是必需的。关键字段包括：</p>
-<ul>
-<li><code>Magic</code>：<code>0x10B</code>（32 位 PE）、<code>0x20B</code>（64 位 PE+）</li>
-<li><code>AddressOfEntryPoint</code>：程序入口点 RVA</li>
-<li><code>ImageBase</code>：首选加载基址</li>
-<li><code>SectionAlignment</code> &#x2F; <code>FileAlignment</code>：节区对齐值</li>
-<li><code>Subsystem</code>：子系统类型（如 GUI、CUI）</li>
-<li><code>DataDirectory</code>：数据目录表，包含导入表、导出表、重定位表等重要结构的 RVA 和大小</li>
-</ul>
-<h3 id="4-节表（Section-Table）"><a href="#4-节表（Section-Table）" class="headerlink" title="4. 节表（Section Table）"></a>4. 节表（Section Table）</h3><p>节表是一个 <code>IMAGE_SECTION_HEADER</code> 结构数组，每个结构描述一个节区。关键字段：</p>
-<ul>
-<li><code>Name</code>：节区名称（最多 8 字节）</li>
-<li><code>VirtualSize</code>：节区在内存中的大小</li>
-<li><code>VirtualAddress</code>：节区在内存中的 RVA</li>
-<li><code>SizeOfRawData</code>：节区在文件中的大小</li>
-<li><code>PointerToRawData</code>：节区在文件中的偏移</li>
-<li><code>Characteristics</code>：节区属性（如可读、可写、可执行）</li>
-</ul>
-<p>在逆向时，经常需要将 RVA 转换为文件偏移（或反之），公式为：<br>  文件偏移 &#x3D; RVA - VirtualAddress + PointerToRawData</p>
-<h3 id="5-数据目录表（Data-Directory）"><a href="#5-数据目录表（Data-Directory）" class="headerlink" title="5. 数据目录表（Data Directory）"></a>5. 数据目录表（Data Directory）</h3><p>数据目录表位于可选头末尾，是一个 <code>IMAGE_DATA_DIRECTORY</code> 结构数组，包含 16 个条目，常见的有：</p>
-<table>
-<thead>
-<tr>
-<th>索引</th>
-<th>名称</th>
-<th>用途</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>0</td>
-<td>Export Table</td>
-<td>导出函数信息</td>
-</tr>
-<tr>
-<td>1</td>
-<td>Import Table</td>
-<td>导入函数信息</td>
-</tr>
-<tr>
-<td>2</td>
-<td>Resource Table</td>
-<td>资源信息</td>
-</tr>
-<tr>
-<td>5</td>
-<td>Base Relocation Table</td>
-<td>重定位信息</td>
-</tr>
-<tr>
-<td>9</td>
-<td>TLS Table</td>
-<td>线程局部存储信息</td>
-</tr>
-<tr>
-<td>12</td>
-<td>Import Address Table</td>
-<td>导入地址表（IAT）</td>
-</tr>
-</tbody></table>
-<p><img src="/2026/08/30/re001/image-3.png" alt="alt text"><br>导入函数表记录了这个程序运行时要加载哪些DLL，以及要调用DLL里的哪些函数。比如你的程序用了 MessageBox，链接器会把 user32.dll 和 MessageBox 写进导入表。程序启动时，Windows加载器会加载这些DLL，并把函数地址填到导入地址表（IAT）中，程序才能正确调用。<br><img src="/2026/08/30/re001/image-4.png" alt="alt text"><br>导出函数表是外部访问该函数的“入口”</p>
-<h2 id="二、ELF-文件与常见魔数"><a href="#二、ELF-文件与常见魔数" class="headerlink" title="二、ELF 文件与常见魔数"></a>二、ELF 文件与常见魔数</h2><h3 id="1-ELF-文件"><a href="#1-ELF-文件" class="headerlink" title="1. ELF 文件"></a>1. ELF 文件</h3><p>Linux 平台的可执行文件格式为 ELF（Executable and Linkable Format）。其魔数为 <code>7f 45 4c 46</code>，对应的 ASCII 字符串为 <code>^?ELF</code>。ELF 文件结构包括 ELF 头、程序头表、节头表等，与 PE 结构类似但有所不同。</p>
-<h3 id="2-文件魔数（Magic-Number）"><a href="#2-文件魔数（Magic-Number）" class="headerlink" title="2. 文件魔数（Magic Number）"></a>2. 文件魔数（Magic Number）</h3><p>许多文件类型的起始几个字节是固定的，用于快速识别文件类型。常见魔数如下：</p>
-<table>
-<thead>
-<tr>
-<th>文件类型</th>
-<th>魔数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ELF</td>
-<td><code>7f 45 4c 46</code></td>
-</tr>
-<tr>
-<td>tar</td>
-<td>第 257 字节起为 <code>ustar</code></td>
-</tr>
-<tr>
-<td>PE</td>
-<td><code>0x00004550</code>（即 <code>PE\0\0</code>）</td>
-</tr>
-<tr>
-<td>Java .class</td>
-<td><code>0xCAFEBABE</code></td>
-</tr>
-<tr>
-<td>PNG</td>
-<td><code>89 50 4E 47 0D 0A 1A 0A</code></td>
-</tr>
-<tr>
-<td>JPEG</td>
-<td><code>FF D8 FF</code></td>
-</tr>
-<tr>
-<td>ZIP</td>
-<td><code>50 4B 03 04</code></td>
-</tr>
-<tr>
-<td>RAR</td>
-<td><code>52 61 72 21</code></td>
-</tr>
-<tr>
-<td>GZIP</td>
-<td><code>1F 8B</code></td>
-</tr>
-</tbody></table>
-<p>在逆向中，通过魔数可以快速识别文件真实类型，即使文件扩展名被篡改。</p>
-<h2 id="三、Windows-GUI-程序基础"><a href="#三、Windows-GUI-程序基础" class="headerlink" title="三、Windows GUI 程序基础"></a>三、Windows GUI 程序基础</h2><h3 id="1-WinMain-入口"><a href="#1-WinMain-入口" class="headerlink" title="1. WinMain 入口"></a>1. WinMain 入口</h3><p>Windows GUI 程序的入口函数为 <code>WinMain</code>（控制台程序为 <code>main</code>）。原型如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> WINAPI <span class="title function_">WinMain</span><span class="params">(</span></span><br><span class="line"><span class="params">    HINSTANCE hInstance,     <span class="comment">// 当前程序实例句柄</span></span></span><br><span class="line"><span class="params">    HINSTANCE hPrevInstance, <span class="comment">// 前一个实例句柄（通常为 NULL）</span></span></span><br><span class="line"><span class="params">    LPSTR     lpCmdLine,     <span class="comment">// 命令行参数</span></span></span><br><span class="line"><span class="params">    <span class="type">int</span>       nCmdShow       <span class="comment">// 窗口初始显示状态</span></span></span><br><span class="line"><span class="params">)</span>;</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-创建窗口的典型流程"><a href="#2-创建窗口的典型流程" class="headerlink" title="2. 创建窗口的典型流程"></a>2. 创建窗口的典型流程</h3><p>定义窗口类：填充 WNDCLASS 或 WNDCLASSEX 结构体，指定窗口过程函数、背景色、图标、光标、类名等。<br>注册窗口类：调用 RegisterClass 将窗口类注册到系统。<br>创建窗口：调用 CreateWindow 或 CreateWindowEx，根据窗口类创建实际窗口。<br>显示窗口：调用 ShowWindow 显示窗口，并调用 UpdateWindow 触发重绘。<br>消息循环：通过 GetMessage &#x2F; TranslateMessage &#x2F; DispatchMessage 不断从消息队列获取消息并分派给窗口过程函数。</p>
-<h3 id="3-WNDCLASS-结构体关键字段"><a href="#3-WNDCLASS-结构体关键字段" class="headerlink" title="3. WNDCLASS 结构体关键字段"></a>3. WNDCLASS 结构体关键字段</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">WNDCLASS</span> &#123;</span></span><br><span class="line">    UINT      style;           <span class="comment">// 窗口类样式</span></span><br><span class="line">    WNDPROC   lpfnWndProc;     <span class="comment">// 窗口过程函数指针</span></span><br><span class="line">    <span class="type">int</span>       cbClsExtra;      <span class="comment">// 类额外内存</span></span><br><span class="line">    <span class="type">int</span>       cbWndExtra;      <span class="comment">// 窗口额外内存</span></span><br><span class="line">    HINSTANCE hInstance;       <span class="comment">// 实例句柄</span></span><br><span class="line">    HICON     hIcon;           <span class="comment">// 图标</span></span><br><span class="line">    HCURSOR   hCursor;         <span class="comment">// 光标</span></span><br><span class="line">    HBRUSH    hbrBackground;   <span class="comment">// 背景画刷</span></span><br><span class="line">    LPCSTR    lpszMenuName;    <span class="comment">// 菜单名称</span></span><br><span class="line">    LPCSTR    lpszClassName;   <span class="comment">// 窗口类名</span></span><br><span class="line">&#125; WNDCLASS;</span><br></pre></td></tr></table></figure>
-
-<p>其中 lpfnWndProc 是核心，它负责处理所有发送到该窗口的消息（如鼠标点击、键盘输入、绘制等）。</p>
+            <h1 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h1><p>2026&#x2F;9&#x2F;25</p>
+<p>呃啊突然就不是小登了，感觉自己一年来忙忙碌碌也没学什么东西（悲）</p>
+<p>可能是总有事情要干（恼：到底在忙什么，怎么有人一直忙忙忙忙碌碌碌还感觉啥都没干的）。总感觉高中生活已经过去很久很久了，模糊得像是上辈子发生的事情…</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-5.png" alt="alt text"></p>
+<p>备忘录和自己的QQ对话也很久没有写东西了，桌面上的书也很久没有翻开看了。既要仰望星空又要脚踏实地，这句理想的话从语文的议论文里走出来，我发现其实我并不能很好地平衡它们。</p>
+<p>后来我想，这两句话说的其实是两件不同的事：仰望星空，是想清楚自己要什么；脚踏实地，是把事情做成。我猜我平衡不好它们，是因为我一直把它们当成两件事，而不是一件。</p>
+<hr>
+<h2 id="给自己整理一下"><a href="#给自己整理一下" class="headerlink" title="给自己整理一下"></a>给自己整理一下</h2><h3 id="关于成长"><a href="#关于成长" class="headerlink" title="关于成长"></a>关于成长</h3><p>我期待的成长，不是学会某一个技能，或者升到某个职位，而是一种能真正做到内化于心、外化于行的自我构筑。一方面是我如何想清楚自己要什么，另一方面是我如何在工作和生活中把事情做成。对我来说，这两件事就像一段缠绕的共生关系，少了哪一个，另一个都长不好。说到底，我在工作和生活中追求的所谓”成就感”，最后都会回到一个问题上：<strong>我做的这些事，到底有没有意义？</strong></p>
+<p>我曾经 <del>理想主义地</del> 想过，即使最后的未来是单薄的薪水和忙得要死的生存，我好像也能接受 <del>（？</del>。每个人的环境和条件大不相同，一方面我觉得他人的成功未必可以复刻，另一方面我觉得人这辈子太短了（<del>阿巴阿巴…可能是我开智比较晚吧</del>），所以我更想找到自己想要的东西。当我觉得迷茫、不知道往哪使劲的时候，我渐渐发现，问题往往不只是我的能力不够，还在于我跟自己内心想要的东西断了联系。</p>
+<p>即使有了一个大方向，其实我也没办法完完全全按照什么计划坚定地执行下去。可能是我个人的局限吧：我会羡慕别人的成就，会因为效率低下而生气，会因为繁杂的任务和知识点畏难耽搁，也会想忙里偷闲地出去玩……说实话，过去一年里学逆向学得我狠狠挫败（菜菜的，有人可以带我吗）。加上 AI 的飞速发展，逆向这东西，我越学越觉得自己只学了一点点。过去一年我学得很不扎实，辗转在各个知识点之间，但都学得浅。</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-7.png" alt="alt text"></p>
+<p>尤其是每次道心破碎就去搞一些”不务正业”的事情：搁那调博客的前端调到半夜三四点（这玩意完全没必要抠细节，但是一点点调整就是很爽，像赛博养孩子）；为了实现博客那两个共享表单，我辗转在各个网站之间不停换方案；完成公选课一个工笔画差点通宵（<del>要过劳猝死了</del>）；呃啊，也说不上是出于什么动机的一种机制吧。希望在今后可以找到控制的平衡（要是这股气可以用到逆向就好了…）。</p>
+<p>总是后悔自己过去做的事情，其实只是因为我现在的自己不够好罢了。但是”悟已往之不谏，知来者之可追”（陶渊明《归去来兮辞》）——过去的自己会随着时间一点一点流逝，并不会被完整保留到现在：我手里那个”过去的我”，只是记忆重编码之后的一个副本。那我为什么还要攻击一个不存在的”人”呢？既然原件已经改不动了，那我能改的，就只剩当下这一份。</p>
+<hr>
+<h3 id="关于人际关系"><a href="#关于人际关系" class="headerlink" title="关于人际关系"></a>关于人际关系</h3><p>人际关系对我来说，是一个深奥又纠结的课题。你们见到的”我”都是真实的我，只不过是一个骰子的不同面而已。我是一个社交能力有限的人（遇强则强，遇弱则弱（？）凭感觉吧），所以什么样的操作，就”触发”了骰子朝向哪一面。而且，我认为人是流动变化的，所以在一些人看来，我也有可能是奇怪的晶体——而”我”会怎么变化，也取决于你自己的参考系。</p>
+<p>生命的意义是什么，我不知道。但活着的理由却有很多个：清晨游走的风，午后慵懒的猫，还有阳光的味道…是触觉，是视觉，还有说不清的那种感觉…这些由五官主导的瞬时体验感，组成了”活着”这件事本身。站在当下，未来会怎样，我依然不知道，也没有能力预知和预支。反正目前来说，物理死亡就是终点，人死则灯灭。</p>
+<p>当下的体验产生的即时意义，我感觉都是无法复刻的。在这个时间和空间，我们一起干了某件事，即使是某一天和别人（哪怕是多年后的你）一起在这个地方也干了同样的事情，也是不一样的意义。我觉得，这应该并不是为了社交而社交（吧？）。其实并没有那个能力，天哪，摸摸抱抱揉揉搓搓（<del>面点大师来了</del>），已经在尽力升级系统功能了。</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-6.png" alt="alt text"></p>
+<p>然后人际交往的时候还有一些奇奇怪怪的行为，当被问”为什么”时，就是”脉冲式”的关怀吧：在某个瞬间，脑袋里捕捉到一个念头，确认它好像无害，然后直接执行。所以我只能说，”不知道啊就是刚好想到了”，这就是我能给出的最诚实的答案。</p>
+<p>在海边捡贝壳，我捡到一个漂亮的，转头看到你，就递给你：”给你。”</p>
+<p>问：”为什么给我？”</p>
+<p>答：”因为我在捡贝壳，我捡到了一个漂亮的，然后你在旁边啊。”</p>
+<p>呃啊大概是这种感觉吧，它就只是即兴……发生了。如果非要找个合理的理由来解释，选择驻足在你们身边是为了什么，其实我所求的东西，它就是刚好在那一时间，刚好是你们，不为什么，答案可能是，刚好我想吃个甜筒，刚好天气很好 （<del>我想要的我自己会拿，你们实在来问我我也说不出理由为什么</del>）</p>
+<hr>
+<h3 id="关于语言表达"><a href="#关于语言表达" class="headerlink" title="关于语言表达"></a>关于语言表达</h3><p>呃啊，以前经常扪心自问：我大部分正常的说话和文字，都没有特别强的攻击性吧？</p>
+<blockquote>
+<p>“你没有朋友吗。”<br>“为什么这么说？”<br>“……怎么回。”<br>“可是那个方法也行，为什么你说不行呢？”</p>
+</blockquote>
+<p>诸如此类。其实我只是在表达疑惑而已，并没有带什么情绪攻击。后来遇到的例子变多了，我才发现，这些话确实有失偏颇。呃啊，我已经在调整了。</p>
+<p>因为我心里一直默认着一件事：语言是透明的。我说出口的是一段原文，对方就应该原样读到原文。所以当对方读出别的意思时，我的第一反应往往是”我不是那个意思…”，而不是”我可能没写好”。</p>
+<p>后来我觉得，语言文字表达这种载体真的很奇妙：</p>
+<blockquote>
+<p>我们费尽力气想要把我们心中的珍藏传达给别人，可他们却没有领悟的能力，所以我们只能是形单影只、貌合神离，既不能了解别人，也不能为别人所了解。我们像是身处异国他乡的人，对那个国家的语言知之甚少，心中有许多美好和深刻的东西要倾诉，却只能局限于会话手册上的那几句陈腐的套语。我们的头脑里充满了各种各样的思想，却只能说出像”园丁的姑妈有一把伞在屋子里”之类的话。</p>
+<p>—— 毛姆《月亮与六便士》</p>
+</blockquote>
+<p>当初读到这段话把我有点震撼的似懂非懂。原因是语言不是一根透明的水管，它会承载着很多别的东西：我脑子里的意思，先被我压成几个字输出去，路上还要过对方的字典、对方的上下文、对方今天的心情。同一串字符，在我这边解出来是”疑问”，在对方那边可能解出来是”质疑”，因为对方的成长经历和环境因素，挂着一段我从来没见过的故事。</p>
+<p>这大概有点像没有共享密钥的通信。我们都以为自己用的密钥对方也有，然后各自奇怪：这么简单的东西，你怎么会解不出来？</p>
+<p>所以”表达清楚”的标准，大概从来不只在我这一侧。不仅仅是”我把话说完了”，还有”把接收端也考虑进去”。可说话这件事上，我好像长期只站在实现方那一边。承认这一点有点扫兴。我原来那些一点点的失落是有原因的（<del>为什么就那么喜欢搞清楚一切呢？哪怕搞清楚并不能带来实际的收获（？</del>），但它其实有点无关紧要。真正让我欣喜的改变，是实打实的行动，是在这一年里和他人建立起星星点点的社交联系，虽然交谈还是磕磕绊绊，表达碎碎的，还有很多只是外出一面之缘的陌生人，不过看着自己一点点改变真的是一件很幸福的事情。</p>
+<p>当然我也没打算把自己彻底改造成一个说话滴水不漏的人——那太累了，而且就算滴水不漏，也未必有人接得住。我可能还是会带点毛刺地说话，还是会说到一半卡住，还是犹犹豫豫到底要怎么表达，还是会在某个瞬间突然递给朋友一只贝壳。只是现在，递出去之前我可能会多想半秒：对方接得住吗，要不要再补一句？（<del>大脑飞速运转，应该怎么说呢</del>）</p>
+<p>前面捡贝壳那一段”因为你在旁边啊”，明明没有修辞，没有目的，甚至没有解释，但它大概是我说过的最容易被误解的一句话…可能我比较喜欢的不包装，只陈述的表达。至于那些我以为怎么都解释不清的东西，算了，其实它们本来也不需要解释得那么清楚。</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/5ccdf596178339fc7933780dedbcff20.jpeg" alt="alt text"></h2><p>过去一年也有努力主动去找一些志同道合的朋友，认识了一起学习的学长学姐们、同学们，经历了逆向学习的锻炼 <del>拷打</del>，期望嘛，倒没多宏大：希望明年再回头看这篇的时候，不会尴尬到脚趾抠地；希望接下来还能有着那股半夜调博客的劲儿，能分一半给逆向；希望我继续对世界保持好奇，哪怕好奇的东西怪怪的。</p>
+<p>一路走过来，时间过得很快。虽然比较愚钝，但是感觉到自己的三观和思维有在一点点不断完善，确实是个让人感到欣喜的别样感受啊。可惜无法和年少的自己分享，回过头来，才发觉自己所经历的事情，从现在已经成年的我来看，那个曾经的我，顽强而懵懂地熬过了现在的我所惊愕、所羡慕、所敬佩甚至所不能达到的”成就”。即使没有什么世俗的成功也很棒啊，或许“我”的成长轨迹或许没有什么苦尽甘来的曲线，亦或是跌宕起伏的小说情节，但是我希望此刻的我乃至未来的我能够陪伴着、保持着、一直一直地对自己的改变感到欣喜。</p>
+<p><strong>以及，以上只是我当下的一些碎碎念，不构成任何人生建议、学习方法或社交指南。所有观点都带着强烈的时间局限性，所有想法都会随经历变化，我对自己过去的判断保留修正判断。<del>如果我没做到，也请允许我暂时没做到吧。😋</del></strong></p>
 
         </article>
     </div>
 
     <nav class="post-pagination">
         
-            <a href="/2026/08/31/re002.html" class="pagination-item prev">
+            <div class="pagination-item prev disabled">
                 <span class="pagination-label">← 上一篇</span>
-                <span class="pagination-title">学习周报 02｜Native 方法与 .so 文件</span>
-            </a>
+                <span class="pagination-title">没有更早的文章了</span>
+            </div>
         
  
         
-            <a href="/2026/06/01/hello-world.html" class="pagination-item next">
+            <a href="/2026/09/03/%E5%BB%BA%E7%AB%99.html" class="pagination-item next">
                 <span class="pagination-label">下一篇 →</span>
-                <span class="pagination-title">Hello World</span>
+                <span class="pagination-title">搭站小记｜个人网站架构与网络协议</span>
             </a>
         
     </nav>
@@ -388,7 +229,7 @@
                 </div>
                 <div class="info-row">
                     <span class="label">文章数目：</span>
-                    <span class="value">4</span>
+                    <span class="value">5</span>
                 </div>
                 <div class="info-row">
                     <span class="label">运行时间：</span>

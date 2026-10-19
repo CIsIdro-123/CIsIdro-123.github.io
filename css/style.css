@@ -50,7 +50,7 @@ body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure {
 /* 背景图代码 */
 body {
     font-family: "LXGW WenKai Screen",  sans-serif;
-    color: #0d122b; 
+    color: #2a3f4e; 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -83,7 +83,7 @@ body[data-theme="dark"] {
     display: flex;
     align-items: center;
     padding: 20px 40px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgb(255, 251, 233);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     position: sticky;
@@ -720,6 +720,7 @@ body:not([data-theme="dark"]) #local-search-input {
 /* --- 文章详情页布局 --- */
 /* 核心容器限制宽度并居中 */
 .post-container {
+    width: 100%;
     max-width: 800px;       
     margin: 40px auto;      
     padding: 0 20px;        
@@ -745,41 +746,195 @@ body:not([data-theme="dark"]) #local-search-input {
 }
 
 .post-content {
-    color: #333333; 
+    color: var(--card-text-main, #333333);
+    font-size: 1rem;
+    line-height: 1.85;
+    overflow-wrap: break-word;
 }
 
-/*  修正段落间距 */
+.post-content > :first-child {
+    margin-top: 0;
+}
+
+.post-content > :last-child {
+    margin-bottom: 0;
+}
+
+/* Markdown 正文中的段落 */
 .post-content p {
-    margin-bottom: 1.5em;   
+    margin: 0 0 1.35em;
 }
 
-/*  修正标题层级 */
-.post-header h1, .post-header .post-meta {
-    color: #222222;
+/* Markdown 标题层级 */
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    margin: 2em 0 0.8em;
+    padding: 0;
+    color: var(--card-text-main, #333333);
+    font-weight: 700;
+    line-height: 1.35;
+    scroll-margin-top: 96px;
 }
+
+.post-content h1 {
+    font-size: 1.85rem;
+}
+
+.post-content h2 {
+    font-size: 1.55rem;
+}
+
+.post-content h3 {
+    font-size: 1.3rem;
+}
+
+.post-content h4 {
+    font-size: 1.12rem;
+}
+
+.post-content h5,
+.post-content h6 {
+    font-size: 1rem;
+}
+
 .post-content h2,
 .post-content h3 {
-    margin-top: 2em;
-    margin-bottom: 1em;
-    border-bottom: 1px solid #333; 
-    padding-bottom: 0.5em;
+    padding-bottom: 0.45em;
+    border-bottom: 1px solid var(--card-border-color, rgba(0, 0, 0, 0.12));
+}
+
+/* Markdown 列表：恢复全局重置去掉的缩进和间距 */
+.post-content ul,
+.post-content ol {
+    margin: 0 0 1.35em;
+    padding-left: 1.75em;
+    list-style-position: outside;
+}
+
+.post-content li {
+    margin: 0.35em 0;
+    padding-left: 0.2em;
+}
+
+.post-content li > ul,
+.post-content li > ol {
+    margin: 0.35em 0 0.25em;
+}
+
+.post-content li > p {
+    margin-bottom: 0.5em;
+}
+
+/* 引用块 */
+.post-content blockquote {
+    margin: 1.5em 0;
+    padding: 0.85em 1.1em;
+    color: var(--card-text-sub, #666666);
+    background: rgba(0, 123, 255, 0.06);
+    border-left: 4px solid var(--card-icon-color, #007bff);
+    border-radius: 0 8px 8px 0;
+}
+
+.post-content blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* 分隔线、图片与强调内容 */
+.post-content hr {
+    margin: 2.2em 0;
+    border: 0;
+    border-top: 1px solid var(--card-border-color, rgba(0, 0, 0, 0.12));
+}
+
+.post-content img {
+    height: auto;
+    margin: 1.5em auto;
+    border-radius: 8px;
+}
+
+.post-content del,
+.post-content s {
+    opacity: 0.72;
+}
+
+.post-content mark {
+    padding: 0.08em 0.25em;
+    color: inherit;
+    background: rgba(255, 213, 79, 0.35);
+    border-radius: 3px;
+}
+
+/* Markdown 表格允许在窄屏横向滚动 */
+.post-content > table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5em 0;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+
+.post-content > table th,
+.post-content > table td {
+    padding: 0.7em 0.9em;
+    text-align: left;
+    vertical-align: top;
+    white-space: nowrap;
+    border: 1px solid var(--card-border-color, rgba(0, 0, 0, 0.12));
+}
+
+.post-content > table th {
+    font-weight: 600;
+    background: rgba(127, 127, 127, 0.08);
+}
+
+.post-content input[type="checkbox"] {
+    margin-right: 0.45em;
+    vertical-align: middle;
+}
+
+.post-header h1,
+.post-header .post-meta {
+    color: #222222;
 }
 
 /* 暗黑模式下的颜色覆盖 */
 [data-theme="dark"] .post-content {
-    color: #e0e0e0 !important; 
+    color: var(--card-text-main, #e0e0e0) !important;
+}
+
+[data-theme="dark"] .post-content h1,
+[data-theme="dark"] .post-content h2,
+[data-theme="dark"] .post-content h3,
+[data-theme="dark"] .post-content h4,
+[data-theme="dark"] .post-content h5,
+[data-theme="dark"] .post-content h6 {
+    color: var(--card-text-main, #ffffff) !important;
+}
+
+[data-theme="dark"] .post-content blockquote {
+    color: var(--card-text-sub, #8b949e);
+    background: rgba(88, 166, 255, 0.08);
+}
+
+[data-theme="dark"] .post-content > table th {
+    background: rgba(255, 255, 255, 0.06);
 }
 
 [data-theme="dark"] .post-header h1 {
-    color: #ffffff !important; 
+    color: #ffffff !important;
 }
 
 [data-theme="dark"] .post-header .post-meta {
-    color: #aaaaaa !important; 
+    color: #aaaaaa !important;
 }
 
 [data-theme="dark"] .post-content strong {
-    color: #fff; 
+    color: #fff;
 }
 
 
@@ -1800,6 +1955,8 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
     display: flex;            
     justify-content: space-between; /* 左右两端对齐 */
     align-items: stretch;    
+    width: 100%;
+    min-width: 0;
     max-width: 1400px;         
     margin: 0 auto;           
     padding: 40px 20px;
@@ -1809,6 +1966,7 @@ body[data-theme="dark"] .tag-cloud-container .tag-item .tag-count {
 /* 左侧：文章内容区域 */
 .content-area {
     flex: 1;
+    width: 100%;
     min-width: 0;
     align-self: flex-start;     /* 顶部对齐 */
 }
