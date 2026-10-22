@@ -149,7 +149,7 @@
             <div class="post-meta">
                 <span><i class="fa-regular fa-calendar"></i> 最后更新: <time>2026-10-22</time></span>
                 <span><i class="fa-regular fa-user"></i> 作者: Un0ffiaI_0</span>
-                <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">2.1k</span></span>
+                <span><i class="fa-solid fa-font"></i> 字数: <span class="word-count">2k</span></span>
                 <span><i class="fa-regular fa-clock"></i> 阅读: <span class="read-time">8 min</span></span>
             </div>
         </header>
@@ -172,12 +172,7 @@
 <li><p>分析客户端的行为以发现服务器的弱点或隐藏逻辑。</p>
 </li>
 </ul>
-<h4 id="举个例子："><a href="#举个例子：" class="headerlink" title="举个例子："></a>举个例子：</h4><ul>
-<li><p>协议分析：查看客户端是怎么与服务端握手的，发送了哪些数据，结构是怎样的。</p>
-</li>
-<li><p>加密逆向：比如客户端发送的数据是加密过的，那么需要找出加密算法、密钥或解密方式。</p>
-</li>
-</ul>
+<h4 id="2026软件系统安全赛"><a href="#2026软件系统安全赛" class="headerlink" title="2026软件系统安全赛"></a>2026软件系统安全赛</h4><p>在这里刚好拿之前的一道题过一遍。</p>
 <p>当时调试的时候很疑惑：为什么两个独立的.exe 文件可以像QQ一样“相互交流”？而且调试的时候需要启动两个.exe文件才可以正常通信</p>
 <p>1. 服务器启动与监听<br>  首先，需要运行  server.exe 。程序启动后，它会在计算机的某个特定端口上“待机”，并进入 监听（Listen） 状态，等待客户端的到来</p>
 <p><img src="/2026/10/19/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/image%205.png" alt="image\.png"></p>
@@ -201,19 +196,25 @@
 <p>直接运行程序可以得到的服务端预期密文 FC 8F 2B 91 3A 35 B5 E8 70 EB 18 63 79 F4 CB A0 C4 B0 CC 19 8D 3F A6 39 C5 4E E2 0D 1A 8E 3E 6C 79 16 BD 4C A3 BE 71 4B 95 FC A7 CD 77 73 A2 56</p>
 <p><img src="/2026/10/19/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/image%201.png" alt="image\.png"></p>
 <p>整体请求-校验-响应流程大概如下（基于 DES + AES 的自定义 TCP 协议）：</p>
-<h4 id="建立连接"><a href="#建立连接" class="headerlink" title="建立连接"></a>建立连接</h4><p>客户端连接 127.0.0.1:5566</p>
-<h4 id="客户端构造并发送请求"><a href="#客户端构造并发送请求" class="headerlink" title="客户端构造并发送请求"></a>客户端构造并发送请求</h4><p>读取用户输入的 serial 。 </p>
+<p>** 建立连接**</p>
+<p>客户端连接 127.0.0.1:5566</p>
+<p>** 客户端构造并发送请求**</p>
+<p>读取用户输入的 serial 。 </p>
 <p>对 serial 做 DES 加密（块大小 8 字节，不足则 PKCS#7 填充），得到 8 字节密文 FA 35 9A E4 FF 94 79 E4 。 </p>
 <p>组装数据包：4 字节大端长度头 00 00 00 08 + 8 字节 DES 密文，发送给服务端。 </p>
-<h4 id="服务端接收并解密"><a href="#服务端接收并解密" class="headerlink" title="服务端接收并解密"></a>服务端接收并解密</h4><p>先读 4 字节头，得知 body 长度 &#x3D; 8。</p>
+<p>** 服务端接收并解密 **</p>
+<p>先读 4 字节头，得知 body 长度 &#x3D; 8。</p>
 <p>读 8 字节 DES 密文，DES 解密得到 serial 明文 11111 成功还原出，也就是说两边持有的 DES 密钥相同**。**</p>
-<h4 id="服务端校验-serial（核心逻辑）"><a href="#服务端校验-serial（核心逻辑）" class="headerlink" title="服务端校验 serial（核心逻辑）"></a>服务端校验 serial（核心逻辑）</h4><p>把该 serial 再用 AES 加密，得到 16 字节 7E 3F...4A 77。 </p>
+<p>** 服务端校验 serial（核心逻辑）** </p>
+<p>把该 serial 再用 AES 加密，得到 16 字节 7E 3F...4A 77。 </p>
 <p>与内置的预期 AES 密文（48 字节） 做比对（48 字节可能代表 3 个合法 serial 的 AES 块，或拼接校验值）。 </p>
 <p>11111 不匹配 ，判定 wrong flag。 </p>
-<h4 id="服务端构造并发送响应"><a href="#服务端构造并发送响应" class="headerlink" title="服务端构造并发送响应"></a>服务端构造并发送响应</h4><p>生成响应明文 FAIL: wrong flag（16 字节）。 </p>
+<p>** 服务端构造并发送响应** </p>
+<p>生成响应明文 FAIL: wrong flag（16 字节）。 </p>
 <p>对其做 AES 加密（PKCS#7 补 16 字节 0x10 填充 → 共 32 字节密文）。 </p>
 <p>组装数据包，4 字节长度头 00 00 00 20（&#x3D;32） + 32 字节 AES 密文，发回客户端。 </p>
-<h4 id="客户端接收并解密响应"><a href="#客户端接收并解密响应" class="headerlink" title="客户端接收并解密响应"></a>客户端接收并解密响应</h4><p>读 4 字节头得长度 32。 </p>
+<p>** 客户端接收并解密响应 **</p>
+<p>读 4 字节头得长度 32。 </p>
 <p>读 32 字节 AES 密文，AES 解密得到明文 FAIL: wrong flag，打印。 </p>
 <p>这边直接先分析server.exe </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NTSTATUS BCryptOpenAlgorithmProvider(</span><br><span class="line">  [out] BCRYPT_ALG_HANDLE *phAlgorithm,</span><br><span class="line">  [<span class="keyword">in</span>]  LPCWSTR           pszAlgId,    //要使用的算法标识符,这是一个宽字符串指针</span><br><span class="line">  [<span class="keyword">in</span>]  LPCWSTR           pszImplementation,</span><br><span class="line">  [<span class="keyword">in</span>]  ULONG             dwFlags</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
