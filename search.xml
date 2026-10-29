@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Hello World</title>
+    <url>/2026/06/01/hello-world.html</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <tags>
+        <tag>测试标签</tag>
+        <tag>Hexo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>学习周报 02｜Native 方法与 .so 文件</title>
     <url>/2026/08/31/Native%20%E6%96%B9%E6%B3%95%E4%B8%8E%20.so%20%E6%96%87%E4%BB%B6.html</url>
     <content><![CDATA[<h2 id="Native-方法与-so-文件"><a href="#Native-方法与-so-文件" class="headerlink" title="Native 方法与.so 文件"></a>Native 方法与.so 文件</h2><h3 id="Native方法"><a href="#Native方法" class="headerlink" title="Native方法"></a>Native方法</h3><p>Native 方法是指其声明和实现不是用 Java 语言编写的，而是使用其他编程语言（如 C、C++）编写的方法。<br>使用 native 方法的常见场景包括：</p>
@@ -17,6 +39,164 @@
 ]]></content>
       <tags>
         <tag>Android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于大学生活｜001</title>
+    <url>/2026/10/03/%E5%A4%A7%E5%AD%A6.html</url>
+    <content><![CDATA[<h1 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h1><p>2026&#x2F;9&#x2F;25</p>
+<p>呃啊突然就不是小登了，感觉自己一年来忙忙碌碌也没学什么东西（悲）</p>
+<p>可能是总有事情要干（恼：到底在忙什么，怎么有人一直忙忙忙忙碌碌碌还感觉啥都没干的）。总感觉高中生活已经过去很久很久了，模糊得像是上辈子发生的事情…</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-5.png" alt="alt text"></p>
+<p>备忘录和自己的QQ对话也很久没有写东西了，桌面上的书也很久没有翻开看了。既要仰望星空又要脚踏实地，这句理想的话从语文的议论文里走出来，我发现其实我并不能很好地平衡它们。</p>
+<p>后来我想，这两句话说的其实是两件不同的事：仰望星空，是想清楚自己要什么；脚踏实地，是把事情做成。我猜我平衡不好它们，是因为我一直把它们当成两件事，而不是一件。</p>
+<hr>
+<h2 id="给自己整理一下"><a href="#给自己整理一下" class="headerlink" title="给自己整理一下"></a>给自己整理一下</h2><h3 id="关于成长"><a href="#关于成长" class="headerlink" title="关于成长"></a>关于成长</h3><p>我期待的成长，不是学会某一个技能，或者升到某个职位，而是一种能真正做到内化于心、外化于行的自我构筑。一方面是我如何想清楚自己要什么，另一方面是我如何在工作和生活中把事情做成。对我来说，这两件事就像一段缠绕的共生关系，少了哪一个，另一个都长不好。说到底，我在工作和生活中追求的所谓”成就感”，最后都会回到一个问题上：<strong>我做的这些事，到底有没有意义？</strong></p>
+<p>我曾经 <del>理想主义地</del> 想过，即使最后的未来是单薄的薪水和忙得要死的生存，我好像也能接受 <del>（？</del>。每个人的环境和条件大不相同，一方面我觉得他人的成功未必可以复刻，另一方面我觉得人这辈子太短了（<del>阿巴阿巴…可能是我开智比较晚吧</del>），所以我更想找到自己想要的东西。当我觉得迷茫、不知道往哪使劲的时候，我渐渐发现，问题往往不只是我的能力不够，还在于我跟自己内心想要的东西断了联系。</p>
+<p>即使有了一个大方向，其实我也没办法完完全全按照什么计划坚定地执行下去。可能是我个人的局限吧：我会羡慕别人的成就，会因为效率低下而生气，会因为繁杂的任务和知识点畏难耽搁，也会想忙里偷闲地出去玩……说实话，过去一年里学逆向学得我狠狠挫败（菜菜的，有人可以带我吗）。加上 AI 的飞速发展，逆向这东西，我越学越觉得自己只学了一点点。过去一年我学得很不扎实，辗转在各个知识点之间，但都学得浅。</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-7.png" alt="alt text"></p>
+<p>尤其是每次道心破碎就去搞一些”不务正业”的事情：搁那调博客的前端调到半夜三四点（这玩意完全没必要抠细节，但是一点点调整就是很爽，像赛博养孩子）；为了实现博客那两个共享表单，我辗转在各个网站之间不停换方案；完成公选课一个工笔画差点通宵（<del>要过劳猝死了</del>）；呃啊，也说不上是出于什么动机的一种机制吧。希望在今后可以找到控制的平衡（要是这股气可以用到逆向就好了…）。</p>
+<p>总是后悔自己过去做的事情，其实只是因为我现在的自己不够好罢了。但是”悟已往之不谏，知来者之可追”（陶渊明《归去来兮辞》）——过去的自己会随着时间一点一点流逝，并不会被完整保留到现在：我手里那个”过去的我”，只是记忆重编码之后的一个副本。那我为什么还要攻击一个不存在的”人”呢？既然原件已经改不动了，那我能改的，就只剩当下这一份。</p>
+<hr>
+<h3 id="关于人际关系"><a href="#关于人际关系" class="headerlink" title="关于人际关系"></a>关于人际关系</h3><p>人际关系对我来说，是一个深奥又纠结的课题。你们见到的”我”都是真实的我，只不过是一个骰子的不同面而已。我是一个社交能力有限的人（遇强则强，遇弱则弱（？）凭感觉吧），所以什么样的操作，就”触发”了骰子朝向哪一面。而且，我认为人是流动变化的，所以在一些人看来，我也有可能是奇怪的晶体——而”我”会怎么变化，也取决于你自己的参考系。</p>
+<p>生命的意义是什么，我不知道。但活着的理由却有很多个：清晨游走的风，午后慵懒的猫，还有阳光的味道…是触觉，是视觉，还有说不清的那种感觉…这些由五官主导的瞬时体验感，组成了”活着”这件事本身。站在当下，未来会怎样，我依然不知道，也没有能力预知和预支。反正目前来说，物理死亡就是终点，人死则灯灭。</p>
+<p>当下的体验产生的即时意义，我感觉都是无法复刻的。在这个时间和空间，我们一起干了某件事，即使是某一天和别人（哪怕是多年后的你）一起在这个地方也干了同样的事情，也是不一样的意义。我觉得，这应该并不是为了社交而社交（吧？）。其实并没有那个能力，天哪，摸摸抱抱揉揉搓搓（<del>面点大师来了</del>），已经在尽力升级系统功能了。</p>
+<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-6.png" alt="alt text"></p>
+<p>然后人际交往的时候还有一些奇奇怪怪的行为，当被问”为什么”时，就是”脉冲式”的关怀吧：在某个瞬间，脑袋里捕捉到一个念头，确认它好像无害，然后直接执行。所以我只能说，”不知道啊就是刚好想到了”，这就是我能给出的最诚实的答案。</p>
+<p>在海边捡贝壳，我捡到一个漂亮的，转头看到你，就递给你：”给你。”</p>
+<p>问：”为什么给我？”</p>
+<p>答：”因为我在捡贝壳，我捡到了一个漂亮的，然后你在旁边啊。”</p>
+<p>呃啊大概是这种感觉吧，它就只是即兴……发生了。如果非要找个合理的理由来解释，选择驻足在你们身边是为了什么，其实我所求的东西，它就是刚好在那一时间，刚好是你们，不为什么，答案可能是，刚好我想吃个甜筒，刚好天气很好 （<del>我想要的我自己会拿，你们实在来问我我也说不出理由为什么</del>）</p>
+<hr>
+<h3 id="关于语言表达"><a href="#关于语言表达" class="headerlink" title="关于语言表达"></a>关于语言表达</h3><p>呃啊，以前经常扪心自问：我大部分正常的说话和文字，都没有特别强的攻击性吧？</p>
+<blockquote>
+<p>“你没有朋友吗。”<br>“为什么这么说？”<br>“……怎么回。”<br>“可是那个方法也行，为什么你说不行呢？”</p>
+</blockquote>
+<p>诸如此类。其实我只是在表达疑惑而已，并没有带什么情绪攻击。后来遇到的例子变多了，我才发现，这些话确实有失偏颇。呃啊，我已经在调整了。</p>
+<p>因为我心里一直默认着一件事：语言是透明的。我说出口的是一段原文，对方就应该原样读到原文。所以当对方读出别的意思时，我的第一反应往往是”我不是那个意思…”，而不是”我可能没写好”。</p>
+<p>后来我觉得，语言文字表达这种载体真的很奇妙：</p>
+<blockquote>
+<p>我们费尽力气想要把我们心中的珍藏传达给别人，可他们却没有领悟的能力，所以我们只能是形单影只、貌合神离，既不能了解别人，也不能为别人所了解。我们像是身处异国他乡的人，对那个国家的语言知之甚少，心中有许多美好和深刻的东西要倾诉，却只能局限于会话手册上的那几句陈腐的套语。我们的头脑里充满了各种各样的思想，却只能说出像”园丁的姑妈有一把伞在屋子里”之类的话。</p>
+<p>—— 毛姆《月亮与六便士》</p>
+</blockquote>
+<p>当初读到这段话把我有点震撼的似懂非懂。原因是语言不是一根透明的水管，它会承载着很多别的东西：我脑子里的意思，先被我压成几个字输出去，路上还要过对方的字典、对方的上下文、对方今天的心情。同一串字符，在我这边解出来是”疑问”，在对方那边可能解出来是”质疑”，因为对方的成长经历和环境因素，挂着一段我从来没见过的故事。</p>
+<p>这大概有点像没有共享密钥的通信。我们都以为自己用的密钥对方也有，然后各自奇怪：这么简单的东西，你怎么会解不出来？</p>
+<p>所以”表达清楚”的标准，大概从来不只在我这一侧。不仅仅是”我把话说完了”，还有”把接收端也考虑进去”。可说话这件事上，我好像长期只站在实现方那一边。承认这一点有点扫兴。我原来那些一点点的失落是有原因的（<del>为什么就那么喜欢搞清楚一切呢？哪怕搞清楚并不能带来实际的收获（？</del>），但它其实有点无关紧要。真正让我欣喜的改变，是实打实的行动，是在这一年里和他人建立起星星点点的社交联系，虽然交谈还是磕磕绊绊，表达碎碎的，还有很多只是外出一面之缘的陌生人，不过看着自己一点点改变真的是一件很幸福的事情。</p>
+<p>当然我也没打算把自己彻底改造成一个说话滴水不漏的人——那太累了，而且就算滴水不漏，也未必有人接得住。我可能还是会带点毛刺地说话，还是会说到一半卡住，还是犹犹豫豫到底要怎么表达，还是会在某个瞬间突然递给朋友一只贝壳。只是现在，递出去之前我可能会多想半秒：对方接得住吗，要不要再补一句？（<del>大脑飞速运转，应该怎么说呢</del>）</p>
+<p>前面捡贝壳那一段”因为你在旁边啊”，明明没有修辞，没有目的，甚至没有解释，但它大概是我说过的最容易被误解的一句话…可能我比较喜欢的不包装，只陈述的表达。至于那些我以为怎么都解释不清的东西，算了，其实它们本来也不需要解释得那么清楚。</p>
+<h2 id><a href="#" class="headerlink" title></a><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/5ccdf596178339fc7933780dedbcff20.jpeg" alt="alt text"></h2><p>过去一年也有努力主动去找一些志同道合的朋友，认识了一起学习的学长学姐们、同学们，经历了逆向学习的锻炼 <del>拷打</del>，期望嘛，倒没多宏大：希望明年再回头看这篇的时候，不会尴尬到脚趾抠地；希望接下来还能有着那股半夜调博客的劲儿，能分一半给逆向；希望我继续对世界保持好奇，哪怕好奇的东西怪怪的。</p>
+<p>一路走过来，时间过得很快。虽然比较愚钝，但是感觉到自己的三观和思维有在一点点不断完善，确实是个让人感到欣喜的别样感受啊。可惜无法和年少的自己分享，回过头来，才发觉自己所经历的事情，从现在已经成年的我来看，那个曾经的我，顽强而懵懂地熬过了现在的我所惊愕、所羡慕、所敬佩甚至所不能达到的”成就”。即使没有什么世俗的成功也很棒啊，或许“我”的成长轨迹或许没有什么苦尽甘来的曲线，亦或是跌宕起伏的小说情节，但是我希望此刻的我乃至未来的我能够陪伴着、保持着、一直一直地对自己的改变感到欣喜。</p>
+<p><strong>以及，以上只是我当下的一些碎碎念，不构成任何人生建议、学习方法或社交指南。所有观点都带着强烈的时间局限性，所有想法都会随经历变化，我对自己过去的判断保留修正判断。<del>如果我没做到，也请允许我暂时没做到吧。😋</del></strong></p>
+]]></content>
+      <tags>
+        <tag>随笔</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭站小记｜个人网站架构与网络协议</title>
+    <url>/2026/09/03/%E5%BB%BA%E7%AB%99.html</url>
+    <content><![CDATA[<h2 id="一、网站架构总览"><a href="#一、网站架构总览" class="headerlink" title="一、网站架构总览"></a>一、网站架构总览</h2><p>前端是静态页面，用 HTML&#x2F;CSS&#x2F;JS 写布局和设计；前端和后端代码都用 git 推送到 GitHub。（然后刚好趁实践梳理一下有关的知识点）</p>
+<h3 id="1-前端"><a href="#1-前端" class="headerlink" title="1. 前端"></a>1. 前端</h3><p>主要是 HTML、CSS、JavaScrip 代码利用 git 部署推送到 github 仓库，GitHub Pages 自动托管。</p>
+<h3 id="2-后端"><a href="#2-后端" class="headerlink" title="2. 后端"></a>2. 后端</h3><p>Node.js 部署在我的轻量云服务器上，接收前端发来的  &#x2F;api&#x2F;get 、 &#x2F;api&#x2F;set  请求，去另外一个 GitHub 仓库读写数据，返回 JSON 给前端。</p>
+<p>为什么需要后端？因为浏览器不能直接读写 GitHub 仓库。</p>
+<h3 id="3-数据存储（我的“数据库”）"><a href="#3-数据存储（我的“数据库”）" class="headerlink" title="3. 数据存储（我的“数据库”）"></a>3. 数据存储（我的“数据库”）</h3><p>把 GitHub 仓库 <code>blog-data</code> 当作数据库，仓库里有一个 <code>data.json</code> 文件，里面存两个表单的数据。</p>
+<p>注意：这里的“数据库”其实是一个 JSON 文件，不是真正的数据库管理系统。（整这个感觉有点麻烦 MySQL 🤔）</p>
+<h3 id="4-入口网关"><a href="#4-入口网关" class="headerlink" title="4. 入口网关"></a>4. 入口网关</h3><p>整了个域名托管在 Cloudflare 上，主要原因是暂时不想备案。</p>
+<p>请求流程：</p>
+<p>  用户请求 → Cloudflare（边缘节点）→ 轻量云服务器公网 IP（Nginx 监听 80 端口）→ 转发到本地 127.0.0.1:3000→ Node.js 处理并返回<br>  （部署在 Vercel 上就不用这么繁琐了，但 Vercel 国内访问不稳定）</p>
+<hr>
+<h2 id="二、为什么需要“分层”？——-OSI-与-TCP-IP-模型"><a href="#二、为什么需要“分层”？——-OSI-与-TCP-IP-模型" class="headerlink" title="二、为什么需要“分层”？—— OSI 与 TCP&#x2F;IP 模型"></a>二、为什么需要“分层”？—— OSI 与 TCP&#x2F;IP 模型</h2><table>
+<thead>
+<tr>
+<th>OSI 七层</th>
+<th>TCP&#x2F;IP 四层</th>
+<th>搭站对应物</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>7. 应用层</td>
+<td>应用层</td>
+<td>HTTP、DNS</td>
+</tr>
+<tr>
+<td>5-6. 表示&#x2F;会话层</td>
+<td>向上合并到应用层</td>
+<td>TLS 加密（HTTPS）</td>
+</tr>
+<tr>
+<td>4. 传输层</td>
+<td>传输层</td>
+<td>TCP（各种端口 80、3000）</td>
+</tr>
+<tr>
+<td>3. 网络层</td>
+<td>网际层</td>
+<td>IP、路由（Cloudflare 边缘节点）</td>
+</tr>
+<tr>
+<td>2. 数据链路层</td>
+<td>网络接口层</td>
+<td>网卡、交换机、以太网</td>
+</tr>
+<tr>
+<td>1. 物理层</td>
+<td>向上合并</td>
+<td>光纤、网线</td>
+</tr>
+</tbody></table>
+<p>互联网大多用的是 TCP&#x2F;IP 四层模型，OSI 是教学概念模型。</p>
+<hr>
+<h2 id="三、IP-地址与端口"><a href="#三、IP-地址与端口" class="headerlink" title="三、IP 地址与端口"></a>三、IP 地址与端口</h2><h3 id="IP-地址"><a href="#IP-地址" class="headerlink" title="IP 地址"></a>IP 地址</h3><p>标识网络中一台主机。</p>
+<ul>
+<li>IPv4 是 32 位</li>
+<li>IPv6 是 128 位</li>
+</ul>
+<p>IP地址主要有身份标识和位置寻址两个作用：</p>
+<p>  身份标识：每个设备接入网络后，都会被分配一个 IP 地址。这个地址在当前网络范围内是唯一的，用来表示“这个设备是谁”。</p>
+<p>  位置寻址：IP 地址不只是个名字，它还带有层级结构，像地址有“省-市-区-街道-门牌号”一样。就是 IP 地址告诉路由器“这个设备在哪里”，从而规划传输路径。</p>
+<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><p>标识主机上的一个服务进程。</p>
+<p>知名端口（0-1023）：</p>
+<ul>
+<li><code>:80</code> → HTTP</li>
+<li><code>:443</code> → HTTPS</li>
+<li><code>:53</code> → DNS</li>
+</ul>
+<h3 id="Socket-五元组"><a href="#Socket-五元组" class="headerlink" title="Socket 五元组"></a>Socket 五元组</h3><p><code>(源 IP, 源端口, 目的 IP, 目的端口, 协议)</code> 唯一标识一条连接，这就像逆向里的“调用上下文”。</p>
+<p>例如执行 <code>curl http://127.0.0.1:3000/api/get</code> 时，就是创建一个 socket：</p>
+<ul>
+<li>源 IP：127.0.0.1</li>
+<li>目的 IP：127.0.0.1</li>
+<li>目的端口：3000</li>
+<li>协议：TCP</li>
+</ul>
+<hr>
+<h2 id="四、传输层的-TCP-三次握手"><a href="#四、传输层的-TCP-三次握手" class="headerlink" title="四、传输层的 TCP 三次握手"></a>四、传输层的 TCP 三次握手</h2><p>TCP 是面向连接、可靠、全双工的协议。所谓“可靠”，就是接收方每收到一个包都要回 ACK，丢了就重传。</p>
+<p>三次握手的过程：</p>
+<ul>
+<li>第一次：客户端证明自己能发</li>
+<li>第二次：服务器证明自己能收能发</li>
+<li>第三次：客户端证明服务器能收</li>
+</ul>
+<p>少了第三次的话，服务器不知道客户端是否真的收到了自己的 SYN+ACK，可能会为不存在的连接浪费资源。</p>
+<p>浏览器访问后端 API 时，首先就是这套三次握手——只不过目的 IP 是 Cloudflare 的边缘节点，然后 Cloudflare 再用另一套 TCP 连接去连轻量云服务器的公网 IP。</p>
+<h3 id="UDP-对比"><a href="#UDP-对比" class="headerlink" title="UDP 对比"></a>UDP 对比</h3><p>UDP 是无连接、不可靠、面向报文的协议。它在发送数据前不需要像 TCP 那样进行“三次握手”来建立连接，不保证数据一定到达，允许数据在传输过程中丢失、乱序或重复。视频通话、游戏也是用 UDP。</p>
+<hr>
+<h2 id="五、应用层的-HTTP-协议"><a href="#五、应用层的-HTTP-协议" class="headerlink" title="五、应用层的 HTTP 协议"></a>五、应用层的 HTTP 协议</h2><p>HTTP 是无状态的请求-响应模型。</p>
+<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><p>2xx  成功： 200 OK 、 201 Created <br>3xx  重定向： 301 永久 、 302 临时 <br>4xx  客户端错误： 400 参数错 、 401 未授权 、 403 禁止 、 404 不存在 、 429 过多请求 <br>5xx  服务器错误： 500 内部错误 、 502 网关错误 、 503 不可用 、 522 （Cloudflare 专属：连不到源站）</p>
+<p>这两周遇到的 <code>404</code>、<code>522</code>、<code>CORS</code> 报错，都是属于 HTTP 层的不同失败模式。</p>
+<hr>
+<h2 id="六、HTTPS-HTTP-TLS"><a href="#六、HTTPS-HTTP-TLS" class="headerlink" title="六、HTTPS &#x3D; HTTP + TLS"></a>六、HTTPS &#x3D; HTTP + TLS</h2><p>TLS 握手在 TCP 三次握手之后，再做一次“加密协商”：</p>
+<ol>
+<li>客户端发 <code>ClientHello</code>（支持的加密套件）</li>
+<li>服务器回 <code>ServerHello</code> + 证书</li>
+<li>双方协商出对称密钥</li>
+</ol>
+<p>这就是 <code>https://</code> 比 <code>http://</code> 多了的那一层——对应 OSI 的表示层。</p>
+<hr>
+<h2 id="七、DNS"><a href="#七、DNS" class="headerlink" title="七、DNS"></a>七、DNS</h2><p>在浏览器输入 <code>api.xxxxxx.xx</code>，机器只认 IP，所以要先做 DNS 解析：域名 → IP。</p>
+]]></content>
+      <tags>
+        <tag>建站</tag>
       </tags>
   </entry>
   <entry>
@@ -227,57 +407,6 @@
       </tags>
   </entry>
   <entry>
-    <title>关于大学生活｜001</title>
-    <url>/2026/10/03/%E5%A4%A7%E5%AD%A6.html</url>
-    <content><![CDATA[<h1 id="大学"><a href="#大学" class="headerlink" title="大学"></a>大学</h1><p>2026&#x2F;9&#x2F;25</p>
-<p>呃啊突然就不是小登了，感觉自己一年来忙忙碌碌也没学什么东西（悲）</p>
-<p>可能是总有事情要干（恼：到底在忙什么，怎么有人一直忙忙忙忙碌碌碌还感觉啥都没干的）。总感觉高中生活已经过去很久很久了，模糊得像是上辈子发生的事情…</p>
-<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-5.png" alt="alt text"></p>
-<p>备忘录和自己的QQ对话也很久没有写东西了，桌面上的书也很久没有翻开看了。既要仰望星空又要脚踏实地，这句理想的话从语文的议论文里走出来，我发现其实我并不能很好地平衡它们。</p>
-<p>后来我想，这两句话说的其实是两件不同的事：仰望星空，是想清楚自己要什么；脚踏实地，是把事情做成。我猜我平衡不好它们，是因为我一直把它们当成两件事，而不是一件。</p>
-<hr>
-<h2 id="给自己整理一下"><a href="#给自己整理一下" class="headerlink" title="给自己整理一下"></a>给自己整理一下</h2><h3 id="关于成长"><a href="#关于成长" class="headerlink" title="关于成长"></a>关于成长</h3><p>我期待的成长，不是学会某一个技能，或者升到某个职位，而是一种能真正做到内化于心、外化于行的自我构筑。一方面是我如何想清楚自己要什么，另一方面是我如何在工作和生活中把事情做成。对我来说，这两件事就像一段缠绕的共生关系，少了哪一个，另一个都长不好。说到底，我在工作和生活中追求的所谓”成就感”，最后都会回到一个问题上：<strong>我做的这些事，到底有没有意义？</strong></p>
-<p>我曾经 <del>理想主义地</del> 想过，即使最后的未来是单薄的薪水和忙得要死的生存，我好像也能接受 <del>（？</del>。每个人的环境和条件大不相同，一方面我觉得他人的成功未必可以复刻，另一方面我觉得人这辈子太短了（<del>阿巴阿巴…可能是我开智比较晚吧</del>），所以我更想找到自己想要的东西。当我觉得迷茫、不知道往哪使劲的时候，我渐渐发现，问题往往不只是我的能力不够，还在于我跟自己内心想要的东西断了联系。</p>
-<p>即使有了一个大方向，其实我也没办法完完全全按照什么计划坚定地执行下去。可能是我个人的局限吧：我会羡慕别人的成就，会因为效率低下而生气，会因为繁杂的任务和知识点畏难耽搁，也会想忙里偷闲地出去玩……说实话，过去一年里学逆向学得我狠狠挫败（菜菜的，有人可以带我吗）。加上 AI 的飞速发展，逆向这东西，我越学越觉得自己只学了一点点。过去一年我学得很不扎实，辗转在各个知识点之间，但都学得浅。</p>
-<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-7.png" alt="alt text"></p>
-<p>尤其是每次道心破碎就去搞一些”不务正业”的事情：搁那调博客的前端调到半夜三四点（这玩意完全没必要抠细节，但是一点点调整就是很爽，像赛博养孩子）；为了实现博客那两个共享表单，我辗转在各个网站之间不停换方案；完成公选课一个工笔画差点通宵（<del>要过劳猝死了</del>）；呃啊，也说不上是出于什么动机的一种机制吧。希望在今后可以找到控制的平衡（要是这股气可以用到逆向就好了…）。</p>
-<p>总是后悔自己过去做的事情，其实只是因为我现在的自己不够好罢了。但是”悟已往之不谏，知来者之可追”（陶渊明《归去来兮辞》）——过去的自己会随着时间一点一点流逝，并不会被完整保留到现在：我手里那个”过去的我”，只是记忆重编码之后的一个副本。那我为什么还要攻击一个不存在的”人”呢？既然原件已经改不动了，那我能改的，就只剩当下这一份。</p>
-<hr>
-<h3 id="关于人际关系"><a href="#关于人际关系" class="headerlink" title="关于人际关系"></a>关于人际关系</h3><p>人际关系对我来说，是一个深奥又纠结的课题。你们见到的”我”都是真实的我，只不过是一个骰子的不同面而已。我是一个社交能力有限的人（遇强则强，遇弱则弱（？）凭感觉吧），所以什么样的操作，就”触发”了骰子朝向哪一面。而且，我认为人是流动变化的，所以在一些人看来，我也有可能是奇怪的晶体——而”我”会怎么变化，也取决于你自己的参考系。</p>
-<p>生命的意义是什么，我不知道。但活着的理由却有很多个：清晨游走的风，午后慵懒的猫，还有阳光的味道…是触觉，是视觉，还有说不清的那种感觉…这些由五官主导的瞬时体验感，组成了”活着”这件事本身。站在当下，未来会怎样，我依然不知道，也没有能力预知和预支。反正目前来说，物理死亡就是终点，人死则灯灭。</p>
-<p>当下的体验产生的即时意义，我感觉都是无法复刻的。在这个时间和空间，我们一起干了某件事，即使是某一天和别人（哪怕是多年后的你）一起在这个地方也干了同样的事情，也是不一样的意义。我觉得，这应该并不是为了社交而社交（吧？）。其实并没有那个能力，天哪，摸摸抱抱揉揉搓搓（<del>面点大师来了</del>），已经在尽力升级系统功能了。</p>
-<p><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/image-6.png" alt="alt text"></p>
-<p>然后人际交往的时候还有一些奇奇怪怪的行为，当被问”为什么”时，就是”脉冲式”的关怀吧：在某个瞬间，脑袋里捕捉到一个念头，确认它好像无害，然后直接执行。所以我只能说，”不知道啊就是刚好想到了”，这就是我能给出的最诚实的答案。</p>
-<p>在海边捡贝壳，我捡到一个漂亮的，转头看到你，就递给你：”给你。”</p>
-<p>问：”为什么给我？”</p>
-<p>答：”因为我在捡贝壳，我捡到了一个漂亮的，然后你在旁边啊。”</p>
-<p>呃啊大概是这种感觉吧，它就只是即兴……发生了。如果非要找个合理的理由来解释，选择驻足在你们身边是为了什么，其实我所求的东西，它就是刚好在那一时间，刚好是你们，不为什么，答案可能是，刚好我想吃个甜筒，刚好天气很好 （<del>我想要的我自己会拿，你们实在来问我我也说不出理由为什么</del>）</p>
-<hr>
-<h3 id="关于语言表达"><a href="#关于语言表达" class="headerlink" title="关于语言表达"></a>关于语言表达</h3><p>呃啊，以前经常扪心自问：我大部分正常的说话和文字，都没有特别强的攻击性吧？</p>
-<blockquote>
-<p>“你没有朋友吗。”<br>“为什么这么说？”<br>“……怎么回。”<br>“可是那个方法也行，为什么你说不行呢？”</p>
-</blockquote>
-<p>诸如此类。其实我只是在表达疑惑而已，并没有带什么情绪攻击。后来遇到的例子变多了，我才发现，这些话确实有失偏颇。呃啊，我已经在调整了。</p>
-<p>因为我心里一直默认着一件事：语言是透明的。我说出口的是一段原文，对方就应该原样读到原文。所以当对方读出别的意思时，我的第一反应往往是”我不是那个意思…”，而不是”我可能没写好”。</p>
-<p>后来我觉得，语言文字表达这种载体真的很奇妙：</p>
-<blockquote>
-<p>我们费尽力气想要把我们心中的珍藏传达给别人，可他们却没有领悟的能力，所以我们只能是形单影只、貌合神离，既不能了解别人，也不能为别人所了解。我们像是身处异国他乡的人，对那个国家的语言知之甚少，心中有许多美好和深刻的东西要倾诉，却只能局限于会话手册上的那几句陈腐的套语。我们的头脑里充满了各种各样的思想，却只能说出像”园丁的姑妈有一把伞在屋子里”之类的话。</p>
-<p>—— 毛姆《月亮与六便士》</p>
-</blockquote>
-<p>当初读到这段话把我有点震撼的似懂非懂。原因是语言不是一根透明的水管，它会承载着很多别的东西：我脑子里的意思，先被我压成几个字输出去，路上还要过对方的字典、对方的上下文、对方今天的心情。同一串字符，在我这边解出来是”疑问”，在对方那边可能解出来是”质疑”，因为对方的成长经历和环境因素，挂着一段我从来没见过的故事。</p>
-<p>这大概有点像没有共享密钥的通信。我们都以为自己用的密钥对方也有，然后各自奇怪：这么简单的东西，你怎么会解不出来？</p>
-<p>所以”表达清楚”的标准，大概从来不只在我这一侧。不仅仅是”我把话说完了”，还有”把接收端也考虑进去”。可说话这件事上，我好像长期只站在实现方那一边。承认这一点有点扫兴。我原来那些一点点的失落是有原因的（<del>为什么就那么喜欢搞清楚一切呢？哪怕搞清楚并不能带来实际的收获（？</del>），但它其实有点无关紧要。真正让我欣喜的改变，是实打实的行动，是在这一年里和他人建立起星星点点的社交联系，虽然交谈还是磕磕绊绊，表达碎碎的，还有很多只是外出一面之缘的陌生人，不过看着自己一点点改变真的是一件很幸福的事情。</p>
-<p>当然我也没打算把自己彻底改造成一个说话滴水不漏的人——那太累了，而且就算滴水不漏，也未必有人接得住。我可能还是会带点毛刺地说话，还是会说到一半卡住，还是犹犹豫豫到底要怎么表达，还是会在某个瞬间突然递给朋友一只贝壳。只是现在，递出去之前我可能会多想半秒：对方接得住吗，要不要再补一句？（<del>大脑飞速运转，应该怎么说呢</del>）</p>
-<p>前面捡贝壳那一段”因为你在旁边啊”，明明没有修辞，没有目的，甚至没有解释，但它大概是我说过的最容易被误解的一句话…可能我比较喜欢的不包装，只陈述的表达。至于那些我以为怎么都解释不清的东西，算了，其实它们本来也不需要解释得那么清楚。</p>
-<h2 id><a href="#" class="headerlink" title></a><img src="/2026/10/03/%E5%A4%A7%E5%AD%A6/5ccdf596178339fc7933780dedbcff20.jpeg" alt="alt text"></h2><p>过去一年也有努力主动去找一些志同道合的朋友，认识了一起学习的学长学姐们、同学们，经历了逆向学习的锻炼 <del>拷打</del>，期望嘛，倒没多宏大：希望明年再回头看这篇的时候，不会尴尬到脚趾抠地；希望接下来还能有着那股半夜调博客的劲儿，能分一半给逆向；希望我继续对世界保持好奇，哪怕好奇的东西怪怪的。</p>
-<p>一路走过来，时间过得很快。虽然比较愚钝，但是感觉到自己的三观和思维有在一点点不断完善，确实是个让人感到欣喜的别样感受啊。可惜无法和年少的自己分享，回过头来，才发觉自己所经历的事情，从现在已经成年的我来看，那个曾经的我，顽强而懵懂地熬过了现在的我所惊愕、所羡慕、所敬佩甚至所不能达到的”成就”。即使没有什么世俗的成功也很棒啊，或许“我”的成长轨迹或许没有什么苦尽甘来的曲线，亦或是跌宕起伏的小说情节，但是我希望此刻的我乃至未来的我能够陪伴着、保持着、一直一直地对自己的改变感到欣喜。</p>
-<p><strong>以及，以上只是我当下的一些碎碎念，不构成任何人生建议、学习方法或社交指南。所有观点都带着强烈的时间局限性，所有想法都会随经历变化，我对自己过去的判断保留修正判断。<del>如果我没做到，也请允许我暂时没做到吧。😋</del></strong></p>
-]]></content>
-      <tags>
-        <tag>随笔</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>网络通信｜网络通信类程序（Client&#92;-Server）</title>
     <url>/2026/10/19/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1.html</url>
     <content><![CDATA[<h2 id="网络通信类程序（Client-Server）"><a href="#网络通信类程序（Client-Server）" class="headerlink" title="网络通信类程序（Client-Server）"></a><strong>网络通信类程序（Client-Server）</strong></h2><p>这是最常见的需要两个程序交互的形式：</p>
@@ -321,24 +450,24 @@
 <p>直接运行程序可以得到的服务端预期密文 FC 8F 2B 91 3A 35 B5 E8 70 EB 18 63 79 F4 CB A0 C4 B0 CC 19 8D 3F A6 39 C5 4E E2 0D 1A 8E 3E 6C 79 16 BD 4C A3 BE 71 4B 95 FC A7 CD 77 73 A2 56</p>
 <p><img src="/2026/10/19/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1/image%201.png" alt="image\.png"></p>
 <p>整体请求-校验-响应流程大概如下（基于 DES + AES 的自定义 TCP 协议）：</p>
-<p>** 建立连接**</p>
+<p><strong>建立连接</strong></p>
 <p>客户端连接 127.0.0.1:5566</p>
-<p>** 客户端构造并发送请求**</p>
+<p><strong>客户端构造并发送请求</strong></p>
 <p>读取用户输入的 serial 。 </p>
 <p>对 serial 做 DES 加密（块大小 8 字节，不足则 PKCS#7 填充），得到 8 字节密文 FA 35 9A E4 FF 94 79 E4 。 </p>
 <p>组装数据包：4 字节大端长度头 00 00 00 08 + 8 字节 DES 密文，发送给服务端。 </p>
-<p>** 服务端接收并解密 **</p>
+<p>**服务端接收并解密 **</p>
 <p>先读 4 字节头，得知 body 长度 &#x3D; 8。</p>
 <p>读 8 字节 DES 密文，DES 解密得到 serial 明文 11111 成功还原出，也就是说两边持有的 DES 密钥相同**。**</p>
-<p>** 服务端校验 serial（核心逻辑）** </p>
+<p><strong>服务端校验 serial（核心逻辑）</strong> </p>
 <p>把该 serial 再用 AES 加密，得到 16 字节 7E 3F...4A 77。 </p>
 <p>与内置的预期 AES 密文（48 字节） 做比对（48 字节可能代表 3 个合法 serial 的 AES 块，或拼接校验值）。 </p>
 <p>11111 不匹配 ，判定 wrong flag。 </p>
-<p>** 服务端构造并发送响应** </p>
+<p><strong>服务端构造并发送响应</strong> </p>
 <p>生成响应明文 FAIL: wrong flag（16 字节）。 </p>
 <p>对其做 AES 加密（PKCS#7 补 16 字节 0x10 填充 → 共 32 字节密文）。 </p>
 <p>组装数据包，4 字节长度头 00 00 00 20（&#x3D;32） + 32 字节 AES 密文，发回客户端。 </p>
-<p>** 客户端接收并解密响应 **</p>
+<p>**客户端接收并解密响应 **</p>
 <p>读 4 字节头得长度 32。 </p>
 <p>读 32 字节 AES 密文，AES 解密得到明文 FAIL: wrong flag，打印。 </p>
 <p>这边直接先分析server.exe </p>
@@ -384,142 +513,9 @@
 </li>
 </ul>
 <p>无论是IDA远程调试、自编C&#x2F;S程序还是Web建站，底层都是 Socket 通信（TCP&#x2F;UDP），差异在于应用层协议的选择（私有二进制 &#x2F; HTTP &#x2F; 数据库协议）。逆向分析的核心是通过 API 调用链识别通信类型，再结合抓包还原数据格式。</p>
-<p>系统调用与库函数</p>
-<p>系统调用</p>
-<p>应用程序可以通过系统调用，间接地调用OS中的I&#x2F;O过程，对I&#x2F;O设备进行操作。</p>
-<p>由OS向用户提供的所有功能，用户进程都必须通过系统调用用来获取，这就涉及到接下来要说的C语言库函数</p>
 ]]></content>
       <tags>
         <tag>网络通信</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>搭站小记｜个人网站架构与网络协议</title>
-    <url>/2026/09/03/%E5%BB%BA%E7%AB%99.html</url>
-    <content><![CDATA[<h2 id="一、网站架构总览"><a href="#一、网站架构总览" class="headerlink" title="一、网站架构总览"></a>一、网站架构总览</h2><p>前端是静态页面，用 HTML&#x2F;CSS&#x2F;JS 写布局和设计；前端和后端代码都用 git 推送到 GitHub。（然后刚好趁实践梳理一下有关的知识点）</p>
-<h3 id="1-前端"><a href="#1-前端" class="headerlink" title="1. 前端"></a>1. 前端</h3><p>主要是 HTML、CSS、JavaScrip 代码利用 git 部署推送到 github 仓库，GitHub Pages 自动托管。</p>
-<h3 id="2-后端"><a href="#2-后端" class="headerlink" title="2. 后端"></a>2. 后端</h3><p>Node.js 部署在我的轻量云服务器上，接收前端发来的  &#x2F;api&#x2F;get 、 &#x2F;api&#x2F;set  请求，去另外一个 GitHub 仓库读写数据，返回 JSON 给前端。</p>
-<p>为什么需要后端？因为浏览器不能直接读写 GitHub 仓库。</p>
-<h3 id="3-数据存储（我的“数据库”）"><a href="#3-数据存储（我的“数据库”）" class="headerlink" title="3. 数据存储（我的“数据库”）"></a>3. 数据存储（我的“数据库”）</h3><p>把 GitHub 仓库 <code>blog-data</code> 当作数据库，仓库里有一个 <code>data.json</code> 文件，里面存两个表单的数据。</p>
-<p>注意：这里的“数据库”其实是一个 JSON 文件，不是真正的数据库管理系统。（整这个感觉有点麻烦 MySQL 🤔）</p>
-<h3 id="4-入口网关"><a href="#4-入口网关" class="headerlink" title="4. 入口网关"></a>4. 入口网关</h3><p>整了个域名托管在 Cloudflare 上，主要原因是暂时不想备案。</p>
-<p>请求流程：</p>
-<p>  用户请求 → Cloudflare（边缘节点）→ 轻量云服务器公网 IP（Nginx 监听 80 端口）→ 转发到本地 127.0.0.1:3000→ Node.js 处理并返回<br>  （部署在 Vercel 上就不用这么繁琐了，但 Vercel 国内访问不稳定）</p>
-<hr>
-<h2 id="二、为什么需要“分层”？——-OSI-与-TCP-IP-模型"><a href="#二、为什么需要“分层”？——-OSI-与-TCP-IP-模型" class="headerlink" title="二、为什么需要“分层”？—— OSI 与 TCP&#x2F;IP 模型"></a>二、为什么需要“分层”？—— OSI 与 TCP&#x2F;IP 模型</h2><table>
-<thead>
-<tr>
-<th>OSI 七层</th>
-<th>TCP&#x2F;IP 四层</th>
-<th>搭站对应物</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>7. 应用层</td>
-<td>应用层</td>
-<td>HTTP、DNS</td>
-</tr>
-<tr>
-<td>5-6. 表示&#x2F;会话层</td>
-<td>向上合并到应用层</td>
-<td>TLS 加密（HTTPS）</td>
-</tr>
-<tr>
-<td>4. 传输层</td>
-<td>传输层</td>
-<td>TCP（各种端口 80、3000）</td>
-</tr>
-<tr>
-<td>3. 网络层</td>
-<td>网际层</td>
-<td>IP、路由（Cloudflare 边缘节点）</td>
-</tr>
-<tr>
-<td>2. 数据链路层</td>
-<td>网络接口层</td>
-<td>网卡、交换机、以太网</td>
-</tr>
-<tr>
-<td>1. 物理层</td>
-<td>向上合并</td>
-<td>光纤、网线</td>
-</tr>
-</tbody></table>
-<p>互联网大多用的是 TCP&#x2F;IP 四层模型，OSI 是教学概念模型。</p>
-<hr>
-<h2 id="三、IP-地址与端口"><a href="#三、IP-地址与端口" class="headerlink" title="三、IP 地址与端口"></a>三、IP 地址与端口</h2><h3 id="IP-地址"><a href="#IP-地址" class="headerlink" title="IP 地址"></a>IP 地址</h3><p>标识网络中一台主机。</p>
-<ul>
-<li>IPv4 是 32 位</li>
-<li>IPv6 是 128 位</li>
-</ul>
-<p>IP地址主要有身份标识和位置寻址两个作用：</p>
-<p>  身份标识：每个设备接入网络后，都会被分配一个 IP 地址。这个地址在当前网络范围内是唯一的，用来表示“这个设备是谁”。</p>
-<p>  位置寻址：IP 地址不只是个名字，它还带有层级结构，像地址有“省-市-区-街道-门牌号”一样。就是 IP 地址告诉路由器“这个设备在哪里”，从而规划传输路径。</p>
-<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><p>标识主机上的一个服务进程。</p>
-<p>知名端口（0-1023）：</p>
-<ul>
-<li><code>:80</code> → HTTP</li>
-<li><code>:443</code> → HTTPS</li>
-<li><code>:53</code> → DNS</li>
-</ul>
-<h3 id="Socket-五元组"><a href="#Socket-五元组" class="headerlink" title="Socket 五元组"></a>Socket 五元组</h3><p><code>(源 IP, 源端口, 目的 IP, 目的端口, 协议)</code> 唯一标识一条连接，这就像逆向里的“调用上下文”。</p>
-<p>例如执行 <code>curl http://127.0.0.1:3000/api/get</code> 时，就是创建一个 socket：</p>
-<ul>
-<li>源 IP：127.0.0.1</li>
-<li>目的 IP：127.0.0.1</li>
-<li>目的端口：3000</li>
-<li>协议：TCP</li>
-</ul>
-<hr>
-<h2 id="四、传输层的-TCP-三次握手"><a href="#四、传输层的-TCP-三次握手" class="headerlink" title="四、传输层的 TCP 三次握手"></a>四、传输层的 TCP 三次握手</h2><p>TCP 是面向连接、可靠、全双工的协议。所谓“可靠”，就是接收方每收到一个包都要回 ACK，丢了就重传。</p>
-<p>三次握手的过程：</p>
-<ul>
-<li>第一次：客户端证明自己能发</li>
-<li>第二次：服务器证明自己能收能发</li>
-<li>第三次：客户端证明服务器能收</li>
-</ul>
-<p>少了第三次的话，服务器不知道客户端是否真的收到了自己的 SYN+ACK，可能会为不存在的连接浪费资源。</p>
-<p>浏览器访问后端 API 时，首先就是这套三次握手——只不过目的 IP 是 Cloudflare 的边缘节点，然后 Cloudflare 再用另一套 TCP 连接去连轻量云服务器的公网 IP。</p>
-<h3 id="UDP-对比"><a href="#UDP-对比" class="headerlink" title="UDP 对比"></a>UDP 对比</h3><p>UDP 是无连接、不可靠、面向报文的协议。它在发送数据前不需要像 TCP 那样进行“三次握手”来建立连接，不保证数据一定到达，允许数据在传输过程中丢失、乱序或重复。视频通话、游戏也是用 UDP。</p>
-<hr>
-<h2 id="五、应用层的-HTTP-协议"><a href="#五、应用层的-HTTP-协议" class="headerlink" title="五、应用层的 HTTP 协议"></a>五、应用层的 HTTP 协议</h2><p>HTTP 是无状态的请求-响应模型。</p>
-<h3 id="常见状态码"><a href="#常见状态码" class="headerlink" title="常见状态码"></a>常见状态码</h3><p>2xx  成功： 200 OK 、 201 Created <br>3xx  重定向： 301 永久 、 302 临时 <br>4xx  客户端错误： 400 参数错 、 401 未授权 、 403 禁止 、 404 不存在 、 429 过多请求 <br>5xx  服务器错误： 500 内部错误 、 502 网关错误 、 503 不可用 、 522 （Cloudflare 专属：连不到源站）</p>
-<p>这两周遇到的 <code>404</code>、<code>522</code>、<code>CORS</code> 报错，都是属于 HTTP 层的不同失败模式。</p>
-<hr>
-<h2 id="六、HTTPS-HTTP-TLS"><a href="#六、HTTPS-HTTP-TLS" class="headerlink" title="六、HTTPS &#x3D; HTTP + TLS"></a>六、HTTPS &#x3D; HTTP + TLS</h2><p>TLS 握手在 TCP 三次握手之后，再做一次“加密协商”：</p>
-<ol>
-<li>客户端发 <code>ClientHello</code>（支持的加密套件）</li>
-<li>服务器回 <code>ServerHello</code> + 证书</li>
-<li>双方协商出对称密钥</li>
-</ol>
-<p>这就是 <code>https://</code> 比 <code>http://</code> 多了的那一层——对应 OSI 的表示层。</p>
-<hr>
-<h2 id="七、DNS"><a href="#七、DNS" class="headerlink" title="七、DNS"></a>七、DNS</h2><p>在浏览器输入 <code>api.xxxxxx.xx</code>，机器只认 IP，所以要先做 DNS 解析：域名 → IP。</p>
-]]></content>
-      <tags>
-        <tag>建站</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hello World</title>
-    <url>/2026/06/01/hello-world.html</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-      <tags>
-        <tag>测试标签</tag>
-        <tag>Hexo</tag>
       </tags>
   </entry>
 </search>
